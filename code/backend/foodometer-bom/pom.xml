@@ -129,6 +129,9 @@
 				<version>${maven.compiler.plugin}</version>
 				<configuration>
 					<annotationProcessorPaths>
+						<!-- order of annotation processors is important.
+								1. lombok
+								2. mapstruct -->
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>

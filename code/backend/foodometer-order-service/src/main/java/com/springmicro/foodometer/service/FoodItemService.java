@@ -33,8 +33,13 @@ public class FoodItemService {
     }
 
     @Transactional
-    public FoodItemDto saveFoodItem(FoodItemDto foodItemDto) {
-        return foodItemMapper.foodItemToFoodItemDto(foodItemRepository.save(foodItemMapper.foodItemDtoToFoodItem(foodItemDto)));
+    public FoodItemDto saveFoodItem(FoodItemDto foodItemDto) throws Exception {
+        FoodItemDto foodItemDtoExists = getAllFoodItemsByName(foodItemDto.getItemName());
+        if(foodItemDtoExists == null) {
+            return foodItemMapper.foodItemToFoodItemDto(foodItemRepository.save(foodItemMapper.foodItemDtoToFoodItem(foodItemDto)));
+        } else {
+            throw new Exception("Food item " + foodItemDto.getItemName() + " already exists.");
+        }
     }
 
     public FoodItemDto getFoodItemById(String id) {
@@ -46,12 +51,19 @@ public class FoodItemService {
         }
     }
 
-    public List<FoodItemDto> getAllFoodItemsByName(String name) {
-        List<FoodItem> foodItems = foodItemRepository.findAllByItemName(name);
-        log.debug(foodItems.toString());
-        return foodItems
-                .stream()
-                .map(foodItem -> foodItemMapper.foodItemToFoodItemDto(foodItem))
-                .collect(Collectors.toList());
+    public FoodItemDto getAllFoodItemsByName(String name) {
+        FoodItem foodItem = foodItemRepository.findAllByItemName(name);
+        log.debug(foodItem.toString());
+        return foodItemMapper.foodItemToFoodItemDto(foodItem);
+    }
+
+    @Transactional
+    public FoodItemDto updateFoodItem(String id, FoodItemDto foodItemDto) throws Exception {
+        FoodItemDto foodItemDtoExists = getFoodItemById(id);
+        if(foodItemDtoExists != null) {
+            return foodItemMapper.foodItemToFoodItemDto(foodItemRepository.save(foodItemMapper.foodItemDtoToFoodItem(foodItemDto)));
+        } else {
+            throw new Exception("Food item with id " + id + " does not exists.");
+        }
     }
 }
