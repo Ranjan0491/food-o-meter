@@ -1,11 +1,13 @@
 com\springmicro\foodometer\FoodometerOrderServiceApplication.class
+com\springmicro\foodometer\web\controller\FoodOrderController.class
+com\springmicro\foodometer\exception\FoodOrderExceptionHandler.class
+com\springmicro\foodometer\repository\FoodItemRepository.class
 com\springmicro\foodometer\web\dto\FoodItemDto$FoodItemDtoBuilder.class
 com\springmicro\foodometer\web\dto\FoodItemDto.class
 com\springmicro\foodometer\web\mapper\FoodItemMapper.class
-com\springmicro\foodometer\web\controller\FoodOrderController.class
 com\springmicro\foodometer\web\mapper\FoodItemMapperImpl.class
 com\springmicro\foodometer\document\FoodItem$FoodItemBuilder.class
+com\springmicro\foodometer\config\LocalDiscovery.class
 com\springmicro\foodometer\constants\FoodItemCategoryEnum.class
-com\springmicro\foodometer\repository\FoodItemRepository.class
 com\springmicro\foodometer\service\FoodItemService.class
 com\springmicro\foodometer\document\FoodItem.class

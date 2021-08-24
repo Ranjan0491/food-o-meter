@@ -7,18 +7,25 @@
 		<artifactId>foodometer-bom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
 	<groupId>com.springmicro.foodometer</groupId>
 	<artifactId>foodometer-order-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>foodometer-order-service</name>
 	<description>Order service for food app</description>
+
 	<properties>
 		<java.version>11</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 	</dependencies>
 </project>
