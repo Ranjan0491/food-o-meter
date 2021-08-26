@@ -1,6 +1,5 @@
 package com.springmicro.foodometer.document;
 
-import com.springmicro.foodometer.constants.FoodItemCategoryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,15 +8,17 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "FoodItem")
+@Document(collection = "Address")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FoodItem {
-
+public class Address {
     @Id
     private String id;
-    private FoodItemCategoryEnum category;
-    private String itemName;
-    private Double itemPrice;
+    private String line1;
+    private String line2;
+    private String line3;
+    private String state;
+    private String city;
+    private String pinCode;
 }
