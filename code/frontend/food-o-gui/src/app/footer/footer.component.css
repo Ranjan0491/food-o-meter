@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
-
 body {
     background: linear-gradient(0deg, #fff, 50%, #DEEEFE);
     font-family: 'Rubik', sans-serif;
@@ -9,11 +7,10 @@ body {
 
 .container-fluid {
     overflow: hidden;
-    margin-top: 250px;
     background: #262626;
     color: #627482 !important;
-    margin-bottom: 0;
-    padding-bottom: 0
+    position: fixed;
+    bottom: 0;
 }
 
 small {
