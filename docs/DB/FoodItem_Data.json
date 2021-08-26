@@ -1,0 +1,9 @@
+[
+{"category":"STARTER","itemName":"Tandoori Chicken (Half)","itemPrice":250},
+{"category":"STARTER","itemName":"Tandoori Chicken (Full)","itemPrice":400},
+{"category":"STARTER","itemName":"Galoti Kebab","itemPrice":300},
+{"category":"STARTER","itemName":"Fish Lasooni Kebab","itemPrice":250},
+{"category":"MAIN_COURSE","itemName":"Murgh Handi Biryani","itemPrice":300},
+{"category":"MAIN_COURSE","itemName":"Gosht Handi Biryani","itemPrice":350},
+{"category":"DESSERT","itemName":"Gulab Jamun (2 pieces)","itemPrice":150}
+]
