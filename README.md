@@ -6,6 +6,7 @@ Required infrastructures:
  - Docker
  - MongoDB
  - MySQL
+ - Active MQ Artemis (https://activemq.apache.org/components/artemis/download/)
  
 Mongo DB windows service start: mongod --dbpath "C:\Users\ranja\Documents\Database_data\mongodb"
 

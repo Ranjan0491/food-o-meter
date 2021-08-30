@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-08-27T14:13:41+0530",
+    date = "2021-08-30T13:23:51+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 15.0.2 (Oracle Corporation)"
 )
 @Component
@@ -20,6 +20,8 @@ public class CustomerMapperImpl implements CustomerMapper {
 
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private DateMapper dateMapper;
 
     @Override
     public CustomerDto customerToCustomerDto(Customer customer) {
@@ -34,6 +36,7 @@ public class CustomerMapperImpl implements CustomerMapper {
         customerDto.setLastName( customer.getLastName() );
         customerDto.setPhone( customer.getPhone() );
         customerDto.setEmail( customer.getEmail() );
+        customerDto.setDob( dateMapper.asLocalDate( customer.getDob() ) );
         customerDto.setAddresses( addressListToAddressDtoList( customer.getAddresses() ) );
 
         return customerDto;
@@ -52,6 +55,7 @@ public class CustomerMapperImpl implements CustomerMapper {
         customer.setLastName( customerDto.getLastName() );
         customer.setPhone( customerDto.getPhone() );
         customer.setEmail( customerDto.getEmail() );
+        customer.setDob( dateMapper.asSqlDate( customerDto.getDob() ) );
         customer.setAddresses( addressDtoListToAddressList( customerDto.getAddresses() ) );
 
         return customer;

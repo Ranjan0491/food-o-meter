@@ -4,7 +4,7 @@ import com.springmicro.foodometer.document.Customer;
 import com.springmicro.foodometer.web.dto.CustomerDto;
 import org.mapstruct.Mapper;
 
-@Mapper(uses = {AddressMapper.class})
+@Mapper(uses = {AddressMapper.class, DateMapper.class})
 public interface CustomerMapper {
     CustomerDto customerToCustomerDto(Customer customer);
     Customer customerDtoToCustomer(CustomerDto customerDto);

@@ -1,0 +1,22 @@
+{
+    "_id": {
+        "$oid": "612c6c509441d78852dc3c4b"
+    },
+    "firstName": "Ranjan",
+    "lastName": "Saha",
+    "phone": "9674467368",
+    "email": "ranjan.saha1@gmail.com",
+    "addresses": [
+      {
+        "_id": {
+          "$oid": "812c6c509441d38852dc3c4e"
+        },
+        "line1": "22/23 Feeder Road, Basanta Bihar",
+        "line2": "Belghoria",
+        "line3": "",
+        "state": "West Bengal",
+        "city": "Kolkata",
+        "pinCode": "700056"
+      }
+    ]
+}

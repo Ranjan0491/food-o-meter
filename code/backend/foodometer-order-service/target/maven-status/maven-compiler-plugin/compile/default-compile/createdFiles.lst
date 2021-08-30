@@ -7,6 +7,7 @@ com\springmicro\foodometer\web\dto\AddressDto$AddressDtoBuilder.class
 com\springmicro\foodometer\config\LocalDiscovery.class
 com\springmicro\foodometer\constants\FoodItemCategoryEnum.class
 com\springmicro\foodometer\web\mapper\AddressMapperImpl.class
+com\springmicro\foodometer\web\mapper\DateMapper.class
 com\springmicro\foodometer\web\dto\CustomerDto.class
 com\springmicro\foodometer\exception\ExceptionResponse$ExceptionResponseBuilder.class
 com\springmicro\foodometer\FoodometerOrderServiceApplication.class
@@ -16,9 +17,11 @@ com\springmicro\foodometer\document\Address$AddressBuilder.class
 com\springmicro\foodometer\exception\FoodOrderExceptionHandler.class
 com\springmicro\foodometer\repository\AddressRepository.class
 com\springmicro\foodometer\exception\ExceptionResponse.class
+com\springmicro\foodometer\exception\CustomerException.class
 com\springmicro\foodometer\web\dto\FoodItemDto$FoodItemDtoBuilder.class
 com\springmicro\foodometer\web\dto\FoodItemDto.class
 com\springmicro\foodometer\document\Customer.class
 com\springmicro\foodometer\web\mapper\CustomerMapper.class
 com\springmicro\foodometer\repository\CustomerRepository.class
+com\springmicro\foodometer\web\controller\CustomerController.class
 com\springmicro\foodometer\web\dto\CustomerDto$CustomerDtoBuilder.class
