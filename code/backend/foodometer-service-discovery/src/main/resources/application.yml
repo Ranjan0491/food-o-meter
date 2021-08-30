@@ -13,10 +13,3 @@ spring:
     user:
       name: netflix
       password: eureka
-
-logging:
-  level:
-    root: warn
-    org:
-      springframework:
-        web: debug

@@ -1,7 +1,9 @@
 <div class="container">
     <mat-tab-group animationDuration="2000ms">
-        <mat-tab label="First">Content 1</mat-tab>
+        <!-- <mat-tab label="First">Content 1</mat-tab>
         <mat-tab label="Second">Content 2</mat-tab>
-        <mat-tab label="Third">Content 3</mat-tab>
+        <mat-tab label="Third">Content 3</mat-tab> -->
+
+        <mat-tab *ngFor="let c of category" [label]="c">Content 1</mat-tab>
     </mat-tab-group>
 </div>

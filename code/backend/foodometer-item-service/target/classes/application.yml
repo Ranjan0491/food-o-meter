@@ -26,5 +26,7 @@ eureka:
 
 logging:
   level:
-    guru:
-      springframework: debug
+    root: warn
+    org:
+      springframework:
+        web: debug

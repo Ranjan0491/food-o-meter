@@ -1,7 +1,7 @@
 export class FoodItem {
-    private category: String;
-    private itemName: String;
-    private itemPrice: Number;
+    category: String;
+    itemName: String;
+    itemPrice: Number;
 
 
     constructor(

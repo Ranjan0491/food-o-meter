@@ -17,6 +17,15 @@ spring:
           uri: http://localhost:8082/
           predicates:
             - Path=/food-o-meter-item-service/v1/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
 
 eureka:
   client:
@@ -26,8 +35,3 @@ eureka:
   instance:
     hostname: localhost
     preferIpAddress: true
-
-logging:
-  level:
-    guru:
-      springframework: debug
