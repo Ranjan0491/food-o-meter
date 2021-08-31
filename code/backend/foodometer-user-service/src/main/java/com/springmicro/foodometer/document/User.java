@@ -1,5 +1,6 @@
 package com.springmicro.foodometer.document;
 
+import com.springmicro.foodometer.constants.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,5 +30,5 @@ public class User {
     @DBRef(lazy = true)
     private List<Address> addresses;
     private String password;
-    private List<String> roles;
+    private List<UserRole> userRoles;
 }

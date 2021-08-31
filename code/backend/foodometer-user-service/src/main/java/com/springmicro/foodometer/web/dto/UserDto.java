@@ -2,6 +2,7 @@ package com.springmicro.foodometer.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.springmicro.foodometer.constants.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,5 +34,5 @@ public class UserDto {
     private List<AddressDto> addresses;
     @JsonIgnore
     private String password;
-    private List<String> roles;
+    private List<UserRole> userRoles;
 }

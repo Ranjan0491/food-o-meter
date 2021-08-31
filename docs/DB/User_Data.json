@@ -21,7 +21,7 @@
 		}
 	],
 	"password": "pass1234",
-	"roles": [
+	"userRoles": [
 		"CUSTOMER",
 		"ADMIN"
 	]
