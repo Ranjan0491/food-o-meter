@@ -28,4 +28,6 @@ public class Customer {
     private Date dob;
     @DBRef(lazy = true)
     private List<Address> addresses;
+    private String password;
+    private List<String> roles;
 }

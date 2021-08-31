@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-08-30T13:23:51+0530",
+    date = "2021-08-31T14:39:38+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 15.0.2 (Oracle Corporation)"
 )
 @Component
@@ -38,6 +38,11 @@ public class CustomerMapperImpl implements CustomerMapper {
         customerDto.setEmail( customer.getEmail() );
         customerDto.setDob( dateMapper.asLocalDate( customer.getDob() ) );
         customerDto.setAddresses( addressListToAddressDtoList( customer.getAddresses() ) );
+        customerDto.setPassword( customer.getPassword() );
+        List<String> list1 = customer.getRoles();
+        if ( list1 != null ) {
+            customerDto.setRoles( new ArrayList<String>( list1 ) );
+        }
 
         return customerDto;
     }
@@ -57,6 +62,11 @@ public class CustomerMapperImpl implements CustomerMapper {
         customer.setEmail( customerDto.getEmail() );
         customer.setDob( dateMapper.asSqlDate( customerDto.getDob() ) );
         customer.setAddresses( addressDtoListToAddressList( customerDto.getAddresses() ) );
+        customer.setPassword( customerDto.getPassword() );
+        List<String> list1 = customerDto.getRoles();
+        if ( list1 != null ) {
+            customer.setRoles( new ArrayList<String>( list1 ) );
+        }
 
         return customer;
     }

@@ -1,6 +1,7 @@
 package com.springmicro.foodometer.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,4 +31,7 @@ public class CustomerDto {
     @JsonFormat(pattern="yyyy-MM-dd", shape=JsonFormat.Shape.STRING)
     private LocalDate dob;
     private List<AddressDto> addresses;
+    @JsonIgnore
+    private String password;
+    private List<String> roles;
 }

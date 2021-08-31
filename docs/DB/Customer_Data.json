@@ -19,5 +19,10 @@
 			"city": "Kolkata",
 			"pinCode": "700056"
 		}
+	],
+	"password": "pass1234",
+	"roles": [
+		"CUSTOMER",
+		"ADMIN"
 	]
 }

@@ -1,6 +1,5 @@
 package com.springmicro.foodometer.service;
 
-import com.springmicro.foodometer.document.Address;
 import com.springmicro.foodometer.document.Customer;
 import com.springmicro.foodometer.exception.CustomerException;
 import com.springmicro.foodometer.repository.AddressRepository;
@@ -12,13 +11,13 @@ import com.springmicro.foodometer.web.mapper.CustomerMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -96,6 +95,7 @@ public class CustomerService {
         } else {
             log.debug("Address not found for Customer with id : "+customerId+" (Saving new address)");
             Customer customer = customerRepository.findById(customerId).get();
+            addressDto.setId(UUID.randomUUID().toString());
             customer.getAddresses().add(addressMapper.addressDtoToAddress(addressDto));
             customerRepository.save(customer);
         }
