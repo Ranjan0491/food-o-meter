@@ -13,11 +13,11 @@ import java.sql.Date;
 import java.util.List;
 
 @Data
-@Document(collection = "Customer")
+@Document(collection = "User")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Customer {
+public class User {
     @Id
     private String id;
     private String firstName;
