@@ -11,6 +11,8 @@ import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     BrowserAnimationsModule,
     NgbModule,
     HttpClientModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

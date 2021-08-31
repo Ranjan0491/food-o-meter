@@ -9,7 +9,6 @@ body {
     overflow: hidden;
     background: #262626;
     color: #627482 !important;
-    position: fixed;
     bottom: 0;
 }
 
@@ -19,10 +18,6 @@ small {
 
 .bold-text {
     color: #989c9e !important
-}
-
-.mt-55 {
-    margin-top: calc(50px + (60 - 50) * ((100vw - 360px) / (1600 - 360))) !important
 }
 
 h3 {
