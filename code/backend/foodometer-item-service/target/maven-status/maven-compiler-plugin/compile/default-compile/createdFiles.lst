@@ -1,7 +1,7 @@
 com\springmicro\foodometer\exception\ExceptionResponse$ExceptionResponseBuilder.class
-com\springmicro\foodometer\web\controller\FoodOrderController.class
 com\springmicro\foodometer\FoodometerItemServiceApplication.class
 com\springmicro\foodometer\repository\FoodItemRepository.class
+com\springmicro\foodometer\web\controller\FoodItemController.class
 com\springmicro\foodometer\exception\ExceptionResponse.class
 com\springmicro\foodometer\exception\FoodItemExceptionHandler.class
 com\springmicro\foodometer\web\dto\FoodItemDto$FoodItemDtoBuilder.class

@@ -5,8 +5,9 @@ Required infrastructures:
  - NodeJs (LTS version)
  - Docker
  - MongoDB
- - MySQL
  - Active MQ Artemis (https://activemq.apache.org/components/artemis/download/)
+ 
+Install angular libraries: npm install
  
 Mongo DB windows service start: mongod --dbpath "C:\Users\ranja\Documents\Database_data\mongodb"
 
