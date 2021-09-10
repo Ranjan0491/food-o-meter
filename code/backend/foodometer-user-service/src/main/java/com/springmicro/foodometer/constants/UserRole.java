@@ -1,5 +1,5 @@
 package com.springmicro.foodometer.constants;
 
 public enum UserRole {
-    CUSTOMER, ADMIN
+    CUSTOMER, ADMIN, DELIVERY_AGENT
 }
