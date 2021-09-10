@@ -3,7 +3,6 @@ package com.springmicro.foodometer.service;
 import com.springmicro.foodometer.constants.FoodOrderConstants;
 import com.springmicro.foodometer.constants.FoodOrderEvent;
 import com.springmicro.foodometer.constants.FoodOrderStatus;
-import com.springmicro.foodometer.document.FoodOrder;
 import com.springmicro.foodometer.statemachine.FoodOrderStateChangeInterceptor;
 import com.springmicro.foodometer.web.dto.FoodOrderDto;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +15,6 @@ import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
