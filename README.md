@@ -21,3 +21,7 @@ set this value : -Djps.track.ap.dependencies=false
 Useful Links:
  - https://github.com/sfg-beer-works/sfg-beer-works-bom/blob/master/pom.xml
  - https://github.com/sfg-beer-works/sfg-brewery-bom/blob/master/pom.xml
+
+Artemis setup:
+ - Create broker:
+	- artemis create food-o-meter-broker --user artemis --password admin --require-login
