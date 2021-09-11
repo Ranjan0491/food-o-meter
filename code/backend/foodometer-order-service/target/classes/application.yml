@@ -12,6 +12,9 @@ spring:
   cloud:
     discovery:
       enabled: true
+  artemis:
+    user: artemis
+    password: simetraehcapa
 
 eureka:
   client:

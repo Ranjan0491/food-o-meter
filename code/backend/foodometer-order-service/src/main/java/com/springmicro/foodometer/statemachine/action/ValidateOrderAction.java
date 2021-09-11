@@ -1,6 +1,5 @@
 package com.springmicro.foodometer.statemachine.action;
 
-import com.springmicro.foodometer.config.JmsConfig;
 import com.springmicro.foodometer.constants.FoodOrderConstants;
 import com.springmicro.foodometer.constants.FoodOrderEvent;
 import com.springmicro.foodometer.document.FoodOrder;
@@ -27,7 +26,7 @@ public class ValidateOrderAction implements Action<FoodOrder, FoodOrderEvent> {
     public void execute(StateContext<FoodOrder, FoodOrderEvent> context) {
         String foodOrderId = (String) context.getMessage().getHeaders().get(FoodOrderConstants.ORDER_ID_HEADER);
         FoodOrderDto foodOrderDto = foodOrderService.getOrderByOrderId(foodOrderId);
-        jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_QUEUE, ValidateOrderRequest.builder()
+        jmsTemplate.convertAndSend(FoodOrderConstants.VALIDATE_ORDER_QUEUE, ValidateOrderRequest.builder()
                     .foodOrderDto(foodOrderDto)
                     .build());
         log.debug("Sent Food Order Validation request to queue for order id " + foodOrderId);

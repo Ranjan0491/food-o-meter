@@ -23,7 +23,7 @@ public class FoodOrderController {
     }
 
     @PostMapping("/customers/{customerId}/orders")
-    public ResponseEntity<FoodOrderDto> saveOrder(FoodOrderDto foodOrderDto) {
+    public ResponseEntity<FoodOrderDto> saveOrder(@RequestBody FoodOrderDto foodOrderDto) {
         return ResponseEntity.ok(foodOrderService.saveOrder(foodOrderDto));
     }
 

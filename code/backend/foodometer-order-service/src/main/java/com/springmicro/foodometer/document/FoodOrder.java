@@ -17,10 +17,12 @@ import java.util.List;
 @Builder
 public class FoodOrder {
     private String id;
-    private List<String> foodItemIds;
+    private List<FoodItemQuantity> foodItems;
     private String customerId;
     private String customerAddressId;
     private Timestamp orderTimestamp;
     private Double orderAmount;
     private FoodOrderStatus orderStatus;
+    private Double discount;
+    private Double discountedAmount;
 }
