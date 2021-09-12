@@ -29,17 +29,17 @@ public class FoodOrderStateChangeInterceptor extends StateMachineInterceptorAdap
                                Message<FoodOrderEvent> message,
                                Transition<FoodOrderStatus, FoodOrderEvent> transition,
                                StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine) {
-        log.debug("Pre-State Change");
+        log.info("Pre-State Change");
         Optional.ofNullable(message)
-                .flatMap(msg -> Optional.ofNullable((String) msg.getHeaders().getOrDefault(FoodOrderConstants.ORDER_ID_HEADER, " ")))
+                .flatMap(msg -> Optional.ofNullable((String) msg.getHeaders().getOrDefault(FoodOrderConstants.ORDER_ID_HEADER, "")))
                 .ifPresent(orderId -> {
                     // sleeping for 1 second just to mimic the time taken for each state transition
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    log.debug("Saving state for order id: " + orderId + " Status: " + state.getId());
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+                    log.info("Saving state for order id: " + orderId + " Status: " + state.getId());
                     FoodOrder foodOrder = foodOrderRepository.findById(orderId).get();
                     foodOrder.setOrderStatus(state.getId());
                     foodOrderRepository.save(foodOrder);

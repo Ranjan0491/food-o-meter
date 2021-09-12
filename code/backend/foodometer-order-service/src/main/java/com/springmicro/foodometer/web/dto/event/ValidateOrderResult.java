@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class ValidateOrderResult {
     private String orderId;
     private Boolean isValidOrder;
-    private Boolean isValidPayment;
 }

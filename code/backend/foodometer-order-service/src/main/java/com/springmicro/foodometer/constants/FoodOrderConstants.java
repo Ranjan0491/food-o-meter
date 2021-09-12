@@ -10,5 +10,5 @@ public interface FoodOrderConstants {
     String DEALLOCATE_ORDER_QUEUE = "deallocate-order";
 
     //TODO - need to check for accessing via Eureka
-    String FOOD_ITEM_SERVICE_NAME = "localhost:8082";
+    String FOOD_ITEM_SERVICE_NAME = "fom-item-service";
 }

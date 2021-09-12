@@ -29,10 +29,11 @@ public class FoodOrderService {
     private final FoodOrderRepository foodOrderRepository;
     private final FoodOrderMapper foodOrderMapper;
     private final RestTemplate restTemplate;
+    private final FoodOrderManager foodOrderManager;
 
     public List<FoodOrderDto> getAllOrdersByCustomerId(String customerId) {
         List<FoodOrder> foodOrders = foodOrderRepository.findAllByCustomerId(customerId);
-        log.debug("Order list for customer id "+customerId+" : "+foodOrders);
+        log.info("Order list for customer id "+customerId+" : "+foodOrders);
         return foodOrders.stream().map(order -> foodOrderMapper.foodOrderToFoodOrderDto(order)).collect(Collectors.toList());
     }
 
@@ -55,13 +56,16 @@ public class FoodOrderService {
             if (foodOrderDto.getCustomerId() != null) {
                 if(foodOrderDto.getCustomerAddressId() != null) {
                     foodOrderDto.setOrderStatus(FoodOrderStatus.NEW);
+                    foodOrderDto.setOrderTimestamp(LocalDateTime.now());
                     if(validateFoodItemsInOrder(foodOrderDto)) {
                         Double orderAmount = calculateTotalAmount(foodOrderDto);
                         Double discount = applicableDiscountPercent(foodOrderDto);
                         foodOrderDto.setOrderAmount(orderAmount);
                         foodOrderDto.setDiscount(discount * 100);
                         foodOrderDto.setDiscountedAmount(orderAmount * (1 - discount));
-                        return foodOrderMapper.foodOrderToFoodOrderDto(foodOrderRepository.save(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto)));
+                        FoodOrder foodOrder = foodOrderRepository.save(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto));
+                        foodOrderManager.newFoodOrder(foodOrder);
+                        return foodOrderMapper.foodOrderToFoodOrderDto(foodOrder);
                     } else {
                         log.error("All Food Items does not match the repository");
                         throw new OrderException("All Food Items does not match the repository");
@@ -80,12 +84,19 @@ public class FoodOrderService {
         }
     }
 
+    /**
+     * Random discount on orders
+     * @param foodOrderDto
+     * @return
+     */
     private double applicableDiscountPercent(FoodOrderDto foodOrderDto) {
         LocalDateTime localDateTime = foodOrderDto.getOrderTimestamp();
         if(localDateTime.getMonthValue() % 3 == 0 && localDateTime.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
             return 0.5;
         } else if(localDateTime.getMonthValue() % 2 == 0 && localDateTime.getDayOfMonth() == 29) {
             return 0.25;
+        } else if(localDateTime.getDayOfMonth() == 1) {
+            return 0.1;
         } else {
             return 0;
         }

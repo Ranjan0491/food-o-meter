@@ -1,25 +1,24 @@
 package com.springmicro.foodometer.web.mapper;
 
 import com.springmicro.foodometer.document.FoodItemQuantity;
+import com.springmicro.foodometer.document.FoodItemQuantity.FoodItemQuantityBuilder;
 import com.springmicro.foodometer.document.FoodOrder;
 import com.springmicro.foodometer.web.dto.FoodItemQuantityDto;
+import com.springmicro.foodometer.web.dto.FoodItemQuantityDto.FoodItemQuantityDtoBuilder;
 import com.springmicro.foodometer.web.dto.FoodOrderDto;
+import com.springmicro.foodometer.web.dto.FoodOrderDto.FoodOrderDtoBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-09-11T18:58:34+0530",
+    date = "2021-09-12T10:29:17+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16.0.2 (Oracle Corporation)"
 )
 @Component
 public class FoodOrderMapperImpl implements FoodOrderMapper {
-
-    @Autowired
-    private DateMapper dateMapper;
 
     @Override
     public FoodOrderDto foodOrderToFoodOrderDto(FoodOrder foodOrder) {
@@ -27,19 +26,19 @@ public class FoodOrderMapperImpl implements FoodOrderMapper {
             return null;
         }
 
-        FoodOrderDto foodOrderDto = new FoodOrderDto();
+        FoodOrderDtoBuilder foodOrderDto = FoodOrderDto.builder();
 
-        foodOrderDto.setId( foodOrder.getId() );
-        foodOrderDto.setFoodItems( foodItemQuantityListToFoodItemQuantityDtoList( foodOrder.getFoodItems() ) );
-        foodOrderDto.setCustomerId( foodOrder.getCustomerId() );
-        foodOrderDto.setCustomerAddressId( foodOrder.getCustomerAddressId() );
-        foodOrderDto.setOrderTimestamp( dateMapper.toLocalDateTime( foodOrder.getOrderTimestamp() ) );
-        foodOrderDto.setOrderAmount( foodOrder.getOrderAmount() );
-        foodOrderDto.setOrderStatus( foodOrder.getOrderStatus() );
-        foodOrderDto.setDiscount( foodOrder.getDiscount() );
-        foodOrderDto.setDiscountedAmount( foodOrder.getDiscountedAmount() );
+        foodOrderDto.id( foodOrder.getId() );
+        foodOrderDto.foodItems( foodItemQuantityListToFoodItemQuantityDtoList( foodOrder.getFoodItems() ) );
+        foodOrderDto.customerId( foodOrder.getCustomerId() );
+        foodOrderDto.customerAddressId( foodOrder.getCustomerAddressId() );
+        foodOrderDto.orderTimestamp( foodOrder.getOrderTimestamp() );
+        foodOrderDto.orderAmount( foodOrder.getOrderAmount() );
+        foodOrderDto.orderStatus( foodOrder.getOrderStatus() );
+        foodOrderDto.discount( foodOrder.getDiscount() );
+        foodOrderDto.discountedAmount( foodOrder.getDiscountedAmount() );
 
-        return foodOrderDto;
+        return foodOrderDto.build();
     }
 
     @Override
@@ -54,7 +53,7 @@ public class FoodOrderMapperImpl implements FoodOrderMapper {
         foodOrder.setFoodItems( foodItemQuantityDtoListToFoodItemQuantityList( foodOrderDto.getFoodItems() ) );
         foodOrder.setCustomerId( foodOrderDto.getCustomerId() );
         foodOrder.setCustomerAddressId( foodOrderDto.getCustomerAddressId() );
-        foodOrder.setOrderTimestamp( dateMapper.toTimeStmap( foodOrderDto.getOrderTimestamp() ) );
+        foodOrder.setOrderTimestamp( foodOrderDto.getOrderTimestamp() );
         foodOrder.setOrderAmount( foodOrderDto.getOrderAmount() );
         foodOrder.setOrderStatus( foodOrderDto.getOrderStatus() );
         foodOrder.setDiscount( foodOrderDto.getDiscount() );
@@ -68,12 +67,12 @@ public class FoodOrderMapperImpl implements FoodOrderMapper {
             return null;
         }
 
-        FoodItemQuantityDto foodItemQuantityDto = new FoodItemQuantityDto();
+        FoodItemQuantityDtoBuilder foodItemQuantityDto = FoodItemQuantityDto.builder();
 
-        foodItemQuantityDto.setFoodItemId( foodItemQuantity.getFoodItemId() );
-        foodItemQuantityDto.setQuantity( foodItemQuantity.getQuantity() );
+        foodItemQuantityDto.foodItemId( foodItemQuantity.getFoodItemId() );
+        foodItemQuantityDto.quantity( foodItemQuantity.getQuantity() );
 
-        return foodItemQuantityDto;
+        return foodItemQuantityDto.build();
     }
 
     protected List<FoodItemQuantityDto> foodItemQuantityListToFoodItemQuantityDtoList(List<FoodItemQuantity> list) {
@@ -94,12 +93,12 @@ public class FoodOrderMapperImpl implements FoodOrderMapper {
             return null;
         }
 
-        FoodItemQuantity foodItemQuantity = new FoodItemQuantity();
+        FoodItemQuantityBuilder foodItemQuantity = FoodItemQuantity.builder();
 
-        foodItemQuantity.setFoodItemId( foodItemQuantityDto.getFoodItemId() );
-        foodItemQuantity.setQuantity( foodItemQuantityDto.getQuantity() );
+        foodItemQuantity.foodItemId( foodItemQuantityDto.getFoodItemId() );
+        foodItemQuantity.quantity( foodItemQuantityDto.getQuantity() );
 
-        return foodItemQuantity;
+        return foodItemQuantity.build();
     }
 
     protected List<FoodItemQuantity> foodItemQuantityDtoListToFoodItemQuantityList(List<FoodItemQuantityDto> list) {

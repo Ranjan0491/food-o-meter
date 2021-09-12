@@ -32,7 +32,7 @@ public class UserService {
             if(userDtoDto.getAddresses()!=null && userDtoDto.getAddresses().size()>0) {
                 userDtoDto.getAddresses().forEach(addressDto -> addressDto.setId(UUID.randomUUID().toString()));
                 UserDto savedUserDto = userMapper.userToUserDto(userRepository.save(userMapper.userDtoToUser(userDtoDto)));
-                log.debug("User saved : "+savedUserDto);
+                log.info("User saved : "+savedUserDto);
                 return  savedUserDto;
             } else {
                 throw new UserException("No address is present for user.");
@@ -83,10 +83,10 @@ public class UserService {
                 return false;
             }
         })) {
-            log.debug("Address found for User with id : "+userDto);
+            log.info("Address found for User with id : "+userDto);
             throw new UserException("Address already exists - "+addressDto);
         } else {
-            log.debug("Address not found for User with id : "+userId+" (Saving new address)");
+            log.info("Address not found for User with id : "+userId+" (Saving new address)");
             User user = userRepository.findById(userId).get();
             addressDto.setId(UUID.randomUUID().toString());
             user.getAddresses().add(addressMapper.addressDtoToAddress(addressDto));

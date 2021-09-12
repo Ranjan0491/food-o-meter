@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -20,7 +20,7 @@ public class FoodOrder {
     private List<FoodItemQuantity> foodItems;
     private String customerId;
     private String customerAddressId;
-    private Timestamp orderTimestamp;
+    private LocalDateTime orderTimestamp;
     private Double orderAmount;
     private FoodOrderStatus orderStatus;
     private Double discount;

@@ -13,8 +13,11 @@ spring:
     discovery:
       enabled: true
   artemis:
+    mode: native
+    host: localhost
+    port: 61616
     user: artemis
-    password: simetraehcapa
+    password: admin
 
 eureka:
   client:
@@ -29,7 +32,4 @@ eureka:
 
 logging:
   level:
-    root: warn
-    org:
-      springframework:
-        web: debug
+    root: info

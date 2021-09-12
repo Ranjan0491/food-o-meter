@@ -4,7 +4,7 @@ import com.springmicro.foodometer.document.FoodOrder;
 import com.springmicro.foodometer.web.dto.FoodOrderDto;
 import org.mapstruct.Mapper;
 
-@Mapper(uses = {DateMapper.class})
+@Mapper
 public interface FoodOrderMapper {
     FoodOrderDto foodOrderToFoodOrderDto(FoodOrder foodOrder);
     FoodOrder foodOrderDtoToFoodOrder(FoodOrderDto foodOrderDto);

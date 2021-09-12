@@ -33,18 +33,18 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
     public void configure(StateMachineTransitionConfigurer<FoodOrderStatus, FoodOrderEvent> transitions) throws Exception {
         transitions
                 .withExternal()
-                .source(FoodOrderStatus.NEW).target(FoodOrderStatus.PAYMENT_PROCESSING)
-                .event(FoodOrderEvent.PAY)
+                .source(FoodOrderStatus.NEW).target(FoodOrderStatus.VALIDATION_PENDING)
+                .event(FoodOrderEvent.VALIDATE_ORDER)
+//                .action(validateOrderAction)
+
+                .and().withExternal()
+                .source(FoodOrderStatus.VALIDATION_PENDING).target(FoodOrderStatus.PLACED)
+                .event(FoodOrderEvent.VALIDATED)
                 .action(validateOrderAction)
 
                 .and().withExternal()
-                .source(FoodOrderStatus.PAYMENT_PROCESSING).target(FoodOrderStatus.PLACED)
-                .event(FoodOrderEvent.PAID)
-                .action(validateOrderAction)
-
-                .and().withExternal()
-                .source(FoodOrderStatus.PAYMENT_PROCESSING).target(FoodOrderStatus.CANCELLED)
-                .event(FoodOrderEvent.PAYMENT_FAILED)
+                .source(FoodOrderStatus.VALIDATION_PENDING).target(FoodOrderStatus.CANCELLED)
+                .event(FoodOrderEvent.VALIDATION_FAILED)
                 .action(validationFailureAction);
     }
 }
