@@ -32,7 +32,7 @@ public class FoodOrderManager {
     public void newFoodOrder(FoodOrder foodOrder) {
         log.info("Sending new order request to state machine");
         sendFoodOrderEvent(foodOrder, FoodOrderEvent.VALIDATE_ORDER);
-        awaitForStatus(foodOrder.getId(), FoodOrderStatus.VALIDATION_PENDING);
+//        awaitForStatus(foodOrder.getId(), FoodOrderStatus.VALIDATION_PENDING);
     }
 
     @Transactional
@@ -80,7 +80,7 @@ public class FoodOrderManager {
                     found.set(true);
                     log.info("Food Order Found for id " + foodOrderId);
                 }
-            }, () -> log.info("Food order not found for id " + foodOrderId + ". Expected status: " + foodOrderStatus.name()));
+            }, () -> log.error("Food order not found for id " + foodOrderId + ". Expected status: " + foodOrderStatus.name()));
 
             if (!found.get()) {
                 try {

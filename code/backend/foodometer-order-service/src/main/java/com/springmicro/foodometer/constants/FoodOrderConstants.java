@@ -9,6 +9,6 @@ public interface FoodOrderConstants {
     String ALLOCATE_FAILURE_QUEUE = "allocation-failure";
     String DEALLOCATE_ORDER_QUEUE = "deallocate-order";
 
-    //TODO - need to check for accessing via Eureka
     String FOOD_ITEM_SERVICE_NAME = "fom-item-service";
+    String FOOD_USER_SERVICE_NAME = "fom-user-service";
 }

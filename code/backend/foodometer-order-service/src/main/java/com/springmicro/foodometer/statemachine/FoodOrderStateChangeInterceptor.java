@@ -8,6 +8,7 @@ import com.springmicro.foodometer.repository.FoodOrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
+import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.state.State;
 import org.springframework.statemachine.support.StateMachineInterceptorAdapter;
@@ -44,5 +45,21 @@ public class FoodOrderStateChangeInterceptor extends StateMachineInterceptorAdap
                     foodOrder.setOrderStatus(state.getId());
                     foodOrderRepository.save(foodOrder);
                 });
+    }
+
+    @Override
+    public StateContext<FoodOrderStatus, FoodOrderEvent> preTransition(StateContext<FoodOrderStatus, FoodOrderEvent> stateContext) {
+        log.info("In preTransition..");
+        log.info(stateContext.getMessage().getHeaders().toString());
+        log.info(stateContext.getMessage().getPayload().toString());
+        return super.preTransition(stateContext);
+    }
+
+    @Override
+    public StateContext<FoodOrderStatus, FoodOrderEvent> postTransition(StateContext<FoodOrderStatus, FoodOrderEvent> stateContext) {
+        log.info("In postTransition..");
+        log.info(stateContext.getMessage().getHeaders().toString());
+        log.info(stateContext.getMessage().getPayload().toString());
+        return super.postTransition(stateContext);
     }
 }

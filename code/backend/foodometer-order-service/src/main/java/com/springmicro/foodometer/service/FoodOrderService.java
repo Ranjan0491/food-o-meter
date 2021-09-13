@@ -5,9 +5,7 @@ import com.springmicro.foodometer.constants.FoodOrderStatus;
 import com.springmicro.foodometer.document.FoodOrder;
 import com.springmicro.foodometer.exception.OrderException;
 import com.springmicro.foodometer.repository.FoodOrderRepository;
-import com.springmicro.foodometer.web.dto.FoodItemDto;
-import com.springmicro.foodometer.web.dto.FoodItemQuantityDto;
-import com.springmicro.foodometer.web.dto.FoodOrderDto;
+import com.springmicro.foodometer.web.dto.*;
 import com.springmicro.foodometer.web.mapper.FoodOrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,25 +52,36 @@ public class FoodOrderService {
     public FoodOrderDto saveOrder(FoodOrderDto foodOrderDto) {
         if(foodOrderDto != null) {
             if (foodOrderDto.getCustomerId() != null) {
-                if(foodOrderDto.getCustomerAddressId() != null) {
-                    foodOrderDto.setOrderStatus(FoodOrderStatus.NEW);
-                    foodOrderDto.setOrderTimestamp(LocalDateTime.now());
-                    if(validateFoodItemsInOrder(foodOrderDto)) {
-                        Double orderAmount = calculateTotalAmount(foodOrderDto);
-                        Double discount = applicableDiscountPercent(foodOrderDto);
-                        foodOrderDto.setOrderAmount(orderAmount);
-                        foodOrderDto.setDiscount(discount * 100);
-                        foodOrderDto.setDiscountedAmount(orderAmount * (1 - discount));
-                        FoodOrder foodOrder = foodOrderRepository.save(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto));
-                        foodOrderManager.newFoodOrder(foodOrder);
-                        return foodOrderMapper.foodOrderToFoodOrderDto(foodOrder);
+                UserDto customer = fetchUserDto(foodOrderDto.getCustomerId());
+                if(customer != null) {
+                    if (foodOrderDto.getCustomerAddressId() != null) {
+                        if(customer.getAddresses().stream().anyMatch(address -> address.getId().equals(foodOrderDto.getCustomerAddressId()))) {
+                            foodOrderDto.setOrderStatus(FoodOrderStatus.NEW);
+                            foodOrderDto.setOrderTimestamp(LocalDateTime.now());
+                            if (validateFoodItemsInOrder(foodOrderDto)) {
+                                Double orderAmount = calculateTotalAmount(foodOrderDto);
+                                Double discount = applicableDiscountPercent(foodOrderDto);
+                                foodOrderDto.setOrderAmount(orderAmount);
+                                foodOrderDto.setDiscount(discount * 100);
+                                foodOrderDto.setDiscountedAmount(orderAmount * (1 - discount));
+                                FoodOrder foodOrder = foodOrderRepository.save(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto));
+                                foodOrderManager.newFoodOrder(foodOrder);
+                                return foodOrderMapper.foodOrderToFoodOrderDto(foodOrder);
+                            } else {
+                                log.error("All Food Items does not match the repository");
+                                throw new OrderException("All Food Items does not match the repository");
+                            }
+                        } else {
+                            log.error("Not a valid customer address provided for the order");
+                            throw new OrderException("Not a valid customer address provided for the order");
+                        }
                     } else {
-                        log.error("All Food Items does not match the repository");
-                        throw new OrderException("All Food Items does not match the repository");
+                        log.error("No customer address is associated with the order");
+                        throw new OrderException("No customer address is associated with the order");
                     }
                 } else {
-                    log.error("No customer address is associated with the order");
-                    throw new OrderException("No customer address is associated with the order");
+                    log.error("Not a valid customer is placing the order");
+                    throw new OrderException("Not a valid customer is placing the order");
                 }
             } else {
                 log.error("No customer is associated with the order");
@@ -127,5 +136,9 @@ public class FoodOrderService {
             totalAmount += foodItemDto.getItemPrice() * foodItemQuantityDto.getQuantity();
         }
         return totalAmount;
+    }
+
+    private UserDto fetchUserDto(String id) {
+        return restTemplate.getForObject("http://" + FoodOrderConstants.FOOD_USER_SERVICE_NAME + "/food-o-meter-user-service/v1/users/" + id, UserDto.class);
     }
 }
