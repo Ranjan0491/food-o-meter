@@ -56,7 +56,6 @@ public class FoodOrderService {
                 if(customer != null) {
                     if (foodOrderDto.getCustomerAddressId() != null) {
                         if(customer.getAddresses().stream().anyMatch(address -> address.getId().equals(foodOrderDto.getCustomerAddressId()))) {
-                            foodOrderDto.setOrderStatus(FoodOrderStatus.NEW);
                             foodOrderDto.setOrderTimestamp(LocalDateTime.now());
                             if (validateFoodItemsInOrder(foodOrderDto)) {
                                 Double orderAmount = calculateTotalAmount(foodOrderDto);

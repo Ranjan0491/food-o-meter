@@ -31,7 +31,8 @@ public class FoodOrderManager {
     @Transactional
     public void newFoodOrder(FoodOrder foodOrder) {
         log.info("Sending new order request to state machine");
-        sendFoodOrderEvent(foodOrder, FoodOrderEvent.VALIDATE_ORDER);
+        foodOrder.setOrderStatus(FoodOrderStatus.NEW);
+        sendFoodOrderEvent(foodOrderRepository.save(foodOrder), FoodOrderEvent.VALIDATE_ORDER);
 //        awaitForStatus(foodOrder.getId(), FoodOrderStatus.VALIDATION_PENDING);
     }
 
@@ -103,6 +104,8 @@ public class FoodOrderManager {
                             new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),
                                     null, null, null));
                 });
+        sm.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_OBJECT_HEADER, foodOrder);
+        sm.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId());
         sm.startReactively();
         return sm;
     }

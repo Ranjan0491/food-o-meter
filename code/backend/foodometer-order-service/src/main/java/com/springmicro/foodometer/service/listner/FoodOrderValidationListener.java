@@ -27,7 +27,7 @@ public class FoodOrderValidationListener {
 
         //condition to fail validation
         if (request.getFoodOrderDto().getId() != null) {
-            if(request.getFoodOrderDto().getDiscountedAmount() == null) {
+            if(request.getFoodOrderDto().getDiscountedAmount() == null && request.getFoodOrderDto().getDiscountedAmount() > 0) {
                 isValid = false;
             }
         } else {
