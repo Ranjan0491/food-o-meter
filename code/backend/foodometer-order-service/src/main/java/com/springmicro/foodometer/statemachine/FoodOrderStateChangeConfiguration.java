@@ -38,6 +38,10 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
 //                .action(validateOrderAction)
 
                 .and().withExternal()
+                .source(FoodOrderStatus.NEW).target(FoodOrderStatus.CANCELLED)
+                .event(FoodOrderEvent.CANCEL_ORDER)
+
+                .and().withExternal()
                 .source(FoodOrderStatus.VALIDATION_PENDING).target(FoodOrderStatus.PLACED)
                 .event(FoodOrderEvent.VALIDATED)
                 .action(validateOrderAction)
@@ -58,6 +62,10 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
                 .and().withExternal()
                 .source(FoodOrderStatus.PREPARING).target(FoodOrderStatus.PREPARED)
                 .event(FoodOrderEvent.FOOD_PREPARED)
+
+                .and().withExternal()
+                .source(FoodOrderStatus.PREPARING).target(FoodOrderStatus.CANCELLED)
+                .event(FoodOrderEvent.CANCEL_ORDER)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PREPARED).target(FoodOrderStatus.PICKED_UP)
