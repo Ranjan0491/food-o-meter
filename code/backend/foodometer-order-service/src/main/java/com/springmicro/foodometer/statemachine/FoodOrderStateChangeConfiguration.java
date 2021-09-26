@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
+import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 
@@ -19,6 +20,14 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
 
     private final Action<FoodOrderStatus, FoodOrderEvent> validateOrderAction;
     private final Action<FoodOrderStatus, FoodOrderEvent> validationFailureAction;
+    private final FoodOrderStateMachineListener foodOrderStateMachineListener;
+
+    @Override
+    public void configure(StateMachineConfigurationConfigurer<FoodOrderStatus, FoodOrderEvent> config) throws Exception {
+        config.withConfiguration()
+//                .autoStartup(true)
+                .listener(foodOrderStateMachineListener);
+    }
 
     @Override
     public void configure(StateMachineStateConfigurer<FoodOrderStatus, FoodOrderEvent> states) throws Exception {

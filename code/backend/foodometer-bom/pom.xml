@@ -34,7 +34,7 @@
 		<maven.clean.plugin>3.1.0</maven.clean.plugin>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 		<commons-lang3>3.12.0</commons-lang3>
-		<spring.state-machine>3.0.1</spring.state-machine>
+		<spring.state-machine>2.5.0</spring.state-machine>
 	</properties>
 
 	<dependencyManagement>

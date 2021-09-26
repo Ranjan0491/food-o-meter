@@ -15,7 +15,6 @@ import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Mono;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,8 +31,10 @@ public class FoodOrderManager {
     public void newFoodOrder(FoodOrder foodOrder) {
         log.info("Sending new order request to state machine");
         foodOrder.setOrderStatus(FoodOrderStatus.NEW);
-        sendFoodOrderEvent(foodOrderRepository.save(foodOrder), FoodOrderEvent.VALIDATE_ORDER);
-//        awaitForStatus(foodOrder.getId(), FoodOrderStatus.VALIDATION_PENDING);
+        FoodOrder newFoodOrder = foodOrderRepository.save(foodOrder);
+//        getCurrentStateMachine(newFoodOrder).startReactively();
+        sendFoodOrderEvent(newFoodOrder, FoodOrderEvent.VALIDATE_ORDER);
+        awaitForStatus(foodOrder.getId(), FoodOrderStatus.VALIDATION_PENDING);
     }
 
     @Transactional
@@ -62,10 +63,10 @@ public class FoodOrderManager {
     private void sendFoodOrderEvent(FoodOrder foodOrder, FoodOrderEvent foodOrderEvent) {
         log.info("Sending order request to state machine for event "+foodOrderEvent+" - "+foodOrder);
         StateMachine<FoodOrderStatus, FoodOrderEvent> sm = build(foodOrder);
-        Message msg = MessageBuilder.withPayload(foodOrderEvent)
+        Message message = MessageBuilder.withPayload(foodOrderEvent)
                 .setHeader(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId())
                 .build();
-        sm.sendEvent(Mono.just(msg));
+        sm.sendEvent(message);
     }
 
     private void awaitForStatus(String foodOrderId, FoodOrderStatus foodOrderStatus) {
@@ -95,18 +96,21 @@ public class FoodOrderManager {
     }
 
     private StateMachine<FoodOrderStatus, FoodOrderEvent> build(FoodOrder foodOrder){
-        StateMachine<FoodOrderStatus, FoodOrderEvent> sm = stateMachineFactory.getStateMachine(foodOrder.getId());
-        sm.stopReactively();
+        StateMachine<FoodOrderStatus, FoodOrderEvent> sm = getCurrentStateMachine(foodOrder);
+        sm.stop();
         sm.getStateMachineAccessor()
                 .doWithAllRegions(sma -> {
                     sma.addStateMachineInterceptor(foodOrderStateChangeInterceptor);
-                    sma.resetStateMachineReactively(
-                            new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),
-                                    null, null, null));
+                    sma.resetStateMachine(new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),null, null, null));
                 });
         sm.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_OBJECT_HEADER, foodOrder);
         sm.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId());
-        sm.startReactively();
+        sm.start();
+        return sm;
+    }
+
+    private StateMachine<FoodOrderStatus, FoodOrderEvent> getCurrentStateMachine(FoodOrder foodOrder) {
+        StateMachine<FoodOrderStatus, FoodOrderEvent> sm = stateMachineFactory.getStateMachine(foodOrder.getId());
         return sm;
     }
 }

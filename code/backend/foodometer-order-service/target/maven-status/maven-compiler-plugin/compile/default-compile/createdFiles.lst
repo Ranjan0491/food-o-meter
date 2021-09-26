@@ -27,6 +27,7 @@ com\springmicro\foodometer\service\FoodOrderService.class
 com\springmicro\foodometer\service\FoodOrderManager.class
 com\springmicro\foodometer\statemachine\action\ValidationFailureAction.class
 com\springmicro\foodometer\exception\FoodOrderExceptionHandler.class
+com\springmicro\foodometer\statemachine\FoodOrderStateMachineListener.class
 com\springmicro\foodometer\service\listner\ValidationResultListener.class
 com\springmicro\foodometer\config\JmsConfig.class
 com\springmicro\foodometer\exception\ExceptionResponse.class
