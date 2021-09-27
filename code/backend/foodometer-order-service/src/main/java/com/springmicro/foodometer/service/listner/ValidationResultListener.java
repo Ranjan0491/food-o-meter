@@ -19,6 +19,6 @@ public class ValidationResultListener {
     public void listen(ValidateOrderResult result){
         final String foodOrderId = result.getOrderId();
         log.debug("Validation Result for Order Id: " + foodOrderId);
-        foodOrderManager.processValidationResult(foodOrderId, result.getIsValidOrder());
+//        foodOrderManager.processValidationResult(foodOrderId, result.getIsValidOrder());
     }
 }

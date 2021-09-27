@@ -18,14 +18,11 @@ import java.util.EnumSet;
 @EnableStateMachineFactory
 public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAdapter<FoodOrderStatus, FoodOrderEvent> {
 
-    private final Action<FoodOrderStatus, FoodOrderEvent> validateOrderAction;
-    private final Action<FoodOrderStatus, FoodOrderEvent> validationFailureAction;
     private final FoodOrderStateMachineListener foodOrderStateMachineListener;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<FoodOrderStatus, FoodOrderEvent> config) throws Exception {
         config.withConfiguration()
-//                .autoStartup(true)
                 .listener(foodOrderStateMachineListener);
     }
 
@@ -42,23 +39,9 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
     public void configure(StateMachineTransitionConfigurer<FoodOrderStatus, FoodOrderEvent> transitions) throws Exception {
         transitions
                 .withExternal()
-                .source(FoodOrderStatus.NEW).target(FoodOrderStatus.VALIDATION_PENDING)
-                .event(FoodOrderEvent.VALIDATE_ORDER)
+                .source(FoodOrderStatus.NEW).target(FoodOrderStatus.PLACED)
+                .event(FoodOrderEvent.CONFIRM_ORDER)
 //                .action(validateOrderAction)
-
-                .and().withExternal()
-                .source(FoodOrderStatus.NEW).target(FoodOrderStatus.CANCELLED)
-                .event(FoodOrderEvent.CANCEL_ORDER)
-
-                .and().withExternal()
-                .source(FoodOrderStatus.VALIDATION_PENDING).target(FoodOrderStatus.PLACED)
-                .event(FoodOrderEvent.VALIDATED)
-                .action(validateOrderAction)
-
-                .and().withExternal()
-                .source(FoodOrderStatus.VALIDATION_PENDING).target(FoodOrderStatus.CANCELLED)
-                .event(FoodOrderEvent.VALIDATION_FAILED)
-                .action(validationFailureAction)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PLACED).target(FoodOrderStatus.PREPARING)
@@ -71,10 +54,6 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
                 .and().withExternal()
                 .source(FoodOrderStatus.PREPARING).target(FoodOrderStatus.PREPARED)
                 .event(FoodOrderEvent.FOOD_PREPARED)
-
-                .and().withExternal()
-                .source(FoodOrderStatus.PREPARING).target(FoodOrderStatus.CANCELLED)
-                .event(FoodOrderEvent.CANCEL_ORDER)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PREPARED).target(FoodOrderStatus.PICKED_UP)

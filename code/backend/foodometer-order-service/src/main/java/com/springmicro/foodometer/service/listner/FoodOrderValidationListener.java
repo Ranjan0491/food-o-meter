@@ -33,7 +33,7 @@ public class FoodOrderValidationListener {
         } else {
             isValid = false;
         }
-        foodOrderManager.processValidationResult(request.getFoodOrderDto().getId(), isValid);
+//        foodOrderManager.processValidationResult(request.getFoodOrderDto().getId(), isValid);
         jmsTemplate.convertAndSend(FoodOrderConstants.VALIDATE_ORDER_RESPONSE_QUEUE,
                     ValidateOrderResult.builder()
                             .isValidOrder(isValid)

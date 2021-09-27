@@ -32,13 +32,12 @@ public class FoodOrderStateChangeInterceptor extends StateMachineInterceptorAdap
                                 FoodOrderEvent> transition,
                                 StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine,
                                 StateMachine<FoodOrderStatus, FoodOrderEvent> rootStateMachine) {
-        log.info("Pre-State Change");
         Optional.ofNullable(message)
                 .flatMap(msg -> Optional.ofNullable((String) msg.getHeaders().getOrDefault(FoodOrderConstants.ORDER_ID_HEADER, "")))
                 .ifPresent(orderId -> {
-                    // sleeping for 1 second just to mimic the time taken for each state transition
+                    // sleeping for 2 seconds just to mimic the time taken for each state transition
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

@@ -32,41 +32,17 @@ public class FoodOrderManager {
         log.info("Sending new order request to state machine");
         foodOrder.setOrderStatus(FoodOrderStatus.NEW);
         FoodOrder newFoodOrder = foodOrderRepository.save(foodOrder);
-//        getCurrentStateMachine(newFoodOrder).startReactively();
-        sendFoodOrderEvent(newFoodOrder, FoodOrderEvent.VALIDATE_ORDER);
-        awaitForStatus(foodOrder.getId(), FoodOrderStatus.VALIDATION_PENDING);
-    }
-
-    @Transactional
-    public void processValidationResult(String foodOrderId, boolean isValid) {
-        log.info("Process Validation Result for foodOrderId: " + foodOrderId + " Valid? " + isValid);
-        foodOrderRepository.findById(foodOrderId).ifPresentOrElse(foodOrder -> {
-            if(isValid){
-                if(foodOrder.getOrderStatus() == FoodOrderStatus.NEW) {
-                    sendFoodOrderEvent(foodOrder, FoodOrderEvent.VALIDATE_ORDER);
-
-                      // wait for status change
-//                    awaitForStatus(foodOrderId, FoodOrderStatus.PAYMENT_PROCESSING);
-//
-//                    FoodOrderDto validatedFoodOrderDto = foodOrderService.getOrderByOrderId(foodOrderId);
-//                    sendFoodOrderEvent(validatedFoodOrderDto, FoodOrderEvent.PAID);
-                } else if(foodOrder.getOrderStatus() == FoodOrderStatus.VALIDATION_PENDING) {
-                    sendFoodOrderEvent(foodOrder, FoodOrderEvent.VALIDATED);
-                    awaitForStatus(foodOrderId, FoodOrderStatus.PLACED);
-                }
-            } else {
-                sendFoodOrderEvent(foodOrder, FoodOrderEvent.CANCEL_ORDER);
-            }
-        }, () -> log.error("Order Not Found. Id: " + foodOrderId));
+        sendFoodOrderEvent(newFoodOrder, FoodOrderEvent.CONFIRM_ORDER);
+        awaitForStatus(foodOrder.getId(), FoodOrderStatus.PLACED);
     }
 
     private void sendFoodOrderEvent(FoodOrder foodOrder, FoodOrderEvent foodOrderEvent) {
         log.info("Sending order request to state machine for event "+foodOrderEvent+" - "+foodOrder);
-        StateMachine<FoodOrderStatus, FoodOrderEvent> sm = build(foodOrder);
+        StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine = build(foodOrder);
         Message message = MessageBuilder.withPayload(foodOrderEvent)
                 .setHeader(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId())
                 .build();
-        sm.sendEvent(message);
+        log.info("Message: "+message+" status: "+stateMachine.sendEvent(message));
     }
 
     private void awaitForStatus(String foodOrderId, FoodOrderStatus foodOrderStatus) {
@@ -96,21 +72,16 @@ public class FoodOrderManager {
     }
 
     private StateMachine<FoodOrderStatus, FoodOrderEvent> build(FoodOrder foodOrder){
-        StateMachine<FoodOrderStatus, FoodOrderEvent> sm = getCurrentStateMachine(foodOrder);
-        sm.stop();
-        sm.getStateMachineAccessor()
-                .doWithAllRegions(sma -> {
-                    sma.addStateMachineInterceptor(foodOrderStateChangeInterceptor);
-                    sma.resetStateMachine(new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),null, null, null));
+        StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine = stateMachineFactory.getStateMachine(foodOrder.getId());
+        stateMachine.stop();
+        stateMachine.getStateMachineAccessor()
+                .doWithAllRegions(stateMachineAccess -> {
+                    stateMachineAccess.addStateMachineInterceptor(foodOrderStateChangeInterceptor);
+                    stateMachineAccess.resetStateMachine(new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),null, null, null));
                 });
-        sm.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_OBJECT_HEADER, foodOrder);
-        sm.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId());
-        sm.start();
-        return sm;
-    }
-
-    private StateMachine<FoodOrderStatus, FoodOrderEvent> getCurrentStateMachine(FoodOrder foodOrder) {
-        StateMachine<FoodOrderStatus, FoodOrderEvent> sm = stateMachineFactory.getStateMachine(foodOrder.getId());
-        return sm;
+        stateMachine.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_OBJECT_HEADER, foodOrder);
+        stateMachine.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId());
+        stateMachine.start();
+        return stateMachine;
     }
 }
