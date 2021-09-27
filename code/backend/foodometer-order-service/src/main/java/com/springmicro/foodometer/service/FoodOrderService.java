@@ -36,7 +36,18 @@ public class FoodOrderService {
     }
 
     public FoodOrderDto getOrderByCustomerIdAndOrderId(String customerId, String orderId) {
-        return foodOrderMapper.foodOrderToFoodOrderDto(foodOrderRepository.findOrderByCustomerIdAndOrderId(customerId, orderId));
+        FoodOrderDto foodOrderDto;
+        Optional<FoodOrder> optionalFoodOrder = foodOrderRepository.findById(orderId);
+        if(optionalFoodOrder.isPresent()) {
+            FoodOrder foodOrder = optionalFoodOrder.get();
+            if(foodOrder.getCustomerId().equals(customerId)) {
+                return foodOrderMapper.foodOrderToFoodOrderDto(foodOrder);
+            } else {
+                throw new OrderException("Food order does not belong to specified customer.");
+            }
+        } else {
+            throw new OrderException("Food order does not exist.");
+        }
     }
 
     public FoodOrderDto getOrderByOrderId(String orderId) {
@@ -111,10 +122,10 @@ public class FoodOrderService {
     }
 
     @Transactional
-    public void cancelOrder(String customerId, String orderId) {
+    public FoodOrderDto cancelOrder(String customerId, String orderId) {
         FoodOrderDto foodOrderDto = getOrderByCustomerIdAndOrderId(customerId, orderId);
-        foodOrderDto.setOrderStatus(FoodOrderStatus.CANCELLED);
-        foodOrderRepository.save(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto));
+        FoodOrder cancelledFoodOrder = foodOrderManager.cancelFoodOrder(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto));
+        return foodOrderMapper.foodOrderToFoodOrderDto(cancelledFoodOrder);
     }
 
     private FoodItemDto fetchFoodItemDto(String id) {

@@ -12,6 +12,4 @@ public interface FoodOrderRepository extends MongoRepository<FoodOrder, String> 
     @Query("{'customerId': {$regex: ?0 }})")
     List<FoodOrder> findAllByCustomerId(String customerId);
 
-    @Query("{'customerId': {$regex: ?0 }, 'id': {$regex: ?1 }})")
-    FoodOrder findOrderByCustomerIdAndOrderId(String customerId, String orderId);
 }

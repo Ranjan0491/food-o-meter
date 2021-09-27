@@ -4,6 +4,7 @@ import com.springmicro.foodometer.constants.FoodOrderConstants;
 import com.springmicro.foodometer.constants.FoodOrderEvent;
 import com.springmicro.foodometer.constants.FoodOrderStatus;
 import com.springmicro.foodometer.document.FoodOrder;
+import com.springmicro.foodometer.exception.OrderException;
 import com.springmicro.foodometer.repository.FoodOrderRepository;
 import com.springmicro.foodometer.statemachine.FoodOrderStateChangeInterceptor;
 import lombok.RequiredArgsConstructor;
@@ -32,20 +33,45 @@ public class FoodOrderManager {
         log.info("Sending new order request to state machine");
         foodOrder.setOrderStatus(FoodOrderStatus.NEW);
         FoodOrder newFoodOrder = foodOrderRepository.save(foodOrder);
-        sendFoodOrderEvent(newFoodOrder, FoodOrderEvent.CONFIRM_ORDER);
-        awaitForStatus(foodOrder.getId(), FoodOrderStatus.PLACED);
+        if(!sendFoodOrderEvent(newFoodOrder, FoodOrderEvent.CONFIRM_ORDER)) {
+            awaitForStatus(foodOrder.getId(), FoodOrderStatus.PLACED);
+        } else {
+            String errorMessage = String.format("Order %s could not be confirmed.", foodOrder.getId());
+            log.error(errorMessage);
+            throw new OrderException(errorMessage);
+        }
     }
 
-    private void sendFoodOrderEvent(FoodOrder foodOrder, FoodOrderEvent foodOrderEvent) {
+    @Transactional
+    public FoodOrder cancelFoodOrder(FoodOrder foodOrder) {
+        log.info("Sending cancel order request to state machine");
+        foodOrder.setOrderStatus(FoodOrderStatus.CANCELLED);
+        FoodOrder cancelledFoodOrder = foodOrderRepository.save(foodOrder);
+        if(!sendFoodOrderEvent(cancelledFoodOrder, FoodOrderEvent.CANCEL_ORDER)) {
+            if(awaitForStatus(foodOrder.getId(), FoodOrderStatus.CANCELLED)) {
+                return cancelledFoodOrder;
+            } else {
+                String errorMessage = String.format("Order %s cancellation timeout. Please try again.", foodOrder.getId());
+                log.error(errorMessage);
+                throw new OrderException(errorMessage);
+            }
+        } else {
+            String errorMessage = String.format("Order %s could not be cancelled.", foodOrder.getId());
+            log.error(errorMessage);
+            throw new OrderException(errorMessage);
+        }
+    }
+
+    private boolean sendFoodOrderEvent(FoodOrder foodOrder, FoodOrderEvent foodOrderEvent) {
         log.info("Sending order request to state machine for event "+foodOrderEvent+" - "+foodOrder);
         StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine = build(foodOrder);
         Message message = MessageBuilder.withPayload(foodOrderEvent)
                 .setHeader(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId())
                 .build();
-        log.info("Message: "+message+" status: "+stateMachine.sendEvent(message));
+        return stateMachine.sendEvent(message);
     }
 
-    private void awaitForStatus(String foodOrderId, FoodOrderStatus foodOrderStatus) {
+    private boolean awaitForStatus(String foodOrderId, FoodOrderStatus foodOrderStatus) {
         AtomicBoolean found = new AtomicBoolean(false);
         AtomicInteger loopCount = new AtomicInteger(0);
         while (!found.get()) {
@@ -63,12 +89,13 @@ public class FoodOrderManager {
             if (!found.get()) {
                 try {
                     log.debug("Sleeping for retry");
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (Exception e) {
                     // do nothing
                 }
             }
         }
+        return found.get();
     }
 
     private StateMachine<FoodOrderStatus, FoodOrderEvent> build(FoodOrder foodOrder){

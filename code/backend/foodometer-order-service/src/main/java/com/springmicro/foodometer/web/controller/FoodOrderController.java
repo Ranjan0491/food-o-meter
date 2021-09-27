@@ -38,4 +38,10 @@ public class FoodOrderController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(foodOrderService.getOrderByCustomerIdAndOrderId(customerId, orderId));
     }
+
+    @PutMapping("/customers/{customerId}/orders/{orderId}/cancel")
+    public ResponseEntity<FoodOrderDto> cancelOrderByCustomerIdAndOrderId(@PathVariable String customerId, @PathVariable String orderId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(foodOrderService.cancelOrder(customerId, orderId));
+    }
 }

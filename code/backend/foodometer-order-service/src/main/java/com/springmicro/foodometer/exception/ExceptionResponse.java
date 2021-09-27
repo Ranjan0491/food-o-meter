@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,4 +15,5 @@ import java.time.LocalDateTime;
 public class ExceptionResponse {
     private String message;
     private LocalDateTime localDateTime;
+    private List<String> stackTrace;
 }
