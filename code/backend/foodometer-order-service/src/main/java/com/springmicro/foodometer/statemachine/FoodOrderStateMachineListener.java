@@ -2,7 +2,9 @@ package com.springmicro.foodometer.statemachine;
 
 import com.springmicro.foodometer.constants.FoodOrderEvent;
 import com.springmicro.foodometer.constants.FoodOrderStatus;
+import com.springmicro.foodometer.exception.OrderException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.Message;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
 import org.springframework.statemachine.state.State;
@@ -46,5 +48,12 @@ public class FoodOrderStateMachineListener extends StateMachineListenerAdapter<F
     public void stateMachineStopped(StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine) {
         log.info("SM Listener stateMachineStopped: " + stateMachine.getId() + "  has error: " + stateMachine.hasStateMachineError());
         super.stateMachineStopped(stateMachine);
+    }
+
+    @Override
+    public void eventNotAccepted(Message<FoodOrderEvent> event) {
+        String errorMessage = "Invalid event - " + event;
+        log.error(errorMessage);
+        throw new OrderException(errorMessage);
     }
 }

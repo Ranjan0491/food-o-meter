@@ -1,7 +1,9 @@
 package com.springmicro.foodometer.web.controller;
 
+import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.service.UserService;
 import com.springmicro.foodometer.web.dto.AddressDto;
+import com.springmicro.foodometer.web.dto.StaffDto;
 import com.springmicro.foodometer.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,5 +47,11 @@ public class UserController {
     public ResponseEntity<Void> saveUserAddress(@PathVariable("id") String id, @RequestBody AddressDto addressDto) {
         userService.saveNewAddressForUser(id, addressDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/staff/{userRole}")
+    public ResponseEntity<List<StaffDto>> getStaffByRole(@PathVariable("userRole")UserRole userRole) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.findUsersByRole(userRole));
     }
 }

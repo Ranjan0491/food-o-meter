@@ -34,5 +34,5 @@ public class UserDto {
     private List<AddressDto> addresses;
     @JsonIgnore
     private String password;
-    private List<UserRole> userRoles;
+    private UserRole userRole;
 }

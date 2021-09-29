@@ -36,11 +36,11 @@ public class FoodOrderStateChangeInterceptor extends StateMachineInterceptorAdap
                 .flatMap(msg -> Optional.ofNullable((String) msg.getHeaders().getOrDefault(FoodOrderConstants.ORDER_ID_HEADER, "")))
                 .ifPresent(orderId -> {
                     // sleeping for 2 seconds just to mimic the time taken for each state transition
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        Thread.sleep(2000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                     log.info("Saving state for order id: " + orderId + " Status: " + state.getId());
                     FoodOrder foodOrder = foodOrderRepository.findById(orderId).get();
                     foodOrder.setOrderStatus(state.getId());
@@ -50,17 +50,19 @@ public class FoodOrderStateChangeInterceptor extends StateMachineInterceptorAdap
 
     @Override
     public StateContext<FoodOrderStatus, FoodOrderEvent> preTransition(StateContext<FoodOrderStatus, FoodOrderEvent> stateContext) {
-        log.info("In preTransition..");
+        log.info(".... In preTransition ....");
         log.info(stateContext.getMessage().getHeaders().toString());
         log.info(stateContext.getMessage().getPayload().toString());
+        log.info("..........................");
         return super.preTransition(stateContext);
     }
 
     @Override
     public StateContext<FoodOrderStatus, FoodOrderEvent> postTransition(StateContext<FoodOrderStatus, FoodOrderEvent> stateContext) {
-        log.info("In postTransition..");
+        log.info(".... In postTransition ....");
         log.info(stateContext.getMessage().getHeaders().toString());
         log.info(stateContext.getMessage().getPayload().toString());
+        log.info("...........................");
         return super.postTransition(stateContext);
     }
 }

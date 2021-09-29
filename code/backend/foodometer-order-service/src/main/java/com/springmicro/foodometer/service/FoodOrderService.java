@@ -1,7 +1,9 @@
 package com.springmicro.foodometer.service;
 
+import com.google.common.base.Enums;
 import com.springmicro.foodometer.constants.FoodOrderConstants;
 import com.springmicro.foodometer.constants.FoodOrderStatus;
+import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.document.FoodOrder;
 import com.springmicro.foodometer.exception.OrderException;
 import com.springmicro.foodometer.repository.FoodOrderRepository;
@@ -28,6 +30,7 @@ public class FoodOrderService {
     private final FoodOrderMapper foodOrderMapper;
     private final RestTemplate restTemplate;
     private final FoodOrderManager foodOrderManager;
+    private final UserLookUpService userLookUpService;
 
     public List<FoodOrderDto> getAllOrdersByCustomerId(String customerId) {
         List<FoodOrder> foodOrders = foodOrderRepository.findAllByCustomerId(customerId);
@@ -63,7 +66,7 @@ public class FoodOrderService {
     public FoodOrderDto saveOrder(FoodOrderDto foodOrderDto) {
         if(foodOrderDto != null) {
             if (foodOrderDto.getCustomerId() != null) {
-                UserDto customer = fetchUserDto(foodOrderDto.getCustomerId());
+                UserDto customer = userLookUpService.fetchUserDto(foodOrderDto.getCustomerId());
                 if(customer != null) {
                     if (foodOrderDto.getCustomerAddressId() != null) {
                         if(customer.getAddresses().stream().anyMatch(address -> address.getId().equals(foodOrderDto.getCustomerAddressId()))) {
@@ -128,6 +131,17 @@ public class FoodOrderService {
         return foodOrderMapper.foodOrderToFoodOrderDto(cancelledFoodOrder);
     }
 
+    public List<FoodOrderDto> getAllFoodOrdersByStatus(FoodOrderStatus foodOrderStatus) {
+        return foodOrderRepository.findAllByOrderStatus(foodOrderStatus)
+                .stream()
+                .map(foodOrder -> foodOrderMapper.foodOrderToFoodOrderDto(foodOrder))
+                .collect(Collectors.toList());
+    }
+
+    public List<FoodOrderDto> getAllFoodOrdersByStatus(String status) {
+        return getAllFoodOrdersByStatus(Enums.getIfPresent(FoodOrderStatus.class, status).get());
+    }
+
     private FoodItemDto fetchFoodItemDto(String id) {
         return restTemplate.getForObject("http://" + FoodOrderConstants.FOOD_ITEM_SERVICE_NAME + "/food-o-meter-item-service/v1/food-items/" + id, FoodItemDto.class);
     }
@@ -148,7 +162,5 @@ public class FoodOrderService {
         return totalAmount;
     }
 
-    private UserDto fetchUserDto(String id) {
-        return restTemplate.getForObject("http://" + FoodOrderConstants.FOOD_USER_SERVICE_NAME + "/food-o-meter-user-service/v1/users/" + id, UserDto.class);
-    }
+
 }

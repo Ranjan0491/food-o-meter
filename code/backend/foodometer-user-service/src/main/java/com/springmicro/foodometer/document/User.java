@@ -30,5 +30,5 @@ public class User {
     @DBRef(lazy = true)
     private List<Address> addresses;
     private String password;
-    private List<UserRole> userRoles;
+    private UserRole userRole;
 }

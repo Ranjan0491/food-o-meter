@@ -1,6 +1,5 @@
 package com.springmicro.foodometer.web.mapper;
 
-import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.document.Address;
 import com.springmicro.foodometer.document.User;
 import com.springmicro.foodometer.web.dto.AddressDto;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-09-27T09:40:25+0530",
+    date = "2021-09-28T11:01:44+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16.0.2 (Oracle Corporation)"
 )
 @Component
@@ -40,10 +39,7 @@ public class UserMapperImpl implements UserMapper {
         userDto.setDob( dateMapper.asLocalDate( user.getDob() ) );
         userDto.setAddresses( addressListToAddressDtoList( user.getAddresses() ) );
         userDto.setPassword( user.getPassword() );
-        List<UserRole> list1 = user.getUserRoles();
-        if ( list1 != null ) {
-            userDto.setUserRoles( new ArrayList<UserRole>( list1 ) );
-        }
+        userDto.setUserRole( user.getUserRole() );
 
         return userDto;
     }
@@ -64,10 +60,7 @@ public class UserMapperImpl implements UserMapper {
         user.setDob( dateMapper.asSqlDate( userDto.getDob() ) );
         user.setAddresses( addressDtoListToAddressList( userDto.getAddresses() ) );
         user.setPassword( userDto.getPassword() );
-        List<UserRole> list1 = userDto.getUserRoles();
-        if ( list1 != null ) {
-            user.setUserRoles( new ArrayList<UserRole>( list1 ) );
-        }
+        user.setUserRole( userDto.getUserRole() );
 
         return user;
     }

@@ -1,5 +1,6 @@
 package com.springmicro.foodometer.web.controller;
 
+import com.springmicro.foodometer.constants.FoodOrderStatus;
 import com.springmicro.foodometer.service.FoodOrderService;
 import com.springmicro.foodometer.web.dto.FoodOrderDto;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,11 @@ public class FoodOrderController {
     public ResponseEntity<FoodOrderDto> cancelOrderByCustomerIdAndOrderId(@PathVariable String customerId, @PathVariable String orderId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(foodOrderService.cancelOrder(customerId, orderId));
+    }
+
+    @GetMapping("/orders/status/{orderStatus}")
+    public ResponseEntity<List<FoodOrderDto>> getOrderByOrderId(@PathVariable FoodOrderStatus foodOrderStatus) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(foodOrderService.getAllFoodOrdersByStatus(foodOrderStatus));
     }
 }

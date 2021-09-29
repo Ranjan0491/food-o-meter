@@ -1,11 +1,14 @@
 package com.springmicro.foodometer.service;
 
+import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.document.User;
 import com.springmicro.foodometer.exception.UserException;
 import com.springmicro.foodometer.repository.UserRepository;
 import com.springmicro.foodometer.web.dto.AddressDto;
+import com.springmicro.foodometer.web.dto.StaffDto;
 import com.springmicro.foodometer.web.dto.UserDto;
 import com.springmicro.foodometer.web.mapper.AddressMapper;
+import com.springmicro.foodometer.web.mapper.StaffMapper;
 import com.springmicro.foodometer.web.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AddressMapper addressMapper;
+    private final StaffMapper staffMapper;
 
     @Transactional
     public UserDto saveUser(UserDto userDtoDto) {
@@ -91,6 +96,14 @@ public class UserService {
             addressDto.setId(UUID.randomUUID().toString());
             user.getAddresses().add(addressMapper.addressDtoToAddress(addressDto));
             userRepository.save(user);
+        }
+    }
+
+    public List<StaffDto> findUsersByRole(UserRole userRole) {
+        if (userRole == UserRole.CHEF || userRole == UserRole.DELIVERY_AGENT) {
+            return userRepository.findAllByUserRole(userRole).stream().map(user -> staffMapper.userToStaffDto(user)).collect(Collectors.toList());
+        } else {
+            throw new UserException("All user details cannot be fetched. Only staff details can be fetched.");
         }
     }
 }

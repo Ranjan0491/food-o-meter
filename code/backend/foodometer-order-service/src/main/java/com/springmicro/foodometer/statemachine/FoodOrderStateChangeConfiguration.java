@@ -19,6 +19,7 @@ import java.util.EnumSet;
 public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAdapter<FoodOrderStatus, FoodOrderEvent> {
 
     private final FoodOrderStateMachineListener foodOrderStateMachineListener;
+    private final Action<FoodOrderStatus, FoodOrderEvent> allocateOrderAction;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<FoodOrderStatus, FoodOrderEvent> config) throws Exception {
@@ -41,11 +42,11 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
                 .withExternal()
                 .source(FoodOrderStatus.NEW).target(FoodOrderStatus.PLACED)
                 .event(FoodOrderEvent.CONFIRM_ORDER)
-//                .action(validateOrderAction)
+                .action(allocateOrderAction)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PLACED).target(FoodOrderStatus.PREPARING)
-                .event(FoodOrderEvent.PREPARE_FOOD)
+                .event(FoodOrderEvent.PREPARE)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PLACED).target(FoodOrderStatus.CANCELLED)
@@ -53,7 +54,7 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PREPARING).target(FoodOrderStatus.PREPARED)
-                .event(FoodOrderEvent.FOOD_PREPARED)
+                .event(FoodOrderEvent.PREPARATION_COMPLETE)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PREPARED).target(FoodOrderStatus.PICKED_UP)
@@ -65,6 +66,6 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
 
                 .and().withExternal()
                 .source(FoodOrderStatus.ON_THE_WAY).target(FoodOrderStatus.DELIVERED)
-                .event(FoodOrderEvent.ORDER_DELIVERY);
+                .event(FoodOrderEvent.CONFIRM_DELIVERY);
     }
 }

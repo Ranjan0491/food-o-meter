@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ValidateOrderRequest {
+public class PrepareOrderRequest {
     private FoodOrderDto foodOrderDto;
 }
