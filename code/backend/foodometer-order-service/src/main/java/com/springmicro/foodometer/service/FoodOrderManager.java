@@ -63,10 +63,12 @@ public class FoodOrderManager {
     public FoodOrder allocateFoodOrder(FoodOrder foodOrder) {
         while(true) {
             List<StaffDto> staffDtos = userLookUpService.fetchStaffsByRole(UserRole.CHEF);
-            List<String> chefIdsOccupiedForPreparingOrders = foodOrderPreparationRepository.findAll()
+            log.info("chefs - "+staffDtos);
+            List<String> chefIdsOccupiedForPreparingOrders = foodOrderPreparationRepository.findByFoodOrderStatus(FoodOrderStatus.PREPARING)
                     .stream()
                     .map(foodOrderPreparation -> foodOrderPreparation.getStaffId())
                     .collect(Collectors.toList());
+            log.info("occupied chef ids - "+chefIdsOccupiedForPreparingOrders);
             Optional<StaffDto> allocatedChefDtoOptional = staffDtos.stream()
                     .filter(staffDto -> !chefIdsOccupiedForPreparingOrders.contains(staffDto.getId()))
                     .findAny();
@@ -76,6 +78,7 @@ public class FoodOrderManager {
                 foodOrderPreparationRepository.save(FoodOrderPreparation.builder()
                         .foodOrderId(foodOrder.getId())
                         .staffId(allocatedChefDto.getId())
+                        .foodOrderStatus(FoodOrderStatus.PREPARING)
                         .build());
                 log.info("Food Order " + foodOrder.getId() + " allocated to chef " + allocatedChefDto);
 
@@ -113,7 +116,8 @@ public class FoodOrderManager {
         awaitForStatus(foodOrder.getId(), FoodOrderStatus.PREPARED);
 
         FoodOrderPreparation foodOrderPreparation = foodOrderPreparationRepository.findByFoodOrderId(foodOrder.getId());
-        foodOrderPreparationRepository.deleteById(foodOrderPreparation.getId());
+        foodOrderPreparation.setFoodOrderStatus(FoodOrderStatus.PREPARED);
+        foodOrderPreparationRepository.save(foodOrderPreparation);
 
         return preparedFoodOrder;
     }

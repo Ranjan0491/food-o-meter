@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,6 +23,6 @@ public class UserLookUpService {
     }
 
     public List<StaffDto> fetchStaffsByRole(UserRole userRole) {
-        return restTemplate.getForObject("http://" + FoodOrderConstants.FOOD_USER_SERVICE_NAME + "/food-o-meter-user-service/v1/users/staff/" + userRole, List.class);
+        return Arrays.asList(restTemplate.getForObject("http://" + FoodOrderConstants.FOOD_USER_SERVICE_NAME + "/food-o-meter-user-service/v1/users/staff/" + userRole, StaffDto[].class));
     }
 }

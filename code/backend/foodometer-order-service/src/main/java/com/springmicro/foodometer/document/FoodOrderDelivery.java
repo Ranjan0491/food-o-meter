@@ -1,5 +1,6 @@
 package com.springmicro.foodometer.document;
 
+import com.springmicro.foodometer.constants.FoodOrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +16,5 @@ public class FoodOrderDelivery {
     private String id;
     private String foodOrderId;
     private String staffId;
+    private FoodOrderStatus foodOrderStatus;
 }

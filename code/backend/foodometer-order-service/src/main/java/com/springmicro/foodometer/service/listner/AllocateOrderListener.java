@@ -24,16 +24,21 @@ public class AllocateOrderListener {
 
     @JmsListener(destination = FoodOrderConstants.ALLOCATE_ORDER_QUEUE)
     public void listen(Message message){
+        boolean valid = false;
         FoodOrderDto foodOrderDto = null;
         PrepareOrderRequest request = (PrepareOrderRequest) message.getPayload();
         log.info("Prepare Order request - "+request);
 
-        //condition to fail validation
         if (request.getFoodOrderDto().getId() != null) {
             foodOrderDto = foodOrderService.getOrderByOrderId(request.getFoodOrderDto().getId());
             if(foodOrderDto.getOrderStatus() == FoodOrderStatus.PLACED) {
                 foodOrderManager.allocateFoodOrder(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto));
+                valid = true;
             }
         }
+
+//        if(!valid) {
+//            throw new OrderException("Order is invalid for prepartion. Details - "+foodOrderDto);
+//        }
     }
 }

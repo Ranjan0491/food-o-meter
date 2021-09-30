@@ -19,7 +19,7 @@ import java.util.EnumSet;
 public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAdapter<FoodOrderStatus, FoodOrderEvent> {
 
     private final FoodOrderStateMachineListener foodOrderStateMachineListener;
-    private final Action<FoodOrderStatus, FoodOrderEvent> allocateOrderAction;
+//    private final Action<FoodOrderStatus, FoodOrderEvent> allocateOrderAction;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<FoodOrderStatus, FoodOrderEvent> config) throws Exception {
@@ -42,7 +42,7 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
                 .withExternal()
                 .source(FoodOrderStatus.NEW).target(FoodOrderStatus.PLACED)
                 .event(FoodOrderEvent.CONFIRM_ORDER)
-                .action(allocateOrderAction)
+//                .action(allocateOrderAction)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PLACED).target(FoodOrderStatus.PREPARING)

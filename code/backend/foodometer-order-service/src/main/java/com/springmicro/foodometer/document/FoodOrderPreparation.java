@@ -19,4 +19,5 @@ public class FoodOrderPreparation {
     private String id;
     private String foodOrderId;
     private String staffId;
+    private FoodOrderStatus foodOrderStatus;
 }

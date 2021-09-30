@@ -17,7 +17,7 @@ public class PrepareFoodOrderJob {
     private final FoodOrderRepository foodOrderRepository;
 
     @Transactional
-    @Scheduled(fixedRate = 500)
+    @Scheduled(fixedRate = 1000)
     public void checkForOrdersInPreparingStatus() {
         foodOrderRepository.findAllByOrderStatus(FoodOrderStatus.PREPARING)
                 .stream()
