@@ -27,7 +27,7 @@ public class AllocateOrderAction implements Action<FoodOrderStatus, FoodOrderEve
     public void execute(StateContext<FoodOrderStatus, FoodOrderEvent> context) {
         String foodOrderId = (String) context.getMessage().getHeaders().get(FoodOrderConstants.ORDER_ID_HEADER);
         foodOrderRepository.findById(foodOrderId).ifPresentOrElse(foodOrder -> {
-            jmsTemplate.convertAndSend(FoodOrderConstants.ALLOCATE_ORDER_QUEUE, PrepareOrderRequest.builder()
+            jmsTemplate.convertAndSend(FoodOrderConstants.ALLOCATE_CHEF_ORDER_QUEUE, PrepareOrderRequest.builder()
                     .foodOrderDto(foodOrderMapper.foodOrderToFoodOrderDto(foodOrder))
                     .build());
             log.info("Sent Food Order allocation request to queue for order id " + foodOrderId);

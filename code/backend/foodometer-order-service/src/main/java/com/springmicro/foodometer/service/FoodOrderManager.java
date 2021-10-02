@@ -5,8 +5,10 @@ import com.springmicro.foodometer.constants.FoodOrderEvent;
 import com.springmicro.foodometer.constants.FoodOrderStatus;
 import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.document.FoodOrder;
+import com.springmicro.foodometer.document.FoodOrderDelivery;
 import com.springmicro.foodometer.document.FoodOrderPreparation;
 import com.springmicro.foodometer.exception.OrderException;
+import com.springmicro.foodometer.repository.FoodOrderDeliveryRepository;
 import com.springmicro.foodometer.repository.FoodOrderPreparationRepository;
 import com.springmicro.foodometer.repository.FoodOrderRepository;
 import com.springmicro.foodometer.statemachine.FoodOrderStateChangeInterceptor;
@@ -23,6 +25,7 @@ import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -38,6 +41,7 @@ public class FoodOrderManager {
     private final FoodOrderRepository foodOrderRepository;
     private final FoodOrderStateChangeInterceptor foodOrderStateChangeInterceptor;
     private final FoodOrderPreparationRepository foodOrderPreparationRepository;
+    private final FoodOrderDeliveryRepository foodOrderDeliveryRepository;
     private final UserLookUpService userLookUpService;
 
     @Transactional
@@ -128,6 +132,72 @@ public class FoodOrderManager {
         foodOrderPreparationRepository.save(foodOrderPreparation);
 
         return preparedFoodOrder;
+    }
+
+    @Transactional
+    public FoodOrder assignDeliveryAgentForFoodOrder(FoodOrder foodOrder) {
+        while(true) {
+            List<StaffDto> staffDtos = userLookUpService.fetchStaffsByRole(UserRole.DELIVERY_AGENT);
+            log.info("delivery agent - "+staffDtos);
+            List<String> deliveryAgentIdsOccupiedForPreparingOrders = foodOrderDeliveryRepository
+                    .findByFoodOrderStatusIn(Arrays.asList(new FoodOrderStatus[] {FoodOrderStatus.PICKED_UP, FoodOrderStatus.ON_THE_WAY}))
+                    .stream()
+                    .map(foodOrderPreparation -> foodOrderPreparation.getStaffId())
+                    .collect(Collectors.toList());
+            log.info("occupied delivery agent ids - "+deliveryAgentIdsOccupiedForPreparingOrders);
+            Optional<StaffDto> allocatedDeliveryAgentDtoOptional = staffDtos.stream()
+                    .filter(staffDto -> !deliveryAgentIdsOccupiedForPreparingOrders.contains(staffDto.getId()))
+                    .findAny();
+
+            if (allocatedDeliveryAgentDtoOptional.isPresent()) {
+                StaffDto allocatedDeliveryAgentDto = allocatedDeliveryAgentDtoOptional.get();
+                foodOrderDeliveryRepository.save(FoodOrderDelivery.builder()
+                        .foodOrderId(foodOrder.getId())
+                        .staffId(allocatedDeliveryAgentDto.getId())
+                        .foodOrderStatus(FoodOrderStatus.PICKED_UP)
+                        .build());
+                log.info("Food Order " + foodOrder.getId() + " assigned to agent for delivery - " + allocatedDeliveryAgentDto);
+
+                log.info("Sending picked up order request to state machine");
+                foodOrder.setOrderStatus(FoodOrderStatus.PICKED_UP);
+                FoodOrder pickedUpFoodOrder = foodOrderRepository.save(foodOrder);
+                sendFoodOrderEvent(pickedUpFoodOrder, FoodOrderEvent.READY_FOR_PICKUP);
+                awaitForStatus(foodOrder.getId(), FoodOrderStatus.PICKED_UP);
+
+                return pickedUpFoodOrder;
+            } else {
+                log.error("No delivery agent is available for delivery for Order ID " + foodOrder.getId() + ". Checking for chef availability again after 1 min.");
+                try {
+                    Thread.sleep(1 * 60 * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Transactional
+    public FoodOrder foodOrderProcessDelivery(FoodOrder foodOrder, FoodOrderStatus foodOrderStatus, FoodOrderEvent foodOrderEvent, int maxSleepTimeInMins) {
+        try {
+            log.info("Please wait till your order status is "+foodOrderStatus+" for order id "+foodOrder.getId());
+            long sleepTime = new Random().ints(1, maxSleepTimeInMins).limit(1).sum();
+            log.info("Waiting for " + sleepTime + " minute(s)..");
+            Thread.sleep(sleepTime * 60 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        log.info("Sending "+foodOrderEvent+" request to state machine");
+        foodOrder.setOrderStatus(foodOrderStatus);
+        FoodOrder updatedFoodOrder = foodOrderRepository.save(foodOrder);
+        sendFoodOrderEvent(updatedFoodOrder, foodOrderEvent);
+        awaitForStatus(foodOrder.getId(), foodOrderStatus);
+
+        FoodOrderDelivery foodOrderDelivery = foodOrderDeliveryRepository.findByFoodOrderId(foodOrder.getId());
+        foodOrderDelivery.setFoodOrderStatus(foodOrderStatus);
+        foodOrderDeliveryRepository.save(foodOrderDelivery);
+
+        return updatedFoodOrder;
     }
 
     private boolean sendFoodOrderEvent(FoodOrder foodOrder, FoodOrderEvent foodOrderEvent) {

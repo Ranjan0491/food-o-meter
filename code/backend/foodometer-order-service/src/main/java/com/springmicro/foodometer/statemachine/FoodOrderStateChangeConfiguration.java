@@ -65,7 +65,7 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PICKED_UP).target(FoodOrderStatus.ON_THE_WAY)
-                .event(FoodOrderEvent.ORDER_PICKED_UP)
+                .event(FoodOrderEvent.OUT_FOR_DELIVERY)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.ON_THE_WAY).target(FoodOrderStatus.DELIVERED)

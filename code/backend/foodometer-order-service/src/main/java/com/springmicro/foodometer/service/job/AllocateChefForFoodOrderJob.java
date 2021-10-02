@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AllocateFoodOrderJob {
+public class AllocateChefForFoodOrderJob {
 
     private final FoodOrderRepository foodOrderRepository;
     private final FoodOrderMapper foodOrderMapper;
@@ -24,8 +24,8 @@ public class AllocateFoodOrderJob {
     @Transactional
     @Scheduled(fixedRate = 1000)
     public void allocateOrders() {
-        foodOrderRepository.findAllByOrderStatus(FoodOrderStatus.PLACED).forEach(foodOrder -> {
-            jmsTemplate.convertAndSend(FoodOrderConstants.ALLOCATE_ORDER_QUEUE, PrepareOrderRequest.builder()
+        foodOrderRepository.findByOrderStatus(FoodOrderStatus.PLACED).forEach(foodOrder -> {
+            jmsTemplate.convertAndSend(FoodOrderConstants.ALLOCATE_CHEF_ORDER_QUEUE, PrepareOrderRequest.builder()
                     .foodOrderDto(foodOrderMapper.foodOrderToFoodOrderDto(foodOrder))
                     .build());
             log.info("Sent Food Order allocation request to queue for order id " + foodOrder.getId());

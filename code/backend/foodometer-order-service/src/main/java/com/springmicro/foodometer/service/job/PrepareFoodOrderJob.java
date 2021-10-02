@@ -18,8 +18,8 @@ public class PrepareFoodOrderJob {
 
     @Transactional
     @Scheduled(fixedRate = 1000)
-    public void checkForOrdersInPreparingStatus() {
-        foodOrderRepository.findAllByOrderStatus(FoodOrderStatus.PREPARING)
+    public void checkForOrdersApplicableForPreparation() {
+        foodOrderRepository.findByOrderStatus(FoodOrderStatus.PREPARING)
                 .stream()
                 .forEach(foodOrder -> foodOrderManager.foodOrderPreparationComplete(foodOrder));
     }

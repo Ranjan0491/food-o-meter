@@ -11,5 +11,5 @@ import java.util.List;
 public interface FoodOrderDeliveryRepository extends MongoRepository<FoodOrderDelivery, String> {
 
     FoodOrderDelivery findByFoodOrderId(String foodOrderId);
-    List<FoodOrderDelivery> findByFoodOrderStatus(FoodOrderStatus foodOrderStatus);
+    List<FoodOrderDelivery> findByFoodOrderStatusIn(List<FoodOrderStatus> foodOrderStatuses);
 }

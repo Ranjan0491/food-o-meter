@@ -132,7 +132,7 @@ public class FoodOrderService {
     }
 
     public List<FoodOrderDto> getAllFoodOrdersByStatus(FoodOrderStatus foodOrderStatus) {
-        return foodOrderRepository.findAllByOrderStatus(foodOrderStatus)
+        return foodOrderRepository.findByOrderStatus(foodOrderStatus)
                 .stream()
                 .map(foodOrder -> foodOrderMapper.foodOrderToFoodOrderDto(foodOrder))
                 .collect(Collectors.toList());
