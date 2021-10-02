@@ -52,11 +52,17 @@ public class FoodOrderManager {
     @Transactional
     public FoodOrder cancelFoodOrder(FoodOrder foodOrder) {
         log.info("Sending cancel order request to state machine");
+        FoodOrderStatus currentOrderStatus = foodOrder.getOrderStatus();
         foodOrder.setOrderStatus(FoodOrderStatus.CANCELLED);
-        FoodOrder cancelledFoodOrder = foodOrderRepository.save(foodOrder);
-        sendFoodOrderEvent(cancelledFoodOrder, FoodOrderEvent.CANCEL_ORDER);
-        awaitForStatus(foodOrder.getId(), FoodOrderStatus.CANCELLED);
-        return cancelledFoodOrder;
+        if(sendFoodOrderEvent(foodOrder, FoodOrderEvent.CANCEL_ORDER)) {
+            FoodOrder cancelledFoodOrder = foodOrderRepository.save(foodOrder);
+            awaitForStatus(foodOrder.getId(), FoodOrderStatus.CANCELLED);
+            return cancelledFoodOrder;
+        } else {
+            String errorMessage = "Order cancellation request could not be processed for ID - " + foodOrder.getId() + ". Current Order status - " + currentOrderStatus;
+            log.error(errorMessage);
+            throw new OrderException(errorMessage);
+        }
     }
 
     @Transactional
@@ -104,7 +110,9 @@ public class FoodOrderManager {
     public FoodOrder foodOrderPreparationComplete(FoodOrder foodOrder) {
         try {
             log.info("Please wait till your food is being prepared for order id "+foodOrder.getId());
-            Thread.sleep((new Random().nextInt(5)) * 60 * 1000);
+            long sleepTime = new Random().ints(1, 5).limit(1).sum();
+            log.info("Waiting for " + sleepTime + " minute(s)..");
+            Thread.sleep(sleepTime * 60 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -122,13 +130,15 @@ public class FoodOrderManager {
         return preparedFoodOrder;
     }
 
-    private void sendFoodOrderEvent(FoodOrder foodOrder, FoodOrderEvent foodOrderEvent) {
+    private boolean sendFoodOrderEvent(FoodOrder foodOrder, FoodOrderEvent foodOrderEvent) {
         log.info("Sending order request to state machine for event "+foodOrderEvent+" - "+foodOrder);
         StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine = build(foodOrder);
         Message message = MessageBuilder.withPayload(foodOrderEvent)
                 .setHeader(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId())
                 .build();
-        stateMachine.sendEvent(message);
+        boolean status = stateMachine.sendEvent(message);
+        log.info("Result for event transition "+foodOrderEvent+" for ID - "+foodOrder.getId()+" :: "+ status);
+        return status;
     }
 
     private boolean awaitForStatus(String foodOrderId, FoodOrderStatus foodOrderStatus) {

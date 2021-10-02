@@ -50,10 +50,10 @@ public class FoodOrderStateMachineListener extends StateMachineListenerAdapter<F
         super.stateMachineStopped(stateMachine);
     }
 
-    @Override
-    public void eventNotAccepted(Message<FoodOrderEvent> event) {
-        String errorMessage = "Invalid event - " + event;
-        log.error(errorMessage);
-        throw new OrderException(errorMessage);
-    }
+//    @Override
+//    public void eventNotAccepted(Message<FoodOrderEvent> event) {
+//        String errorMessage = "Invalid event - " + event;
+//        log.error(errorMessage);
+//        throw new OrderException(errorMessage);
+//    }
 }

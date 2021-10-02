@@ -10,6 +10,7 @@ import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+import org.springframework.statemachine.guard.Guard;
 
 import java.util.EnumSet;
 
@@ -20,6 +21,7 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
 
     private final FoodOrderStateMachineListener foodOrderStateMachineListener;
 //    private final Action<FoodOrderStatus, FoodOrderEvent> allocateOrderAction;
+//    private final Guard<FoodOrderStatus, FoodOrderEvent> cancelOrderGuard;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<FoodOrderStatus, FoodOrderEvent> config) throws Exception {
@@ -51,6 +53,7 @@ public class FoodOrderStateChangeConfiguration extends StateMachineConfigurerAda
                 .and().withExternal()
                 .source(FoodOrderStatus.PLACED).target(FoodOrderStatus.CANCELLED)
                 .event(FoodOrderEvent.CANCEL_ORDER)
+//                .guard(cancelOrderGuard)
 
                 .and().withExternal()
                 .source(FoodOrderStatus.PREPARING).target(FoodOrderStatus.PREPARED)
