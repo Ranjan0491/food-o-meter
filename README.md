@@ -2,12 +2,14 @@
   food-o-meter
 </h1>
 
+
 ## 💻 Built with
 - Java (11 or higher)
 - NodeJs (LTS version)
 - Docker
 - MongoDB
 - Active MQ Artemis (https://activemq.apache.org/components/artemis/download/)
+
 
 ## 🛠️ Installation Steps
 1. Clone the repository
@@ -40,7 +42,7 @@ mongod --dbpath "C:\Users\ranja\Documents\Database_data\mongodb"
 5. Artemis setup
  - Create broker
 ```bash
-artemis create food-o-meter-broker --user artemis --password admin --require-login
+artemis create food-o-meter-broker --user <USERNAME> --password <PASSWORD> --require-login
 ```
 
 6. Start Active MQ Artemis service. A batch file has been created for windows.
@@ -48,8 +50,16 @@ artemis create food-o-meter-broker --user artemis --password admin --require-log
 <REPO_ROOT>\docs\MQ
 ```
 
-6. Start micro services in order
+7. Start micro services in order
  - food-o-meter-service-discovery
  - foodometer-api-gateway
  - foodometer-item-service / foodometer-user-service
  - foodometer-order-service
+
+
+## 🙇 Useful Links and Settings
+ - (https://github.com/sfg-beer-works/sfg-beer-works-bom/blob/master/pom.xml)
+ - (https://github.com/sfg-beer-works/sfg-brewery-bom/blob/master/pom.xml)
+ - For MapStruct NullPointerException:
+In your Intellij IDEA go to File | Settings | Build, Execution, Deployment | Compiler | user-local build process vm options
+set this value : -Djps.track.ap.dependencies=false
