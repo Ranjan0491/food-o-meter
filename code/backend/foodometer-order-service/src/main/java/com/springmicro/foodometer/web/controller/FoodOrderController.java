@@ -2,6 +2,7 @@ package com.springmicro.foodometer.web.controller;
 
 import com.springmicro.foodometer.constants.FoodOrderStatus;
 import com.springmicro.foodometer.service.FoodOrderService;
+import com.springmicro.foodometer.web.dto.DetailedFoodOrderDto;
 import com.springmicro.foodometer.web.dto.FoodOrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,9 +36,9 @@ public class FoodOrderController {
     }
 
     @GetMapping("/customers/{customerId}/orders/{orderId}")
-    public ResponseEntity<FoodOrderDto> getOrderByCustomerIdAndOrderId(@PathVariable String customerId, @PathVariable String orderId) {
+    public ResponseEntity<DetailedFoodOrderDto> getOrderByCustomerIdAndOrderId(@PathVariable String customerId, @PathVariable String orderId) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(foodOrderService.getOrderByCustomerIdAndOrderId(customerId, orderId));
+                .body(foodOrderService.getDetailedOrderByCustomerIdAndOrderId(customerId, orderId));
     }
 
     @PutMapping("/customers/{customerId}/orders/{orderId}/cancel")
@@ -47,7 +48,7 @@ public class FoodOrderController {
     }
 
     @GetMapping("/orders/status/{orderStatus}")
-    public ResponseEntity<List<FoodOrderDto>> getOrderByOrderId(@PathVariable FoodOrderStatus foodOrderStatus) {
+    public ResponseEntity<List<FoodOrderDto>> getOrdersByOrderStatus(@PathVariable FoodOrderStatus foodOrderStatus) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(foodOrderService.getAllFoodOrdersByStatus(foodOrderStatus));
     }

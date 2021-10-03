@@ -18,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
-import org.springframework.statemachine.access.StateMachineAccess;
-import org.springframework.statemachine.access.StateMachineFunction;
 import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
@@ -70,13 +68,13 @@ public class FoodOrderManager {
     }
 
     @Transactional
-    public FoodOrder allocateFoodOrder(FoodOrder foodOrder) {
+    public void allocateFoodOrder(FoodOrder foodOrder) {
         while(true) {
             List<StaffDto> staffDtos = userLookUpService.fetchStaffsByRole(UserRole.CHEF);
             log.info("chefs - "+staffDtos);
             List<String> chefIdsOccupiedForPreparingOrders = foodOrderPreparationRepository.findByFoodOrderStatus(FoodOrderStatus.PREPARING)
                     .stream()
-                    .map(foodOrderPreparation -> foodOrderPreparation.getStaffId())
+                    .map(FoodOrderPreparation::getStaffId)
                     .collect(Collectors.toList());
             log.info("occupied chef ids - "+chefIdsOccupiedForPreparingOrders);
             Optional<StaffDto> allocatedChefDtoOptional = staffDtos.stream()
@@ -97,8 +95,7 @@ public class FoodOrderManager {
                 FoodOrder preparingFoodOrder = foodOrderRepository.save(foodOrder);
                 sendFoodOrderEvent(preparingFoodOrder, FoodOrderEvent.PREPARE);
                 awaitForStatus(foodOrder.getId(), FoodOrderStatus.PREPARING);
-
-                return preparingFoodOrder;
+                break;
             } else {
                 log.error("No chef is available to prepare order " + foodOrder.getId() + ". Checking for chef availability again after 1 min.");
                 try {
@@ -111,7 +108,7 @@ public class FoodOrderManager {
     }
 
     @Transactional
-    public FoodOrder foodOrderPreparationComplete(FoodOrder foodOrder) {
+    public void foodOrderPreparationComplete(FoodOrder foodOrder) {
         try {
             log.info("Please wait till your food is being prepared for order id "+foodOrder.getId());
             long sleepTime = new Random().ints(1, 5).limit(1).sum();
@@ -131,22 +128,21 @@ public class FoodOrderManager {
         foodOrderPreparation.setFoodOrderStatus(FoodOrderStatus.PREPARED);
         foodOrderPreparationRepository.save(foodOrderPreparation);
 
-        return preparedFoodOrder;
     }
 
     @Transactional
-    public FoodOrder assignDeliveryAgentForFoodOrder(FoodOrder foodOrder) {
+    public void assignDeliveryAgentForFoodOrder(FoodOrder foodOrder) {
         while(true) {
             List<StaffDto> staffDtos = userLookUpService.fetchStaffsByRole(UserRole.DELIVERY_AGENT);
             log.info("delivery agent - "+staffDtos);
-            List<String> deliveryAgentIdsOccupiedForPreparingOrders = foodOrderDeliveryRepository
-                    .findByFoodOrderStatusIn(Arrays.asList(new FoodOrderStatus[] {FoodOrderStatus.PICKED_UP, FoodOrderStatus.ON_THE_WAY}))
+            List<String> deliveryAgentIdsOccupiedForDeliveringOrders = foodOrderDeliveryRepository
+                    .findByFoodOrderStatusIn(Arrays.asList(FoodOrderStatus.PICKED_UP, FoodOrderStatus.ON_THE_WAY))
                     .stream()
-                    .map(foodOrderPreparation -> foodOrderPreparation.getStaffId())
+                    .map(FoodOrderDelivery::getStaffId)
                     .collect(Collectors.toList());
-            log.info("occupied delivery agent ids - "+deliveryAgentIdsOccupiedForPreparingOrders);
+            log.info("occupied delivery agent ids - "+deliveryAgentIdsOccupiedForDeliveringOrders);
             Optional<StaffDto> allocatedDeliveryAgentDtoOptional = staffDtos.stream()
-                    .filter(staffDto -> !deliveryAgentIdsOccupiedForPreparingOrders.contains(staffDto.getId()))
+                    .filter(staffDto -> !deliveryAgentIdsOccupiedForDeliveringOrders.contains(staffDto.getId()))
                     .findAny();
 
             if (allocatedDeliveryAgentDtoOptional.isPresent()) {
@@ -163,8 +159,7 @@ public class FoodOrderManager {
                 FoodOrder pickedUpFoodOrder = foodOrderRepository.save(foodOrder);
                 sendFoodOrderEvent(pickedUpFoodOrder, FoodOrderEvent.READY_FOR_PICKUP);
                 awaitForStatus(foodOrder.getId(), FoodOrderStatus.PICKED_UP);
-
-                return pickedUpFoodOrder;
+                break;
             } else {
                 log.error("No delivery agent is available for delivery for Order ID " + foodOrder.getId() + ". Checking for chef availability again after 1 min.");
                 try {
@@ -177,7 +172,7 @@ public class FoodOrderManager {
     }
 
     @Transactional
-    public FoodOrder foodOrderProcessDelivery(FoodOrder foodOrder, FoodOrderStatus foodOrderStatus, FoodOrderEvent foodOrderEvent, int maxSleepTimeInMins) {
+    public void foodOrderProcessDelivery(FoodOrder foodOrder, FoodOrderStatus foodOrderStatus, FoodOrderEvent foodOrderEvent, int maxSleepTimeInMins) {
         try {
             log.info("Please wait till your order status is "+foodOrderStatus+" for order id "+foodOrder.getId());
             long sleepTime = new Random().ints(1, maxSleepTimeInMins).limit(1).sum();
@@ -197,13 +192,12 @@ public class FoodOrderManager {
         foodOrderDelivery.setFoodOrderStatus(foodOrderStatus);
         foodOrderDeliveryRepository.save(foodOrderDelivery);
 
-        return updatedFoodOrder;
     }
 
     private boolean sendFoodOrderEvent(FoodOrder foodOrder, FoodOrderEvent foodOrderEvent) {
         log.info("Sending order request to state machine for event "+foodOrderEvent+" - "+foodOrder);
         StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine = build(foodOrder);
-        Message message = MessageBuilder.withPayload(foodOrderEvent)
+        Message<FoodOrderEvent> message = MessageBuilder.withPayload(foodOrderEvent)
                 .setHeader(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId())
                 .build();
         boolean status = stateMachine.sendEvent(message);
@@ -241,11 +235,14 @@ public class FoodOrderManager {
     private StateMachine<FoodOrderStatus, FoodOrderEvent> build(FoodOrder foodOrder){
         StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine = stateMachineFactory.getStateMachine(foodOrder.getId());
         stateMachine.stop();
-        StateMachineFunction<StateMachineAccess<FoodOrderStatus, FoodOrderEvent>> stateMachineFunction = stateMachineAccess -> {
+//        StateMachineFunction<StateMachineAccess<FoodOrderStatus, FoodOrderEvent>> stateMachineFunction = stateMachineAccess -> {
+//            stateMachineAccess.addStateMachineInterceptor(foodOrderStateChangeInterceptor);
+//            stateMachineAccess.resetStateMachine(new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),null, null, null));
+//        };
+        stateMachine.getStateMachineAccessor().doWithAllRegions(stateMachineAccess -> {
             stateMachineAccess.addStateMachineInterceptor(foodOrderStateChangeInterceptor);
             stateMachineAccess.resetStateMachine(new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),null, null, null));
-        };
-        stateMachine.getStateMachineAccessor().doWithAllRegions(stateMachineFunction);
+        });
         stateMachine.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_OBJECT_HEADER, foodOrder);
         stateMachine.getExtendedState().getVariables().put(FoodOrderConstants.ORDER_ID_HEADER, foodOrder.getId());
         stateMachine.start();

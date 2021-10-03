@@ -49,9 +49,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/staff/{userRole}")
+    @GetMapping("/staffs-by-role/{userRole}")
     public ResponseEntity<List<StaffDto>> getStaffByRole(@PathVariable("userRole")UserRole userRole) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(userService.findUsersByRole(userRole));
+                .body(userService.findStaffsByRole(userRole));
+    }
+
+    @GetMapping("/staffs-by-id/{id}")
+    public ResponseEntity<StaffDto> getStaffById(@PathVariable("id")String id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.findStaffsById(id));
     }
 }

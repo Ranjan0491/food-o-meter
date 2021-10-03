@@ -25,6 +25,7 @@ public class DetailedFoodOrderDto {
     private Double discount;
     private Double discountedAmount;
     private UserDto customer;
+    private AddressDto orderAddress;
     private StaffDto chef;
     private StaffDto deliveryAgent;
 }

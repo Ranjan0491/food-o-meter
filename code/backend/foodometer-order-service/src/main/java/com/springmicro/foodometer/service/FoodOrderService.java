@@ -8,6 +8,7 @@ import com.springmicro.foodometer.document.FoodOrder;
 import com.springmicro.foodometer.exception.OrderException;
 import com.springmicro.foodometer.repository.FoodOrderRepository;
 import com.springmicro.foodometer.web.dto.*;
+import com.springmicro.foodometer.web.mapper.DetailedFoodOrderMapper;
 import com.springmicro.foodometer.web.mapper.FoodOrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,8 +39,21 @@ public class FoodOrderService {
         return foodOrders.stream().map(order -> foodOrderMapper.foodOrderToFoodOrderDto(order)).collect(Collectors.toList());
     }
 
+    public DetailedFoodOrderDto getDetailedOrderByCustomerIdAndOrderId(String customerId, String orderId) {
+        Optional<FoodOrder> optionalFoodOrder = foodOrderRepository.findById(orderId);
+        if(optionalFoodOrder.isPresent()) {
+            FoodOrder foodOrder = optionalFoodOrder.get();
+            if(foodOrder.getCustomerId().equals(customerId)) {
+                return foodOrderMapper.foodOrderToDetailedFoodOrderDto(foodOrder);
+            } else {
+                throw new OrderException("Food order does not belong to specified customer.");
+            }
+        } else {
+            throw new OrderException("Food order does not exist.");
+        }
+    }
+
     public FoodOrderDto getOrderByCustomerIdAndOrderId(String customerId, String orderId) {
-        FoodOrderDto foodOrderDto;
         Optional<FoodOrder> optionalFoodOrder = foodOrderRepository.findById(orderId);
         if(optionalFoodOrder.isPresent()) {
             FoodOrder foodOrder = optionalFoodOrder.get();
@@ -57,6 +71,15 @@ public class FoodOrderService {
         Optional<FoodOrder> optionalFoodOrder = foodOrderRepository.findById(orderId);
         if(optionalFoodOrder.isPresent()) {
             return foodOrderMapper.foodOrderToFoodOrderDto(optionalFoodOrder.get());
+        } else {
+            throw new OrderException("No Order details found for id : "+ orderId);
+        }
+    }
+
+    public DetailedFoodOrderDto getDetailedOrderByOrderId(String orderId) {
+        Optional<FoodOrder> optionalFoodOrder = foodOrderRepository.findById(orderId);
+        if(optionalFoodOrder.isPresent()) {
+            return foodOrderMapper.foodOrderToDetailedFoodOrderDto(optionalFoodOrder.get());
         } else {
             throw new OrderException("No Order details found for id : "+ orderId);
         }

@@ -99,11 +99,24 @@ public class UserService {
         }
     }
 
-    public List<StaffDto> findUsersByRole(UserRole userRole) {
+    public List<StaffDto> findStaffsByRole(UserRole userRole) {
         if (userRole == UserRole.CHEF || userRole == UserRole.DELIVERY_AGENT) {
             return userRepository.findAllByUserRole(userRole).stream().map(user -> staffMapper.userToStaffDto(user)).collect(Collectors.toList());
         } else {
             throw new UserException("All user details cannot be fetched. Only staff details can be fetched.");
+        }
+    }
+
+    public StaffDto findStaffsById(String id) {
+        UserDto userDto = getUserById(id);
+        if(userDto != null) {
+            if (userDto.getUserRole() == UserRole.CHEF || userDto.getUserRole() == UserRole.DELIVERY_AGENT) {
+                return staffMapper.userToStaffDto(userMapper.userDtoToUser(userDto));
+            } else {
+                throw new UserException("All user details cannot be fetched. Only staff details can be fetched.");
+            }
+        } else {
+            return null;
         }
     }
 }
