@@ -36,7 +36,7 @@ ng serve --open
  - Windows
 
 ```bash
-mongod --dbpath <PATH_TO_STORE_MONGO_DATA>
+mongod --dbpath <PATH_TO_STORE_MONGO_DATA> 
 ```
 <br>
 5. Artemis setup
