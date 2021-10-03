@@ -1,34 +1,55 @@
-# food-o-meter
+<h1 align="center">
+  food-o-meter
+</h1>
 
-Required infrastructures:
- - Java (11 or higher)
- - NodeJs (LTS version)
- - Docker
- - MongoDB
- - Active MQ Artemis (https://activemq.apache.org/components/artemis/download/)
+## 💻 Built with
+- Java (11 or higher)
+- NodeJs (LTS version)
+- Docker
+- MongoDB
+- Active MQ Artemis (https://activemq.apache.org/components/artemis/download/)
 
-Application startup sequence:
- a. If MongoDB is not registered as service on startup then start mongo db service.
- b. Start Active MQ Artemis service
- c. Start micro services in following order:
-	1. food-o-meter-service-discovery
-	2. foodometer-api-gateway
-	3. foodometer-item-service / foodometer-user-service
-	4. foodometer-order-service
- d. Start Angular UI
- 
-Install angular libraries: npm install
- 
-Mongo DB windows service start: mongod --dbpath "C:\Users\ranja\Documents\Database_data\mongodb"
+## 🛠️ Installation Steps
+1. Clone the repository
 
-For MapStruct NullPointerException:
-In your Intellij IDEA go to File | Settings | Build, Execution, Deployment | Compiler | user-local build process vm options
-set this value : -Djps.track.ap.dependencies=false
+```bash
+git clone https://github.com/Ranjan0491/food-o-meter.git
+```
 
-Useful Links:
- - https://github.com/sfg-beer-works/sfg-beer-works-bom/blob/master/pom.xml
- - https://github.com/sfg-beer-works/sfg-brewery-bom/blob/master/pom.xml
+2. Install angular libraries 
 
-Artemis setup:
- - Create broker:
-	- artemis create food-o-meter-broker --user artemis --password admin --require-login
+```bash
+cd <REPO_ROOT>/code/frontend/food-o-gui
+npm install
+```
+
+3. Start UI
+
+```bash
+cd <REPO_ROOT>/code/frontend/food-o-gui
+ng serve --open
+```
+
+4. If MongoDB is not registered as service on startup then start mongo db service.
+ - Windows
+
+```bash
+mongod --dbpath "C:\Users\ranja\Documents\Database_data\mongodb"
+```
+
+5. Artemis setup
+ - Create broker
+```bash
+artemis create food-o-meter-broker --user artemis --password admin --require-login
+```
+
+6. Start Active MQ Artemis service. A batch file has been created for windows.
+```bash
+<REPO_ROOT>\docs\MQ
+```
+
+6. Start micro services in order
+ - food-o-meter-service-discovery
+ - foodometer-api-gateway
+ - foodometer-item-service / foodometer-user-service
+ - foodometer-order-service
