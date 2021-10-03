@@ -60,9 +60,4 @@ artemis create food-o-meter-broker --user <USERNAME> --password <PASSWORD> --req
 ## 🙇 Useful Links and Settings
  - (https://github.com/sfg-beer-works/sfg-beer-works-bom/blob/master/pom.xml)
  - (https://github.com/sfg-beer-works/sfg-brewery-bom/blob/master/pom.xml)
- - For MapStruct NullPointerException:
-In your Intellij IDEA go to 
-...
-File | Settings | Build, Execution, Deployment | Compiler | user-local build process vm options
-...
-and set this value `-Djps.track.ap.dependencies=false`
+ - For MapStruct NullPointerException: In your Intellij IDEA go to `File | Settings | Build, Execution, Deployment | Compiler | user-local build process vm options` and set this value `-Djps.track.ap.dependencies=false`
