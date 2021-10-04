@@ -37,6 +37,7 @@ public class UserService {
             if(userDtoDto.getAddresses()!=null && userDtoDto.getAddresses().size()>0) {
                 userDtoDto.getAddresses().forEach(addressDto -> addressDto.setId(UUID.randomUUID().toString()));
                 UserDto savedUserDto = userMapper.userToUserDto(userRepository.save(userMapper.userDtoToUser(userDtoDto)));
+                savedUserDto.setPassword(null);
                 log.info("User saved : "+savedUserDto);
                 return  savedUserDto;
             } else {
@@ -50,22 +51,25 @@ public class UserService {
     public UserDto getUserById(String id) {
         if(StringUtils.isNotBlank(id)) {
             Optional<User> optionalUser = userRepository.findById(id);
-            if(optionalUser.isPresent())
-                return userMapper.userToUserDto(optionalUser.get());
-            else
-                throw new UserException("No user found with id - "+id);
+            if (optionalUser.isPresent()) {
+                UserDto userDto = userMapper.userToUserDto(optionalUser.get());
+                userDto.setPassword(null);
+                return userDto;
+            } else {
+                throw new UserException("No user found with id - " + id);
+            }
         } else {
             throw new UserException("User Id is missing");
         }
     }
 
-    public List<AddressDto> getUserAddress(String id) {
+    public List<AddressDto> getUserAddresses(String id) {
         UserDto userDto = getUserById(id);
         return userDto.getAddresses();
     }
 
     public AddressDto getUserAddressById(String userId, String addressId) {
-        List<AddressDto> addressDtos = getUserAddress(userId);
+        List<AddressDto> addressDtos = getUserAddresses(userId);
         Optional<AddressDto> optionalAddress = addressDtos.stream().filter(addressDto -> addressDto.getId().equals(addressId)).findFirst();
         if(optionalAddress.isPresent()) {
             return optionalAddress.get();

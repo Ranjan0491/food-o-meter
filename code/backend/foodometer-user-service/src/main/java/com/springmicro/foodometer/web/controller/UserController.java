@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/{id}/addresses")
     public ResponseEntity<List<AddressDto>> getUserAddress(@PathVariable("id") String id) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(userService.getUserAddress(id));
+                .body(userService.getUserAddresses(id));
     }
 
     @GetMapping("/{userId}/addresses/{addressId}")
