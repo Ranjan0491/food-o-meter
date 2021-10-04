@@ -12,6 +12,7 @@ com\springmicro\foodometer\web\dto\FoodOrderDto.class
 com\springmicro\foodometer\web\dto\UserDto$UserDtoBuilder.class
 com\springmicro\foodometer\statemachine\FoodOrderStateChangeConfiguration.class
 com\springmicro\foodometer\FoodometerOrderServiceApplication.class
+com\springmicro\foodometer\service\ItemLookupService.class
 com\springmicro\foodometer\document\FoodOrder$FoodOrderBuilder.class
 com\springmicro\foodometer\web\dto\UserDto.class
 com\springmicro\foodometer\service\FoodOrderService.class
@@ -44,6 +45,7 @@ com\springmicro\foodometer\web\dto\StaffDto.class
 com\springmicro\foodometer\config\TaskConfig.class
 com\springmicro\foodometer\web\dto\DetailedFoodOrderDto.class
 com\springmicro\foodometer\exception\ExceptionResponse$ExceptionResponseBuilder.class
+com\springmicro\foodometer\web\dto\DetailedFoodItemQuantityDto$DetailedFoodItemQuantityDtoBuilder.class
 com\springmicro\foodometer\web\mapper\DetailedFoodOrderMapper.class
 com\springmicro\foodometer\document\FoodOrderPreparation.class
 com\springmicro\foodometer\document\FoodItemQuantity.class
@@ -53,6 +55,7 @@ com\springmicro\foodometer\statemachine\FoodOrderStateMachineListener.class
 com\springmicro\foodometer\web\dto\StaffDto$StaffDtoBuilder.class
 com\springmicro\foodometer\service\job\PrepareFoodOrderJob.class
 com\springmicro\foodometer\service\listner\AllocateChefOrderJmsListener.class
+com\springmicro\foodometer\web\dto\DetailedFoodItemQuantityDto.class
 com\springmicro\foodometer\web\dto\FoodItemDto.class
 com\springmicro\foodometer\constants\FoodOrderConstants.class
 com\springmicro\foodometer\web\dto\event\PrepareOrderRequest$PrepareOrderRequestBuilder.class

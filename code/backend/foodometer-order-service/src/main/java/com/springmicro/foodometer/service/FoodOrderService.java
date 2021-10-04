@@ -1,20 +1,16 @@
 package com.springmicro.foodometer.service;
 
 import com.google.common.base.Enums;
-import com.springmicro.foodometer.constants.FoodOrderConstants;
 import com.springmicro.foodometer.constants.FoodOrderStatus;
-import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.document.FoodOrder;
 import com.springmicro.foodometer.exception.OrderException;
 import com.springmicro.foodometer.repository.FoodOrderRepository;
 import com.springmicro.foodometer.web.dto.*;
-import com.springmicro.foodometer.web.mapper.DetailedFoodOrderMapper;
 import com.springmicro.foodometer.web.mapper.FoodOrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -29,7 +25,7 @@ public class FoodOrderService {
 
     private final FoodOrderRepository foodOrderRepository;
     private final FoodOrderMapper foodOrderMapper;
-    private final RestTemplate restTemplate;
+    private final ItemLookupService itemLookupService;
     private final FoodOrderManager foodOrderManager;
     private final UserLookUpService userLookUpService;
 
@@ -165,13 +161,9 @@ public class FoodOrderService {
         return getAllFoodOrdersByStatus(Enums.getIfPresent(FoodOrderStatus.class, status).get());
     }
 
-    private FoodItemDto fetchFoodItemDto(String id) {
-        return restTemplate.getForObject("http://" + FoodOrderConstants.FOOD_ITEM_SERVICE_NAME + "/food-o-meter-item-service/v1/food-items/" + id, FoodItemDto.class);
-    }
-
     private boolean validateFoodItemsInOrder(FoodOrderDto foodOrderDto) {
         return foodOrderDto.getFoodItems().stream().allMatch(itemQuantity -> {
-            FoodItemDto food = fetchFoodItemDto(itemQuantity.getFoodItemId());
+            FoodItemDto food = itemLookupService.fetchFoodItemDto(itemQuantity.getFoodItemId());
             return food != null;
         });
     }
@@ -179,7 +171,7 @@ public class FoodOrderService {
     private Double calculateTotalAmount(FoodOrderDto foodOrderDto) {
         Double totalAmount = 0d;
         for(FoodItemQuantityDto foodItemQuantityDto: foodOrderDto.getFoodItems()) {
-            FoodItemDto foodItemDto = fetchFoodItemDto(foodItemQuantityDto.getFoodItemId());
+            FoodItemDto foodItemDto = itemLookupService.fetchFoodItemDto(foodItemQuantityDto.getFoodItemId());
             totalAmount += foodItemDto.getItemPrice() * foodItemQuantityDto.getQuantity();
         }
         return totalAmount;

@@ -5,11 +5,15 @@ import com.springmicro.foodometer.document.FoodOrderDelivery;
 import com.springmicro.foodometer.document.FoodOrderPreparation;
 import com.springmicro.foodometer.repository.FoodOrderDeliveryRepository;
 import com.springmicro.foodometer.repository.FoodOrderPreparationRepository;
+import com.springmicro.foodometer.service.ItemLookupService;
 import com.springmicro.foodometer.service.UserLookUpService;
+import com.springmicro.foodometer.web.dto.DetailedFoodItemQuantityDto;
 import com.springmicro.foodometer.web.dto.DetailedFoodOrderDto;
 import com.springmicro.foodometer.web.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import java.util.stream.Collectors;
 
 public abstract class DetailedFoodOrderMapperDecorator implements FoodOrderMapper{
 
@@ -26,6 +30,9 @@ public abstract class DetailedFoodOrderMapperDecorator implements FoodOrderMappe
     @Autowired
     private UserLookUpService userLookUpService;
 
+    @Autowired
+    private ItemLookupService itemLookupService;
+
     @Override
     public DetailedFoodOrderDto foodOrderToDetailedFoodOrderDto(FoodOrder foodOrder) {
         if(foodOrder != null) {
@@ -36,6 +43,13 @@ public abstract class DetailedFoodOrderMapperDecorator implements FoodOrderMappe
                     .orderAmount(foodOrder.getOrderAmount())
                     .orderTimestamp(foodOrder.getOrderTimestamp())
                     .orderStatus(foodOrder.getOrderStatus())
+                    .foodItems(foodOrder.getFoodItems()
+                            .stream()
+                            .map(foodItemQuantity -> DetailedFoodItemQuantityDto.builder()
+                                    .quantity(foodItemQuantity.getQuantity())
+                                    .foodItemDto(itemLookupService.fetchFoodItemDto(foodItemQuantity.getFoodItemId()))
+                                    .build())
+                            .collect(Collectors.toList()))
                     .build();
             UserDto customerDetails = userLookUpService.fetchUserDto(foodOrder.getCustomerId());
             detailedFoodOrderDto.setCustomer(customerDetails);

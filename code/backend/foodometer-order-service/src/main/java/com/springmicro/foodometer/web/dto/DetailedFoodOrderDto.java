@@ -17,7 +17,7 @@ import java.util.List;
 public class DetailedFoodOrderDto {
 
     private String id;
-    private List<FoodItemQuantityDto> foodItems;
+    private List<DetailedFoodItemQuantityDto> foodItems;
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss", shape=JsonFormat.Shape.STRING)
     private LocalDateTime orderTimestamp;
     private Double orderAmount;
