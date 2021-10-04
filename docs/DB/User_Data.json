@@ -1,0 +1,117 @@
+[
+	{
+    "_id": {
+        "$oid": "612c6c509441d78852dc3c4b"
+    },
+    "firstName": "Ranjan",
+    "lastName": "Saha",
+    "phone": "9674467368",
+    "email": "ranjan.saha1@gmail.com",
+    "dob": "1991-12-04",
+    "addresses": [{
+        "_id": {
+            "$oid": "812c6c509441d38852dc3c4e"
+        },
+        "line1": "22/23 Feeder Road, Basanta Bihar",
+        "line2": "Belghoria",
+        "line3": null,
+        "state": "West Bengal",
+        "city": "Kolkata",
+        "pinCode": "700056"
+    }],
+    "password": "pass1234",
+    "userRole": "CUSTOMER"
+},
+{
+    "_id": {
+        "$oid": "6153f0b7a946fd13b83a8ec6"
+    },
+    "firstName": "Ramu",
+    "lastName": "Kaka",
+    "phone": "9654427368",
+    "email": "ramu.kaka@gmail.com",
+    "dob": "1991-10-14",
+    "addresses": [{
+        "_id": {
+            "$oid": "872c6c509441d38852dc5c4e"
+        },
+        "line1": "22/23 Feeder Road, Basanta Bihar",
+        "line2": "Belghoria",
+        "line3": null,
+        "state": "West Bengal",
+        "city": "Kolkata",
+        "pinCode": "700056"
+    }],
+    "password": "pass1234",
+    "userRole": "CHEF"
+},
+{
+    "_id": {
+        "$oid": "6153f0b7a946fd13b83a8ec7"
+    },
+    "firstName": "Poltu",
+    "lastName": "Radhuni",
+    "phone": "8652427368",
+    "email": "poltu.radhuni@gmail.com",
+    "dob": "1995-04-20",
+    "addresses": [{
+        "_id": {
+            "$oid": "672c6c509442d38852dc5c4e"
+        },
+        "line1": "22/23 Feeder Road, Basanta Bihar",
+        "line2": "Belghoria",
+        "line3": null,
+        "state": "West Bengal",
+        "city": "Kolkata",
+        "pinCode": "700056"
+    }],
+    "password": "pass1234",
+    "userRole": "CHEF"
+},
+{
+    "_id": {
+        "$oid": "61554b7427e44790892e43ee"
+    },
+    "firstName": "Chotu",
+    "lastName": "Master",
+    "phone": "9054426368",
+    "email": "chotu.master@gmail.com",
+    "dob": "1997-10-04",
+    "addresses": [{
+        "_id": {
+            "$oid": "172f6c509441d38852dc5c4e"
+        },
+        "line1": "22/23 Feeder Road, Basanta Bihar",
+        "line2": "Belghoria",
+        "line3": null,
+        "state": "West Bengal",
+        "city": "Kolkata",
+        "pinCode": "700056"
+    }],
+    "password": "pass1234",
+    "userRole": "DELIVERY_AGENT"
+},
+{
+    "_id": {
+        "$oid": "61554b7427e44790892e43ef"
+    },
+    "firstName": "Ganesh",
+    "lastName": "Dholui",
+    "phone": "8752427364",
+    "email": "ganesh.dholui@gmail.com",
+    "dob": "1999-04-29",
+    "addresses": [{
+        "_id": {
+            "$oid": "472c0c509442d38852dc5c4e"
+        },
+        "line1": "22/23 Feeder Road, Basanta Bihar",
+        "line2": "Belghoria",
+        "line3": null,
+        "state": "West Bengal",
+        "city": "Kolkata",
+        "pinCode": "700056"
+    }],
+    "password": "pass1234",
+    "userRole": "DELIVERY_AGENT"
+}
+]

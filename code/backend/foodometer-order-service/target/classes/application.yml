@@ -1,0 +1,35 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: fom-order-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: local
+  cloud:
+    discovery:
+      enabled: true
+  artemis:
+    mode: native
+    host: localhost
+    port: 61616
+    user: artemis
+    password: admin
+
+eureka:
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://netflix:eureka@localhost:8761/eureka
+  instance:
+    hostname: localhost
+    preferIpAddress: true
+
+logging:
+  level:
+    root: info

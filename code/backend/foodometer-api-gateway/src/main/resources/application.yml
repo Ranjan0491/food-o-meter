@@ -1,0 +1,41 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: fom-api-gateway
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      routes:
+        - id: fom-order-service
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/food-o-meter-order-service/v1/**
+        - id: fom-item-service
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/food-o-meter-item-service/v1/**
+        - id: fom-user-service
+          uri: http://localhost:8083/
+          predicates:
+            - Path=/food-o-meter-user-service/v1/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://netflix:eureka@localhost:8761/eureka
+  instance:
+    hostname: localhost
+    preferIpAddress: true
