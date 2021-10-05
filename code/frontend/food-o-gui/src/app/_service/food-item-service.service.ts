@@ -17,6 +17,19 @@ export class FoodItemServiceService {
   constructor(private http: HttpClient) { }
 
   public getAllFoodItems() {
-    return this.http.get<FoodItem[]>(environment.apiUrl + "/food-o-meter-item-service/v1/food-items", this.httpOptions);
+    return this.http.get<FoodItem[]>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix, this.httpOptions);
   }
+
+  public getOneFoodItem(id: String) {
+    return this.http.get<FoodItem>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix + "/" + id, this.httpOptions);
+  }
+
+  public saveFoodItem(foodItem: FoodItem) {
+    return this.http.post<FoodItem>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix, foodItem, this.httpOptions);
+  }
+
+  public updateFoodItem(id: String, foodItem: FoodItem) {
+    return this.http.put<void>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix + "/" + id, foodItem, this.httpOptions);
+  }
+  
 }

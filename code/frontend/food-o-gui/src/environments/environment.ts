@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl : "http://localhost:9090"
+  apiUrlHostAndPort : "http://localhost:9090",
+  itemServiceUrlPrefix : "/food-o-meter-item-service/v1/food-items",
+  orderServiceUrlPrefix : "/food-o-meter-order-service/v1",
+  userServiceUrlPrefix : "/food-o-meter-user-service/v1/users"
 };
 
 /*
