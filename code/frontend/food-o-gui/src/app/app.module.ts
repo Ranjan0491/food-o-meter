@@ -13,24 +13,14 @@ import { HomeComponent } from './home/home.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { CustomerComponent } from './customer/customer.component';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { OverlayModule } from '@angular/cdk/overlay';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { CustomerDashboardModule } from './customer-dashboard/customer-dashboard.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent,
-    CustomerComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -41,15 +31,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatTabsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSidenavModule,
-    MatListModule,
-    OverlayModule,
-    MatIconModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatToolbarModule,
-    MatGridListModule
+    CustomerDashboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

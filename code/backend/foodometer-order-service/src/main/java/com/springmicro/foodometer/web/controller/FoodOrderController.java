@@ -1,5 +1,6 @@
 package com.springmicro.foodometer.web.controller;
 
+import com.springmicro.foodometer.constants.FoodOrderConstants;
 import com.springmicro.foodometer.constants.FoodOrderStatus;
 import com.springmicro.foodometer.service.FoodOrderService;
 import com.springmicro.foodometer.web.dto.DetailedFoodOrderDto;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -19,9 +21,16 @@ public class FoodOrderController {
     private final FoodOrderService foodOrderService;
 
     @GetMapping("/customers/{customerId}/orders")
-    public ResponseEntity<List<FoodOrderDto>> getAllOrdersByCustomerId(@PathVariable String customerId) {
+    public ResponseEntity<List<FoodOrderDto>> getAllOrdersByCustomerId(@PathVariable String customerId,
+                                                                       @RequestParam(defaultValue = FoodOrderConstants.SORT_ORDER_DESC) String sortOrder) {
+        List<FoodOrderDto> foodOrderDtos = foodOrderService.getAllOrdersByCustomerId(customerId);
+        if(FoodOrderConstants.SORT_ORDER_DESC.equalsIgnoreCase(sortOrder)) {
+            foodOrderDtos.sort(Comparator.comparing(FoodOrderDto::getOrderTimestamp).reversed());
+        } else {
+            foodOrderDtos.sort(Comparator.comparing(FoodOrderDto::getOrderTimestamp));
+        }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(foodOrderService.getAllOrdersByCustomerId(customerId));
+                .body(foodOrderDtos);
     }
 
     @PostMapping("/customers/{customerId}/orders")
