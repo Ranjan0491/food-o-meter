@@ -10,7 +10,7 @@ export class DetailedFoodOrder {
     orderAmount: Number;
     orderStatus: String;
     discount: Number;
-    discountedAmount: Number;
+    payableAmount: Number;
     customer: User;
     orderAddress: Address;
     chef: Staff;
@@ -22,7 +22,7 @@ export class DetailedFoodOrder {
         orderAmount?: Number,
         orderStatus?: String,
         discount?: Number,
-        discountedAmount?: Number,
+        payableAmount?: Number,
         customer?: User,
         orderAddress?: Address,
         chef?: Staff,
@@ -33,7 +33,7 @@ export class DetailedFoodOrder {
             this.orderAmount = orderAmount;
             this.orderStatus = orderStatus;
             this.discount = discount;
-            this.discountedAmount = discountedAmount;
+            this.payableAmount = payableAmount;
             this.customer = customer;
             this.orderAddress = orderAddress;
             this.chef = chef;

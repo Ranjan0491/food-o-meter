@@ -24,5 +24,5 @@ public class FoodOrder {
     private Double orderAmount;
     private FoodOrderStatus orderStatus;
     private Double discount;
-    private Double discountedAmount;
+    private Double payableAmount;
 }

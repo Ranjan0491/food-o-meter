@@ -23,7 +23,7 @@ public class DetailedFoodOrderDto {
     private Double orderAmount;
     private FoodOrderStatus orderStatus;
     private Double discount;
-    private Double discountedAmount;
+    private Double payableAmount;
     private UserDto customer;
     private AddressDto orderAddress;
     private StaffDto chef;

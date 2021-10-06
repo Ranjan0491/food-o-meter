@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-10-04T08:57:28+0530",
+    date = "2021-10-06T08:37:22+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16.0.2 (Oracle Corporation)"
 )
 @Component
@@ -37,7 +37,7 @@ public class FoodOrderMapperImpl_ implements FoodOrderMapper {
         foodOrderDto.setOrderAmount( foodOrder.getOrderAmount() );
         foodOrderDto.setOrderStatus( foodOrder.getOrderStatus() );
         foodOrderDto.setDiscount( foodOrder.getDiscount() );
-        foodOrderDto.setDiscountedAmount( foodOrder.getDiscountedAmount() );
+        foodOrderDto.setPayableAmount( foodOrder.getPayableAmount() );
 
         return foodOrderDto;
     }
@@ -58,7 +58,7 @@ public class FoodOrderMapperImpl_ implements FoodOrderMapper {
         foodOrder.setOrderAmount( foodOrderDto.getOrderAmount() );
         foodOrder.setOrderStatus( foodOrderDto.getOrderStatus() );
         foodOrder.setDiscount( foodOrderDto.getDiscount() );
-        foodOrder.setDiscountedAmount( foodOrderDto.getDiscountedAmount() );
+        foodOrder.setPayableAmount( foodOrderDto.getPayableAmount() );
 
         return foodOrder;
     }
@@ -77,7 +77,7 @@ public class FoodOrderMapperImpl_ implements FoodOrderMapper {
         detailedFoodOrderDto.setOrderAmount( foodOrder.getOrderAmount() );
         detailedFoodOrderDto.setOrderStatus( foodOrder.getOrderStatus() );
         detailedFoodOrderDto.setDiscount( foodOrder.getDiscount() );
-        detailedFoodOrderDto.setDiscountedAmount( foodOrder.getDiscountedAmount() );
+        detailedFoodOrderDto.setPayableAmount( foodOrder.getPayableAmount() );
 
         return detailedFoodOrderDto;
     }

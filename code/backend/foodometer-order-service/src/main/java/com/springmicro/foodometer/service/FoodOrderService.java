@@ -95,7 +95,7 @@ public class FoodOrderService {
                                 Double discount = applicableDiscountPercent(foodOrderDto);
                                 foodOrderDto.setOrderAmount(orderAmount);
                                 foodOrderDto.setDiscount(discount * 100);
-                                foodOrderDto.setDiscountedAmount(orderAmount * (1 - discount));
+                                foodOrderDto.setPayableAmount(orderAmount * (1 - discount));
                                 FoodOrder foodOrder = foodOrderRepository.save(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto));
                                 foodOrderManager.newFoodOrder(foodOrder);
                                 return foodOrderMapper.foodOrderToFoodOrderDto(foodOrder);

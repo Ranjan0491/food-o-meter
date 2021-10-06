@@ -7,7 +7,7 @@ export class FoodOrder {
     orderAmount: Number;
     orderStatus: String;
     discount: Number;
-    discountedAmount: Number;
+    payableAmount: Number;
     customerId: String;
     customerAddressId: String;
 
@@ -17,7 +17,7 @@ export class FoodOrder {
         orderAmount?: Number,
         orderStatus?: String,
         discount?: Number,
-        discountedAmount?: Number,
+        payableAmount?: Number,
         customerId?: String,
         customerAddressId?: String) {
             this.id = id;
@@ -26,7 +26,7 @@ export class FoodOrder {
             this.orderAmount = orderAmount;
             this.orderStatus = orderStatus;
             this.discount = discount;
-            this.discountedAmount = discountedAmount;
+            this.payableAmount = payableAmount;
             this.customerId = customerId;
             this.customerAddressId = customerAddressId;
         }
