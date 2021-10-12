@@ -2,3 +2,19 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.example-box {
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
+    padding: 1%;
+    border-radius: 15px;
+}
+  
+table {
+    width: 100%;
+}
+  
+.mat-header-cell {
+    background: #b9e8ad
+}

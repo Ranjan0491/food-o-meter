@@ -13,11 +13,17 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CustomerOrderComponent } from './customer-order/customer-order.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { ViewOrderDetailsComponent } from './view-order-details/view-order-details.component';
+import { MatTableModule } from '@angular/material/table';
+import { AddressTransformPipe } from '../_pipe/address-transform-pipe';
 
 @NgModule({
   declarations: [
     CustomerDashboardComponent,
-    CustomerOrderComponent
+    CustomerOrderComponent,
+    ViewOrderDetailsComponent,
+    AddressTransformPipe
   ],
   imports: [
     CommonModule,
@@ -31,7 +37,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatToolbarModule,
     MatGridListModule,
     MatExpansionModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatBottomSheetModule,
+    MatTableModule
+  ],
+  providers: [
+    ViewOrderDetailsComponent
   ]
 })
 export class CustomerDashboardModule { }

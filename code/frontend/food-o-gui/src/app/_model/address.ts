@@ -14,12 +14,12 @@ export class Address {
         state?: String,
         city?: String,
         pinCode?: String) {
-            this.id = id;
-            this.line1 = line1;
-            this.line2 = line2;
-            this.line3 = line3;
-            this.state = state;
-            this.city = city;
-            this.pinCode = pinCode;
-        }
+        this.id = id;
+        this.line1 = line1;
+        this.line2 = line2;
+        this.line3 = line3;
+        this.state = state;
+        this.city = city;
+        this.pinCode = pinCode;
+    }
 }

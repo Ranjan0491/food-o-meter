@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatAccordion } from '@angular/material/expansion';
 import { FoodOrder } from 'src/app/_model/food-order';
 import { FoodOrderServiceService } from 'src/app/_service/food-order-service.service';
+import { ViewOrderDetailsComponent } from '../view-order-details/view-order-details.component';
 
 @Component({
   selector: 'app-customer-order',
@@ -11,14 +13,21 @@ import { FoodOrderServiceService } from 'src/app/_service/food-order-service.ser
 export class CustomerOrderComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   foodOrders: FoodOrder[] = [];
+  rows: number[] = [];
 
-  constructor(private foodOrderService: FoodOrderServiceService) { }
+  constructor(private foodOrderService: FoodOrderServiceService,
+    private orderDetailsBottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
     let customerId = "612c6c509441d78852dc3c4b";
     this.foodOrderService.getAllOrdersForCustomer(customerId).subscribe(data => {
       this.foodOrders = data;
+      this.rows = Array.from(Array(Math.floor(this.foodOrders.length / 2)).keys());
     });
+  }
+
+  displayOrderDetails(index: number) {
+    this.orderDetailsBottomSheet.open(ViewOrderDetailsComponent, { data: this.foodOrders[index].id });
   }
 
 }

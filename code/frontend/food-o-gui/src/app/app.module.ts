@@ -14,6 +14,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CustomerDashboardModule } from './customer-dashboard/customer-dashboard.module';
+import { AddressTransformPipe } from './_pipe/address-transform-pipe';
 
 @NgModule({
   declarations: [
