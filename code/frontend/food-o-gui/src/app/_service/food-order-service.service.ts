@@ -11,14 +11,14 @@ export class FoodOrderServiceService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Accept': 'application/json'
+      'accept': 'application/json'
     })
   };
 
   private httpOptions2 = {
     headers: new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'accept': 'application/json',
+      'content-type': 'application/json'
     })
   };
 
@@ -29,7 +29,7 @@ export class FoodOrderServiceService {
   }
 
   public saveOrderForCustomer(order: FoodOrder) {
-    return this.http.post<FoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + order.customerId + "/orders", order, this.httpOptions);
+    return this.http.post<FoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + order.customerId + "/orders", order, this.httpOptions2);
   }
 
   public getDetailedOrderForCustomer(customerId: String, orderId: String) {

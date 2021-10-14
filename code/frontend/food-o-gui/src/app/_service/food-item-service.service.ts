@@ -10,7 +10,7 @@ export class FoodItemServiceService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Accept': 'application/json'
+      'accept': 'application/json'
     })
   };
 
@@ -31,5 +31,5 @@ export class FoodItemServiceService {
   public updateFoodItem(id: String, foodItem: FoodItem) {
     return this.http.put<void>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix + "/" + id, foodItem, this.httpOptions);
   }
-  
+
 }

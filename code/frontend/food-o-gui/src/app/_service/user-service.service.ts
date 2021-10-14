@@ -10,12 +10,12 @@ export class UserServiceService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Accept': 'application/json'
+      'accept': 'application/json'
     })
   };
 
   constructor(private http: HttpClient) { }
-  
+
   public getAllAddressesForCustomer(customerId: String) {
     return this.http.get<Address[]>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + customerId + "/addresses", this.httpOptions);
   }
