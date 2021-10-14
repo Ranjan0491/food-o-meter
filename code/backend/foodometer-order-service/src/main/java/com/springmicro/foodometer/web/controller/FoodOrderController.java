@@ -39,9 +39,9 @@ public class FoodOrderController {
     }
 
     @GetMapping("/orders/{orderId}")
-    public ResponseEntity<FoodOrderDto> getOrderByOrderId(@PathVariable String orderId) {
+    public ResponseEntity<DetailedFoodOrderDto> getOrderByOrderId(@PathVariable String orderId) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(foodOrderService.getOrderByOrderId(orderId));
+                .body(foodOrderService.getDetailedOrderByOrderId(orderId));
     }
 
     @GetMapping("/customers/{customerId}/orders/{orderId}")

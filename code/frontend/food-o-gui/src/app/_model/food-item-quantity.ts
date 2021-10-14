@@ -1,9 +1,9 @@
 export class FoodItemQuantity {
     foodItemId: String;
-    quantity: Number;
+    quantity: number;
 
     constructor(foodItemId?: String,
-        quantity?: Number) {
+        quantity?: number) {
             this.foodItemId = foodItemId;
             this.quantity = quantity;
         }

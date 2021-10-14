@@ -16,10 +16,9 @@ export class ViewOrderDetailsComponent implements OnInit {
   detailedFoodItemQuantityColumns: string[] = ['name', 'quantity', 'price'];
   detailedFoodItemQuantityDataSource: MatTableDataSource<DetailedFoodItemQuantity>;
 
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) private data: String,
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) private data: any,
     private foodOrderService: FoodOrderServiceService) {
-      let customerId = "612c6c509441d78852dc3c4b";
-      foodOrderService.getDetailedOrderForCustomer(customerId, data).subscribe(response => {
+      foodOrderService.getDetailedOrderForCustomer(data.customerId, data.orderId).subscribe(response => {
         this.detailedFoodOrder = response;
         this.detailedFoodItemQuantityDataSource = new MatTableDataSource(this.detailedFoodOrder.foodItems);
       });

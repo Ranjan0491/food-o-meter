@@ -15,19 +15,21 @@ export class CustomerOrderComponent implements OnInit {
   foodOrders: FoodOrder[] = [];
   rows: number[] = [];
 
+  // need to remove hard coding
+  customerId = "612c6c509441d78852dc3c4b";
+
   constructor(private foodOrderService: FoodOrderServiceService,
     private orderDetailsBottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
-    let customerId = "612c6c509441d78852dc3c4b";
-    this.foodOrderService.getAllOrdersForCustomer(customerId).subscribe(data => {
+    this.foodOrderService.getAllOrdersForCustomer(this.customerId).subscribe(data => {
       this.foodOrders = data;
       this.rows = Array.from(Array(Math.floor(this.foodOrders.length / 2)).keys());
     });
   }
 
   displayOrderDetails(index: number) {
-    this.orderDetailsBottomSheet.open(ViewOrderDetailsComponent, { data: this.foodOrders[index].id });
+    this.orderDetailsBottomSheet.open(ViewOrderDetailsComponent, { data: { "customerId": this.customerId, "orderId": this.foodOrders[index].id } });
   }
 
 }

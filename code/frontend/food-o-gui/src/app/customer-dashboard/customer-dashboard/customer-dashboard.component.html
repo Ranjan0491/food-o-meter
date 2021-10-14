@@ -6,27 +6,25 @@
             </button>
 
             <mat-nav-list>
-                <mat-list-item>
+                <mat-list-item (click)="changeView(0)">
                     <mat-icon mat-list-icon>person</mat-icon>
-                    <h4 mat-line *ngIf="isExpanded">Management A</h4>
+                    <h4 mat-line *ngIf="isExpanded">View Orders</h4>
                 </mat-list-item>
-                <mat-list-item>
+                <mat-list-item (click)="changeView(1)">
                     <mat-icon mat-list-icon>assignment</mat-icon>
-                    <h4 mat-line *ngIf="isExpanded">Management B</h4>
+                    <h4 mat-line *ngIf="isExpanded">Place Order</h4>
                 </mat-list-item>
-                <mat-list-item>
+                <mat-list-item (click)="changeView(2)">
                     <mat-icon mat-list-icon>domain</mat-icon>
-                    <h4 mat-line *ngIf="isExpanded">Management C</h4>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon mat-list-icon>folder_shared</mat-icon>
-                    <h4 mat-line *ngIf="isExpanded">Management X</h4>
+                    <h4 mat-line *ngIf="isExpanded">Modify/Add Details</h4>
                 </mat-list-item>
             </mat-nav-list>
         </mat-drawer>
 
         <div class="example-sidenav-content">
-            <app-customer-order></app-customer-order>
+            <app-customer-order *ngIf="displayView[0]"></app-customer-order>
+            <app-customer-place-order *ngIf="displayView[1]"></app-customer-place-order>
+            <app-customer-details *ngIf="displayView[2]"></app-customer-details>
         </div>
     </mat-drawer-container>
 </div>

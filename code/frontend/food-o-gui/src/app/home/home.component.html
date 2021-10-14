@@ -1,5 +1,5 @@
 <div class="container">
-    <mat-tab-group animationDuration="2000ms" [selectedIndex]="selectedTabControl.value"
+    <mat-tab-group mat-stretch-tabs animationDuration="1000ms" [selectedIndex]="selectedTabControl.value"
         (selectedIndexChange)="changeFoodItemTable($event)">
         <mat-tab *ngFor="let category of categories" [label]="category">
             <div class="example-box mat-elevation-z4">
