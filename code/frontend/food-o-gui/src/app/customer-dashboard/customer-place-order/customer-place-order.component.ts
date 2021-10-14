@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Address } from 'src/app/_model/address';
 import { DetailedFoodItemQuantity } from 'src/app/_model/detailed-food-item-quantity';
@@ -34,7 +35,8 @@ export class CustomerPlaceOrderComponent implements OnInit {
 
   constructor(private foodItemService: FoodItemServiceService,
     private foodOrderService: FoodOrderServiceService,
-    private placeOrderBottomSheet: MatBottomSheet) {
+    private placeOrderBottomSheet: MatBottomSheet,
+    private infoSnackBar: MatSnackBar) {
     this.getAllItems();
     this.foodItemDataSource = new MatTableDataSource([]);
   }
@@ -100,7 +102,14 @@ export class CustomerPlaceOrderComponent implements OnInit {
   public plcaeOrder() {
     let newOrder = new FoodOrder(this.customerId, this.orderAddress.id, this.selectedFoodItemQuantity, null, null, null, null, null, null);
     this.foodOrderService.saveOrderForCustomer(newOrder).subscribe(response => {
-      console.log(response);
+      let message = 'Congratulations!! Your order is placed. Your payable amount would be ' + response.payableAmount + ' INR';
+      if (response.discount > 0) {
+        message = 'Congratulations!! Your order is placed and you are eligible for ' + response.discount + '% discount. Your payable amount would be ' + response.payableAmount + ' INR';
+      }
+      this.infoSnackBar.open(message, 'OK', {
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom',
+      });
     });
   }
 }

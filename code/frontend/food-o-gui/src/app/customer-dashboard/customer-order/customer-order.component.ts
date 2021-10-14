@@ -20,14 +20,18 @@ export class CustomerOrderComponent implements OnInit {
     private orderDetailsBottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
-    this.foodOrderService.getAllOrdersForCustomer(this.customerId).subscribe(data => {
-      this.foodOrders = data;
-      this.rows = Array.from(Array(Math.floor(this.foodOrders.length / 2)).keys());
-    });
+    this.fetchOrderList();
   }
 
   displayOrderDetails(index: number) {
     this.orderDetailsBottomSheet.open(ViewOrderDetailsComponent, { data: { "customerId": this.customerId, "orderId": this.foodOrders[index].id } });
+  }
+
+  fetchOrderList() {
+    this.foodOrderService.getAllOrdersForCustomer(this.customerId).subscribe(data => {
+      this.foodOrders = data;
+      this.rows = Array.from(Array(Math.ceil(this.foodOrders.length / 2)).keys());
+    });
   }
 
 }

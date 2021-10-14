@@ -18,7 +18,7 @@
             <td mat-cell *matCellDef="let detailedFoodItemQuantity"> {{detailedFoodItemQuantity.quantity}} </td>
         </ng-container>
         <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <th mat-header-cell *matHeaderCellDef> Price (in INR)</th>
             <td mat-cell *matCellDef="let detailedFoodItemQuantity"> {{detailedFoodItemQuantity.foodItemDto.itemPrice}}
             </td>
         </ng-container>
@@ -33,20 +33,21 @@
             <td mat-footer-cell *matFooterCellDef colspan="2">Payable Amount</td>
         </ng-container>
         <ng-container matColumnDef="totalAmount">
-            <td mat-footer-cell *matFooterCellDef>{{ detailedFoodOrder.orderAmount }}</td>
+            <td mat-footer-cell *matFooterCellDef>{{ detailedFoodOrder.orderAmount }} INR</td>
         </ng-container>
         <ng-container matColumnDef="discount">
             <td mat-footer-cell *matFooterCellDef>{{ detailedFoodOrder.discount }}</td>
         </ng-container>
         <ng-container matColumnDef="payableAmount">
-            <td mat-footer-cell *matFooterCellDef>{{ detailedFoodOrder.payableAmount }}</td>
+            <td mat-footer-cell *matFooterCellDef>{{ detailedFoodOrder.payableAmount }} INR</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="detailedFoodItemQuantityColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: detailedFoodItemQuantityColumns;"></tr>
 
         <tr mat-footer-row *matFooterRowDef="['textTotalAmount','totalAmount']" class="example-first-footer-row"></tr>
         <tr mat-footer-row *matFooterRowDef="['textDiscount','discount']" class="example-second-footer-row"></tr>
-        <tr mat-footer-row *matFooterRowDef="['textPayableAmount','payableAmount']" class="example-first-footer-row"></tr>
+        <tr mat-footer-row *matFooterRowDef="['textPayableAmount','payableAmount']" class="example-first-footer-row">
+        </tr>
     </table>
 </div>
 <div class="row" style="padding-top: 2%;">
@@ -56,11 +57,13 @@
 </div>
 <div class="row" style="padding-top: 2%;" *ngIf="detailedFoodOrder.chef">
     <div class="col">
-        Chef: {{ detailedFoodOrder.chef.firstName + ' ' + detailedFoodOrder.chef.lastName + ' (Phone: ' + detailedFoodOrder.chef.phone + ')' }}
+        Chef: {{ detailedFoodOrder.chef.firstName + ' ' + detailedFoodOrder.chef.lastName + ' (Phone: ' +
+        detailedFoodOrder.chef.phone + ')' }}
     </div>
 </div>
 <div class="row" style="padding-top: 2%;" *ngIf="detailedFoodOrder.deliveryAgent">
     <div class="col">
-        Delivery Agent: {{ detailedFoodOrder.deliveryAgent.firstName + ' ' + detailedFoodOrder.deliveryAgent.lastName + ' (Phone: ' + detailedFoodOrder.chef.phone + ')' }}
+        Delivery Agent: {{ detailedFoodOrder.deliveryAgent.firstName + ' ' + detailedFoodOrder.deliveryAgent.lastName +
+        ' (Phone: ' + detailedFoodOrder.chef.phone + ')' }}
     </div>
 </div>

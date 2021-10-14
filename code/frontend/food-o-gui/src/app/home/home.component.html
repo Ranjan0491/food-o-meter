@@ -9,7 +9,7 @@
                         <td mat-cell *matCellDef="let foodItem"> {{foodItem.itemName}} </td>
                     </ng-container>
                     <ng-container matColumnDef="price">
-                        <th mat-header-cell *matHeaderCellDef> Price </th>
+                        <th mat-header-cell *matHeaderCellDef> Price (in INR)</th>
                         <td mat-cell *matCellDef="let foodItem"> {{foodItem.itemPrice}} </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="foodItemColumns"></tr>

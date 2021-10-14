@@ -22,6 +22,7 @@ import { CustomerDetailsComponent } from './customer-details/customer-details.co
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SelectOrderAddressComponent } from './select-order-address/select-order-address.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SelectOrderAddressComponent } from './select-order-address/select-order
     MatBottomSheetModule,
     MatTableModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   providers: [
     ViewOrderDetailsComponent
