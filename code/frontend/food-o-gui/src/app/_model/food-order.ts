@@ -11,15 +11,16 @@ export class FoodOrder {
     customerId: String;
     customerAddressId: String;
 
-    constructor(id?: String,
+    constructor(
+        customerId?: String,
+        customerAddressId?: String,
         foodItems?: FoodItemQuantity[],
         orderTimestamp?: Date,
         orderAmount?: Number,
         orderStatus?: String,
         discount?: Number,
         payableAmount?: Number,
-        customerId?: String,
-        customerAddressId?: String) {
+        id?: String) {
             this.id = id;
             this.foodItems = foodItems;
             this.orderTimestamp = orderTimestamp;

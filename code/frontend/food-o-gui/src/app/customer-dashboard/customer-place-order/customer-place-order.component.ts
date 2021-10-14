@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatTableDataSource } from '@angular/material/table';
+import { Address } from 'src/app/_model/address';
 import { DetailedFoodItemQuantity } from 'src/app/_model/detailed-food-item-quantity';
 import { FoodItem } from 'src/app/_model/food-item';
 import { FoodItemQuantity } from 'src/app/_model/food-item-quantity';
+import { FoodOrder } from 'src/app/_model/food-order';
 import { FoodItemServiceService } from 'src/app/_service/food-item-service.service';
+import { FoodOrderServiceService } from 'src/app/_service/food-order-service.service';
+import { SelectOrderAddressComponent } from '../select-order-address/select-order-address.component';
 
 @Component({
   selector: 'app-customer-place-order',
@@ -12,6 +17,9 @@ import { FoodItemServiceService } from 'src/app/_service/food-item-service.servi
   styleUrls: ['./customer-place-order.component.css']
 })
 export class CustomerPlaceOrderComponent implements OnInit {
+
+  // need to remove hard coding
+  customerId = "612c6c509441d78852dc3c4b";
 
   foodItems: FoodItem[] = [];
   categories: string[] = [];
@@ -22,8 +30,11 @@ export class CustomerPlaceOrderComponent implements OnInit {
   selectedFoodItemQuantity: FoodItemQuantity[] = [];
   detailedSelectedFoodItemQuantity: DetailedFoodItemQuantity[] = [];
   totalAmount: number = 0;
+  orderAddress: Address = null;
 
-  constructor(private foodItemService: FoodItemServiceService) {
+  constructor(private foodItemService: FoodItemServiceService,
+    private foodOrderService: FoodOrderServiceService,
+    private placeOrderBottomSheet: MatBottomSheet) {
     this.getAllItems();
     this.foodItemDataSource = new MatTableDataSource([]);
   }
@@ -79,4 +90,17 @@ export class CustomerPlaceOrderComponent implements OnInit {
     }
   }
 
+  public openAddressSelection() {
+    const bottomSheetRef = this.placeOrderBottomSheet.open(SelectOrderAddressComponent, { data: this.customerId });
+    bottomSheetRef.afterDismissed().subscribe((dataFromChild) => {
+      this.orderAddress = dataFromChild;
+    });
+  }
+
+  public plcaeOrder() {
+    let newOrder = new FoodOrder(this.customerId, this.orderAddress.id, this.selectedFoodItemQuantity, null, null, null, null, null, null);
+    this.foodOrderService.saveOrderForCustomer(newOrder).subscribe(response => {
+      console.log(response);
+    });
+  }
 }

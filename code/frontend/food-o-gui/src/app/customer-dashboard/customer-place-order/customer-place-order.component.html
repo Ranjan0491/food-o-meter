@@ -41,9 +41,19 @@
         <div style="font-weight: bold; margin-top: 2%;">
             <span style="float: left">Total Amount: {{totalAmount}}</span>
             <span style="float: right;">
-                <button mat-button mat-mini-fab color="warn" matTooltip="Place order" matTooltipPosition="below">
-                    <mat-icon>done_outline</mat-icon>
+                <button mat-button mat-mini-fab color="warn" matTooltip="Select Order Address"
+                    matTooltipPosition="below" (click)="openAddressSelection()">
+                    <mat-icon>launch</mat-icon>
                 </button>
+            </span>
+        </div>
+        <div style="margin-top: 15%;" *ngIf="orderAddress !== null">
+            <span style="float: left; width: 80%;">Order Address: {{orderAddress | addressTransform}}</span>
+            <span style="float: right;">
+            <button mat-button mat-mini-fab color="warn" matTooltip="Place order" matTooltipPosition="below" style="float: right;"
+                (click)="plcaeOrder()">
+                <mat-icon>done_outline</mat-icon>
+            </button>
             </span>
         </div>
     </div>

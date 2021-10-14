@@ -8,10 +8,17 @@ import { FoodOrder } from '../_model/food-order';
   providedIn: 'root'
 })
 export class FoodOrderServiceService {
-  
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Accept': 'application/json'
+    })
+  };
+
+  private httpOptions2 = {
+    headers: new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     })
   };
 
@@ -21,8 +28,8 @@ export class FoodOrderServiceService {
     return this.http.get<FoodOrder[]>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + customerId + "/orders", this.httpOptions);
   }
 
-  public saveOrderForCustomer(customerId: String, order: FoodOrder) {
-    return this.http.post<FoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + customerId + "/orders", order, this.httpOptions);
+  public saveOrderForCustomer(order: FoodOrder) {
+    return this.http.post<FoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + order.customerId + "/orders", order, this.httpOptions);
   }
 
   public getDetailedOrderForCustomer(customerId: String, orderId: String) {

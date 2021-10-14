@@ -7,6 +7,7 @@ import com.springmicro.foodometer.web.dto.DetailedFoodOrderDto;
 import com.springmicro.foodometer.web.dto.FoodOrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class FoodOrderController {
                 .body(foodOrderDtos);
     }
 
-    @PostMapping("/customers/{customerId}/orders")
+    @PostMapping(value = "/customers/{customerId}/orders", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FoodOrderDto> saveOrder(@RequestBody FoodOrderDto foodOrderDto) {
         return ResponseEntity.ok(foodOrderService.saveOrder(foodOrderDto));
     }
@@ -50,7 +51,7 @@ public class FoodOrderController {
                 .body(foodOrderService.getDetailedOrderByCustomerIdAndOrderId(customerId, orderId));
     }
 
-    @PutMapping("/customers/{customerId}/orders/{orderId}/cancel")
+    @PutMapping(value = "/customers/{customerId}/orders/{orderId}/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FoodOrderDto> cancelOrderByCustomerIdAndOrderId(@PathVariable String customerId, @PathVariable String orderId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(foodOrderService.cancelOrder(customerId, orderId));

@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatAccordion } from '@angular/material/expansion';
 import { FoodOrder } from 'src/app/_model/food-order';
 import { FoodOrderServiceService } from 'src/app/_service/food-order-service.service';
 import { ViewOrderDetailsComponent } from '../view-order-details/view-order-details.component';
@@ -11,7 +10,6 @@ import { ViewOrderDetailsComponent } from '../view-order-details/view-order-deta
   styleUrls: ['./customer-order.component.css']
 })
 export class CustomerOrderComponent implements OnInit {
-  @ViewChild(MatAccordion) accordion: MatAccordion;
   foodOrders: FoodOrder[] = [];
   rows: number[] = [];
 

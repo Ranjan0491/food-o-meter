@@ -21,6 +21,7 @@ import { CustomerPlaceOrderComponent } from './customer-place-order/customer-pla
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SelectOrderAddressComponent } from './select-order-address/select-order-address.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ViewOrderDetailsComponent,
     AddressTransformPipe,
     CustomerPlaceOrderComponent,
-    CustomerDetailsComponent
+    CustomerDetailsComponent,
+    SelectOrderAddressComponent
   ],
   imports: [
     CommonModule,
