@@ -13,9 +13,9 @@ export class SelectOrderAddressComponent implements OnInit {
   customerAddress: Address[] = [];
   selectedCustomerAddress: Address = null;
 
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) private data: String,
-  private bottomsheet: MatBottomSheetRef<SelectOrderAddressComponent>,
-  private userService: UserServiceService) {
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) private data: string,
+    private bottomsheet: MatBottomSheetRef<SelectOrderAddressComponent>,
+    private userService: UserServiceService) {
     userService.getAllAddressesForCustomer(data).subscribe(response => {
       this.customerAddress = response;
     });

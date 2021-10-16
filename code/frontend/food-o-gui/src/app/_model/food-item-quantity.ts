@@ -1,10 +1,10 @@
 export class FoodItemQuantity {
-    foodItemId: String;
+    foodItemId: string;
     quantity: number;
 
-    constructor(foodItemId?: String,
+    constructor(foodItemId?: string,
         quantity?: number) {
-            this.foodItemId = foodItemId;
-            this.quantity = quantity;
-        }
+        this.foodItemId = foodItemId;
+        this.quantity = quantity;
+    }
 }

@@ -7,11 +7,11 @@ import java.time.LocalDate;
 
 @Component
 public class DateMapper {
-    public LocalDate asLocalDate(Date date) {
-        return date.toLocalDate();
+    public LocalDate asLocalDate(String date) {
+        return LocalDate.parse(date);
     }
 
-    public Date asSqlDate(LocalDate localDate) {
-        return Date.valueOf(localDate);
+    public String asString(LocalDate localDate) {
+        return localDate.toString();
     }
 }

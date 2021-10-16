@@ -24,7 +24,7 @@ export class FoodOrderServiceService {
 
   constructor(private http: HttpClient) { }
 
-  public getAllOrdersForCustomer(customerId: String) {
+  public getAllOrdersForCustomer(customerId: string) {
     return this.http.get<FoodOrder[]>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + customerId + "/orders", this.httpOptions);
   }
 
@@ -32,15 +32,15 @@ export class FoodOrderServiceService {
     return this.http.post<FoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + order.customerId + "/orders", order, this.httpOptions2);
   }
 
-  public getDetailedOrderForCustomer(customerId: String, orderId: String) {
+  public getDetailedOrderForCustomer(customerId: string, orderId: string) {
     return this.http.get<DetailedFoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + customerId + "/orders/" + orderId, this.httpOptions);
   }
 
-  public getOneOrder(orderId: String) {
+  public getOneOrder(orderId: string) {
     return this.http.get<FoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/orders/" + orderId, this.httpOptions);
   }
 
-  public cancelOrderForCustomer(customerId: String, orderId: String) {
+  public cancelOrderForCustomer(customerId: string, orderId: string) {
     return this.http.put<FoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + customerId + "/orders/" + orderId + "/cancel", this.httpOptions);
   }
 

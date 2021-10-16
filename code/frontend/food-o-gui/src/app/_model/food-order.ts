@@ -1,34 +1,34 @@
 import { FoodItemQuantity } from "./food-item-quantity";
 
 export class FoodOrder {
-    id: String;
+    id: string;
     foodItems: FoodItemQuantity[];
     orderTimestamp: Date;
-    orderAmount: Number;
-    orderStatus: String;
-    discount: Number;
-    payableAmount: Number;
-    customerId: String;
-    customerAddressId: String;
+    orderAmount: number;
+    orderStatus: string;
+    discount: number;
+    payableAmount: number;
+    customerId: string;
+    customerAddressId: string;
 
     constructor(
-        customerId?: String,
-        customerAddressId?: String,
+        customerId?: string,
+        customerAddressId?: string,
         foodItems?: FoodItemQuantity[],
         orderTimestamp?: Date,
-        orderAmount?: Number,
-        orderStatus?: String,
-        discount?: Number,
-        payableAmount?: Number,
-        id?: String) {
-            this.id = id;
-            this.foodItems = foodItems;
-            this.orderTimestamp = orderTimestamp;
-            this.orderAmount = orderAmount;
-            this.orderStatus = orderStatus;
-            this.discount = discount;
-            this.payableAmount = payableAmount;
-            this.customerId = customerId;
-            this.customerAddressId = customerAddressId;
-        }
+        orderAmount?: number,
+        orderStatus?: string,
+        discount?: number,
+        payableAmount?: number,
+        id?: string) {
+        this.id = id;
+        this.foodItems = foodItems;
+        this.orderTimestamp = orderTimestamp;
+        this.orderAmount = orderAmount;
+        this.orderStatus = orderStatus;
+        this.discount = discount;
+        this.payableAmount = payableAmount;
+        this.customerId = customerId;
+        this.customerAddressId = customerAddressId;
+    }
 }

@@ -2,14 +2,13 @@
     <mat-selection-list #address [multiple]="false">
         <div mat-subheader>Available Address</div>
         <mat-list-option *ngFor="let address of customerAddress" [value]="address" class="list-item">
-            <p class="para-spacing">Line1: {{address.line1}}</p>
-            <p class="para-spacing" *ngIf="address.line2 !== null && address.line2 !== undefined">Line2:
-                {{address.line2}}</p>
-            <p class="para-spacing" *ngIf="address.line3 !== null && address.line3 !== undefined">Line3:
-                {{address.line3}}</p>
-            <p class="para-spacing">City: {{address.city}}</p>
-            <p class="para-spacing">State: {{address.state}}</p>
-            <p class="para-spacing">Pin Code: {{address.pinCode}}</p>
+            <mat-icon mat-list-icon>location_on</mat-icon>
+            <div mat-line>Line1: {{address.line1}}</div>
+            <div mat-line *ngIf="address.line2">Line2: {{address.line2}} </div>
+            <div mat-line *ngIf="address.line3">Line3: {{address.line3}} </div>
+            <div mat-line>City: {{address.city}}</div>
+            <div mat-line>State: {{address.state}}</div>
+            <div mat-line>Pin Code: {{address.pinCode}}</div>
         </mat-list-option>
     </mat-selection-list>
 </div>

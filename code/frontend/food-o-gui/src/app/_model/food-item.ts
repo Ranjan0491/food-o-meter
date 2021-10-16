@@ -1,14 +1,14 @@
 export class FoodItem {
-    id: String;
-    category: String;
-    itemName: String;
+    id: string;
+    category: string;
+    itemName: string;
     itemPrice: number;
 
 
     constructor(
-        id?: String,
-        category?: String,
-        itemName?: String,
+        id?: string,
+        category?: string,
+        itemName?: string,
         itemPrice?: number
     ) {
         this.id = id;

@@ -1,0 +1,7 @@
+<div class="margin-1-percent alert"
+    [ngClass]="{'alert-success': data.type === 'SUCCESS', 'alert-warning' : data.type === 'WARNING', 'alert-danger' : data.type === 'ERROR'}">
+    {{ data.message }}
+</div>
+<div mat-dialog-actions style="float: right;">
+    <button mat-button mat-dialog-close>Close</button>
+</div>

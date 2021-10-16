@@ -36,14 +36,14 @@ export class HomeComponent implements OnInit {
   private getUniqueCategories(foods: FoodItem[]) {
     let foodCategory = new Set<string>();
     foods.forEach(food => {
-      foodCategory.add(food.category.toString())
+      foodCategory.add(food.category)
     });
     this.categories = Array.from(foodCategory.values());
   }
 
   public changeFoodItemTable(selectedTabIndex: number) {
     this.selectedTabControl.setValue(selectedTabIndex);
-    this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.toString().indexOf(this.categories[selectedTabIndex]) >= 0));
+    this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[selectedTabIndex]) >= 0));
   }
 
 }

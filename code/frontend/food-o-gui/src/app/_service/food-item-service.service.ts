@@ -20,7 +20,7 @@ export class FoodItemServiceService {
     return this.http.get<FoodItem[]>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix, this.httpOptions);
   }
 
-  public getOneFoodItem(id: String) {
+  public getOneFoodItem(id: string) {
     return this.http.get<FoodItem>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix + "/" + id, this.httpOptions);
   }
 
@@ -28,7 +28,7 @@ export class FoodItemServiceService {
     return this.http.post<FoodItem>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix, foodItem, this.httpOptions);
   }
 
-  public updateFoodItem(id: String, foodItem: FoodItem) {
+  public updateFoodItem(id: string, foodItem: FoodItem) {
     return this.http.put<void>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix + "/" + id, foodItem, this.httpOptions);
   }
 

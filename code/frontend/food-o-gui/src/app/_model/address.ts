@@ -1,19 +1,19 @@
 export class Address {
-    id: String;
-    line1: String;
-    line2: String;
-    line3: String;
-    state: String;
-    city: String;
-    pinCode: String;
+    id: string;
+    line1: string;
+    line2: string;
+    line3: string;
+    state: string;
+    city: string;
+    pinCode: string;
 
-    constructor(id?: String,
-        line1?: String,
-        line2?: String,
-        line3?: String,
-        state?: String,
-        city?: String,
-        pinCode?: String) {
+    constructor(id?: string,
+        line1?: string,
+        line2?: string,
+        line3?: string,
+        state?: string,
+        city?: string,
+        pinCode?: string) {
         this.id = id;
         this.line1 = line1;
         this.line2 = line2;

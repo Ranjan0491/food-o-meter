@@ -14,14 +14,16 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CustomerDashboardModule } from './customer-dashboard/customer-dashboard.module';
-import { AddressTransformPipe } from './_pipe/address-transform-pipe';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -32,9 +34,12 @@ import { AddressTransformPipe } from './_pipe/address-transform-pipe';
     MatTabsModule,
     MatTableModule,
     MatPaginatorModule,
-    CustomerDashboardModule
+    CustomerDashboardModule,
+    MatDialogModule
   ],
-  providers: [],
+  providers: [
+    AlertComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

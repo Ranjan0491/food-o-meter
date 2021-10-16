@@ -1,1 +1,133 @@
-<p>customer-details works!</p>
+<div class="container">
+    <div class="row" style="margin-top: 2%;">
+        <div class="col">
+            <h1 class="display-4" style="float: left;">User Details</h1>
+            <button mat-button mat-mini-fab color="warn" matTooltip="Refresh" matTooltipPosition="below"
+                style="float: right;" (click)="fetchUserDetails()">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>First Name</mat-label>
+                <input name="firstName" matInput placeholder="First Name"
+                    [value]="currentUser ? currentUser.firstName : ''">
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Last Name</mat-label>
+                <input name="lastName" matInput placeholder="Last Name"
+                    [value]="currentUser ? currentUser.lastName : ''">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Phone number</mat-label>
+                <input name="phone" matInput placeholder="Phone Number" [value]="currentUser ? currentUser.phone : ''">
+                <mat-icon matSuffix>phone</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input name="email" matInput placeholder="Email" [value]="currentUser ? currentUser.email : ''">
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput [matDatepicker]="picker2" [value]="currentUser ? currentUser.dob : ''">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2 color="warn"></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row" *ngIf="currentUser">
+        <div class="col-12">
+            <mat-list>
+                <div mat-subheader style="margin-top: 1%;">
+                    <span style="float: left; width: 98%;">Addresses</span>
+                    <span style="float: right; width: 1%;">
+                        <button mat-button mat-mini-fab color="warn" matTooltip="Add new address"
+                            matTooltipPosition="below" (click)="displayNewAddressFields()">
+                            <mat-icon>add_location</mat-icon>
+                        </button>
+                    </span>
+                </div>
+                <mat-list-item *ngFor="let address of currentUser.addresses">
+                    <mat-icon mat-list-icon>location_on</mat-icon>
+                    <div mat-line>Line1: {{address.line1}}</div>
+                    <div mat-line *ngIf="address.line2">Line2: {{address.line2}} </div>
+                    <div mat-line *ngIf="address.line3">Line3: {{address.line3}} </div>
+                    <div mat-line>City: {{address.city}}</div>
+                    <div mat-line>State: {{address.state}}</div>
+                    <div mat-line>Pin Code: {{address.pinCode}}</div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+    <mat-divider *ngIf="newAddressFlag"></mat-divider>
+    <div *ngIf="newAddressFlag">
+        <div mat-subheader style="margin-top: 1%;">New address</div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Line 1</mat-label>
+                    <input name="line1" required matInput placeholder="Line 1" [(ngModel)]="newAddress.line1">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Line 2</mat-label>
+                    <input name="line2" matInput placeholder="Line 2" [(ngModel)]="newAddress.line2">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Line 3</mat-label>
+                    <input name="line3" matInput placeholder="Line 3" [(ngModel)]="newAddress.line3">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>City</mat-label>
+                    <input name="city" required matInput placeholder="City" [(ngModel)]="newAddress.city">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>State</mat-label>
+                    <input name="state" required matInput placeholder="State" [(ngModel)]="newAddress.state">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Pin Code</mat-label>
+                    <input name="pinCode" required matInput placeholder="Pin Code" [(ngModel)]="newAddress.pinCode"
+                        pattern="[0-9]">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 2%;">
+            <div class="col-12">
+                <button mat-button mat-mini-fab color="warn" matTooltip="Save address" matTooltipPosition="below"
+                    (click)="addNewAddress()" style="float: right;">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
