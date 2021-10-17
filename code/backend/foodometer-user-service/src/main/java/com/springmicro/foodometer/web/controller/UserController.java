@@ -50,6 +50,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateUserDetails(@PathVariable("id") String id, @RequestBody UserDto userDto) {
+        userService.updateUserDetails(id, userDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @GetMapping("/staffs-by-role/{userRole}")
     public ResponseEntity<List<StaffDto>> getStaffByRole(@PathVariable("userRole")UserRole userRole) {
         return ResponseEntity.status(HttpStatus.OK)

@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -24,7 +25,7 @@ public class User {
     private String phone;
     @Email
     private String email;
-    private String dob;
+    private LocalDateTime dob;
     private List<Address> addresses;
     private String password;
     private UserRole userRole;

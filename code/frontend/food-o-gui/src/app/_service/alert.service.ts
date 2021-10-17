@@ -16,4 +16,4 @@ export class AlertService {
   }
 }
 
-export enum MessageType { SUCCESS, ERROR, WARNING }
+export enum MessageType { SUCCESS = "SUCCESS", ERROR = "ERROR", WARNING = "WARNING" }

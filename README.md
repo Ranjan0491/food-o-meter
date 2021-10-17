@@ -1,7 +1,7 @@
 # food-o-meter
 This is a food order and delivery system built with **Spring Boot** and **Angular** with **Mongo** serving the backend database. Even though there is no actual payment system implemented, it is a great example for microservice implementation along with asynchronous messaging and **Spring State Machine** transitions.
 
-The whole architecture could be supported by containerized platforms and scaled based on need.
+The architecture could be supported by containerized platforms and scaled based on need.
 
 
 ## 💻 Built with

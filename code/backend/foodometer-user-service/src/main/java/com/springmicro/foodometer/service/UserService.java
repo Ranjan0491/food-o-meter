@@ -124,4 +124,19 @@ public class UserService {
             return null;
         }
     }
+
+    public void updateUserDetails(String id, UserDto userDto) {
+        log.info(userDto.toString());
+        UserDto userDtoFromDB = getUserById(id);
+        if(userDtoFromDB != null) {
+            userDtoFromDB.setDob(userDto.getDob());
+            userDtoFromDB.setEmail(userDto.getEmail());
+            userDtoFromDB.setFirstName(userDto.getFirstName());
+            userDtoFromDB.setLastName(userDto.getLastName());
+            userDtoFromDB.setPhone(userDto.getPhone());
+            userRepository.save(userMapper.userDtoToUser(userDtoFromDB));
+        } else {
+            throw new UserException("User could not be found");
+        }
+    }
 }

@@ -26,7 +26,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
@@ -64,7 +64,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule
   ],
   providers: [
-    ViewOrderDetailsComponent
+    ViewOrderDetailsComponent,
+    { provide: MAT_DATE_LOCALE, useValue: 'en-IN' }
   ]
 })
 export class CustomerDashboardModule { }

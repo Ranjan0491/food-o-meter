@@ -31,6 +31,18 @@ export class CustomerDetailsComponent implements OnInit {
     });
   }
 
+  updateUserDetails() {
+    if (this.currentUser !== null && this.currentUser.firstName !== null && this.currentUser.lastName !== null && this.currentUser.phone !== null && this.currentUser.email !== null && this.currentUser.dob !== null) {
+      console.log(this.currentUser.dob);
+      this.userService.updateUserDetails(this.customerId, this.currentUser).subscribe(() => {
+        this.fetchUserDetails();
+        this.alertService.showMessage('User updated successfully', MessageType.SUCCESS);
+      });
+    } else {
+      this.alertService.showMessage('User details are incomplete', MessageType.ERROR);
+    }
+  }
+
   addNewAddress() {
     if (this.newAddress.line1 !== null && this.newAddress.city !== null && this.newAddress.state !== null && this.newAddress.pinCode !== null) {
       this.userService.addNewAddress(this.customerId, this.newAddress).subscribe(() => {
@@ -46,6 +58,10 @@ export class CustomerDetailsComponent implements OnInit {
   displayNewAddressFields() {
     this.newAddressFlag = true;
     this.newAddress = new Address(null, null, null, null, null, null, null);
+  }
+
+  cancelNewAddress() {
+    this.newAddressFlag = false;
   }
 
 }

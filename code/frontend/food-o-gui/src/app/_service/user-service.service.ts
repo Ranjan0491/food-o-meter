@@ -32,4 +32,8 @@ export class UserServiceService {
   public addNewAddress(customerId: string, address: Address) {
     return this.http.put<Address>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + customerId + "/addresses", address, this.httpOptions);
   }
+
+  public updateUserDetails(id: string, user: User) {
+    return this.http.put<void>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + id, user, this.httpOptions);
+  }
 }

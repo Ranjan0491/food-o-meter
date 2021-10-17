@@ -22,13 +22,13 @@
     "@angular/platform-browser-dynamic": "~12.1.2",
     "@angular/router": "~12.1.2",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
-    "bootstrap": "^4.5.0",
-    "rxjs": "~6.6.0",
-    "tslib": "^2.2.0",
-    "zone.js": "~0.11.4",
     "ansi-regex": ">=5.0.1",
+    "bootstrap": "^4.5.0",
     "nth-check": ">=2.0.1",
-    "set-value": ">=4.0.1"
+    "rxjs": "~6.6.0",
+    "set-value": ">=4.0.1",
+    "tslib": "^2.2.0",
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.1.2",

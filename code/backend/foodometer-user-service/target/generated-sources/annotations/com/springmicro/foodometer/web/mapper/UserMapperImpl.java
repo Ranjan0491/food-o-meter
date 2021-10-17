@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-10-16T12:57:41+0530",
+    date = "2021-10-17T12:29:49+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16.0.2 (Oracle Corporation)"
 )
 @Component
@@ -20,8 +20,6 @@ public class UserMapperImpl implements UserMapper {
 
     @Autowired
     private AddressMapper addressMapper;
-    @Autowired
-    private DateMapper dateMapper;
 
     @Override
     public UserDto userToUserDto(User user) {
@@ -36,7 +34,7 @@ public class UserMapperImpl implements UserMapper {
         userDto.setLastName( user.getLastName() );
         userDto.setPhone( user.getPhone() );
         userDto.setEmail( user.getEmail() );
-        userDto.setDob( dateMapper.asLocalDate( user.getDob() ) );
+        userDto.setDob( user.getDob() );
         userDto.setAddresses( addressListToAddressDtoList( user.getAddresses() ) );
         userDto.setPassword( user.getPassword() );
         userDto.setUserRole( user.getUserRole() );
@@ -57,7 +55,7 @@ public class UserMapperImpl implements UserMapper {
         user.setLastName( userDto.getLastName() );
         user.setPhone( userDto.getPhone() );
         user.setEmail( userDto.getEmail() );
-        user.setDob( dateMapper.asString( userDto.getDob() ) );
+        user.setDob( userDto.getDob() );
         user.setAddresses( addressDtoListToAddressList( userDto.getAddresses() ) );
         user.setPassword( userDto.getPassword() );
         user.setUserRole( userDto.getUserRole() );

@@ -95,7 +95,9 @@ export class CustomerPlaceOrderComponent implements OnInit {
   public openAddressSelection() {
     const bottomSheetRef = this.placeOrderBottomSheet.open(SelectOrderAddressComponent, { data: this.customerId });
     bottomSheetRef.afterDismissed().subscribe((dataFromChild) => {
-      this.orderAddress = dataFromChild;
+      if (dataFromChild !== null && dataFromChild !== undefined) {
+        this.orderAddress = dataFromChild;
+      }
     });
   }
 

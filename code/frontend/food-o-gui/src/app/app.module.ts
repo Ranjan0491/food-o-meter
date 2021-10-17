@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CustomerDashboardModule } from './customer-dashboard/customer-dashboard.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AlertComponent } from './alert/alert.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AlertComponent } from './alert/alert.component';
     MatTableModule,
     MatPaginatorModule,
     CustomerDashboardModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule
   ],
   providers: [
     AlertComponent

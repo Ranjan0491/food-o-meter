@@ -2,16 +2,15 @@ package com.springmicro.foodometer.web.mapper;
 
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class DateMapper {
-    public LocalDate asLocalDate(String date) {
-        return LocalDate.parse(date);
+    public LocalDateTime asLocalDateTime(String date) {
+        return LocalDateTime.parse(date);
     }
 
-    public String asString(LocalDate localDate) {
+    public String asString(LocalDateTime localDate) {
         return localDate.toString();
     }
 }
