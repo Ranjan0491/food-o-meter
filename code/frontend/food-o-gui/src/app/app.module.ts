@@ -13,7 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { CustomerDashboardModule } from './customer-dashboard/customer-dashboard.module';
+import { CustomerModule } from './customer/customer.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AlertComponent } from './alert/alert.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -35,7 +35,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatTabsModule,
     MatTableModule,
     MatPaginatorModule,
-    CustomerDashboardModule,
+    CustomerModule,
     MatDialogModule,
     MatIconModule
   ],

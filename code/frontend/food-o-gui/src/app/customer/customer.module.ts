@@ -73,4 +73,4 @@ import { MatDialogModule } from '@angular/material/dialog';
     // }
   ]
 })
-export class CustomerDashboardModule { }
+export class CustomerModule { }
