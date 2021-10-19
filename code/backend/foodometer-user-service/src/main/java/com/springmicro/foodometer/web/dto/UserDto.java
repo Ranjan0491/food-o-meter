@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -29,8 +29,8 @@ public class UserDto {
     @NotNull
     private String email;
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", shape=JsonFormat.Shape.STRING)
-    private LocalDateTime dob;
+    @JsonFormat(pattern="M/d/yyyy", shape=JsonFormat.Shape.STRING)
+    private LocalDate dob;
     private List<AddressDto> addresses;
     @JsonIgnore
     private String password;

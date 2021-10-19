@@ -6,7 +6,7 @@ export class User {
     lastName: string;
     phone: string;
     email: string;
-    dob: Date;
+    dob: string;
     addresses: Address[];
     password: string;
     userRole: string;
@@ -16,7 +16,7 @@ export class User {
         lastName?: string,
         phone?: string,
         email?: string,
-        dob?: Date,
+        dob?: string,
         addresses?: Address[],
         password?: string,
         userRole?: string) {

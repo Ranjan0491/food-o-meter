@@ -16,6 +16,7 @@ export class CustomerDetailsComponent implements OnInit {
   currentUser: User = null;
   newAddressFlag = false;
   newAddress: Address = null;
+  currentUserDob: Date = null;
 
   constructor(private userService: UserServiceService,
     private alertService: AlertService) {
@@ -28,12 +29,16 @@ export class CustomerDetailsComponent implements OnInit {
   fetchUserDetails() {
     this.userService.getUserDetails(this.customerId).subscribe(response => {
       this.currentUser = response;
+      this.currentUserDob = new Date(this.currentUser.dob);
     });
   }
 
   updateUserDetails() {
     if (this.currentUser !== null && this.currentUser.firstName !== null && this.currentUser.lastName !== null && this.currentUser.phone !== null && this.currentUser.email !== null && this.currentUser.dob !== null) {
+      this.currentUser.dob = this.currentUserDob.toLocaleDateString("en-US");
       console.log(this.currentUser.dob);
+      console.log(JSON.stringify(this.currentUser));
+      console.log(JSON.stringify(this.currentUser.dob.toLocaleString()));
       this.userService.updateUserDetails(this.customerId, this.currentUser).subscribe(() => {
         this.fetchUserDetails();
         this.alertService.showMessage('User updated successfully', MessageType.SUCCESS);

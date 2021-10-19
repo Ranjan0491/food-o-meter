@@ -4,6 +4,7 @@ import com.springmicro.foodometer.document.Address;
 import com.springmicro.foodometer.document.User;
 import com.springmicro.foodometer.web.dto.AddressDto;
 import com.springmicro.foodometer.web.dto.UserDto;
+import com.springmicro.foodometer.web.dto.UserDto.UserDtoBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-10-17T12:29:49+0530",
+    date = "2021-10-19T09:53:15+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16.0.2 (Oracle Corporation)"
 )
 @Component
@@ -20,6 +21,8 @@ public class UserMapperImpl implements UserMapper {
 
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private DateMapper dateMapper;
 
     @Override
     public UserDto userToUserDto(User user) {
@@ -27,19 +30,19 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        UserDto userDto = new UserDto();
+        UserDtoBuilder userDto = UserDto.builder();
 
-        userDto.setId( user.getId() );
-        userDto.setFirstName( user.getFirstName() );
-        userDto.setLastName( user.getLastName() );
-        userDto.setPhone( user.getPhone() );
-        userDto.setEmail( user.getEmail() );
-        userDto.setDob( user.getDob() );
-        userDto.setAddresses( addressListToAddressDtoList( user.getAddresses() ) );
-        userDto.setPassword( user.getPassword() );
-        userDto.setUserRole( user.getUserRole() );
+        userDto.id( user.getId() );
+        userDto.firstName( user.getFirstName() );
+        userDto.lastName( user.getLastName() );
+        userDto.phone( user.getPhone() );
+        userDto.email( user.getEmail() );
+        userDto.dob( dateMapper.asLocalDate( user.getDob() ) );
+        userDto.addresses( addressListToAddressDtoList( user.getAddresses() ) );
+        userDto.password( user.getPassword() );
+        userDto.userRole( user.getUserRole() );
 
-        return userDto;
+        return userDto.build();
     }
 
     @Override
@@ -55,7 +58,7 @@ public class UserMapperImpl implements UserMapper {
         user.setLastName( userDto.getLastName() );
         user.setPhone( userDto.getPhone() );
         user.setEmail( userDto.getEmail() );
-        user.setDob( userDto.getDob() );
+        user.setDob( dateMapper.asString( userDto.getDob() ) );
         user.setAddresses( addressDtoListToAddressList( userDto.getAddresses() ) );
         user.setPassword( userDto.getPassword() );
         user.setUserRole( userDto.getUserRole() );
