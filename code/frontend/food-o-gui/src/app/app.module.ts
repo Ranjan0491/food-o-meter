@@ -17,6 +17,7 @@ import { CustomerModule } from './customer/customer.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AlertComponent } from './alert/alert.component';
 import { MatIconModule } from '@angular/material/icon';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatPaginatorModule,
     CustomerModule,
+    AdminModule,
     MatDialogModule,
     MatIconModule
   ],

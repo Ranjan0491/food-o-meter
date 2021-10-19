@@ -66,4 +66,8 @@ public class FoodItemService {
             throw new Exception("Food item with id " + id + " does not exists.");
         }
     }
+
+    public void deleteFoodItem(String id) {
+        foodItemRepository.deleteById(id);
+    }
 }

@@ -32,4 +32,8 @@ export class FoodItemServiceService {
     return this.http.put<void>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix + "/" + id, foodItem, this.httpOptions);
   }
 
+  public deleteFoodItem(id: string) {
+    return this.http.delete<void>(environment.apiUrlHostAndPort + environment.itemServiceUrlPrefix + "/" + id, this.httpOptions);
+  }
+
 }
