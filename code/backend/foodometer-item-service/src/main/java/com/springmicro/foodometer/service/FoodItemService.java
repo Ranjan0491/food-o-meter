@@ -53,7 +53,7 @@ public class FoodItemService {
 
     public FoodItemDto getAllFoodItemsByName(String name) {
         FoodItem foodItem = foodItemRepository.findAllByItemName(name);
-        log.debug(foodItem.toString());
+        log.debug(foodItem == null ? "NULL": foodItem.toString());
         return foodItemMapper.foodItemToFoodItemDto(foodItem);
     }
 

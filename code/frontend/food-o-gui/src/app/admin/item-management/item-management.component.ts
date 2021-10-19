@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FoodItem } from 'src/app/_model/food-item';
 import { AlertService, MessageType } from 'src/app/_service/alert.service';
 import { FoodItemServiceService } from 'src/app/_service/food-item-service.service';
+import { ItemAddEditComponent } from '../item-add-edit/item-add-edit.component';
 
 @Component({
   selector: 'app-item-management',
@@ -19,7 +21,8 @@ export class ItemManagementComponent implements OnInit {
   foodItemDataSource: MatTableDataSource<FoodItem>;
 
   constructor(private foodItemService: FoodItemServiceService,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    public addEditItemDialog: MatDialog) {
     this.getAllItems();
     this.foodItemDataSource = new MatTableDataSource([]);
   }
@@ -47,15 +50,38 @@ export class ItemManagementComponent implements OnInit {
     this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[selectedTabIndex]) >= 0));
   }
 
-  public editFoodItem(foodItem: FoodItem) {
-
+  public editFoodItem(foodItem: FoodItem, selectedTabIndex: number) {
+    const dialogRef = this.addEditItemDialog.open(ItemAddEditComponent, { data: foodItem });
+    dialogRef.afterClosed().subscribe(result => {
+      this.foodItemService.getAllFoodItems().subscribe(data => {
+        this.foodItems = data;
+        this.getUniqueCategories(data);
+        this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[selectedTabIndex]) >= 0));
+      });
+    });
   }
 
-  public deleteFoodItem(foodItem: FoodItem) {
+  public deleteFoodItem(foodItem: FoodItem, selectedTabIndex: number) {
     this.foodItemService.deleteFoodItem(foodItem.id).subscribe(response => {
-      this.getAllItems();
+      this.foodItemService.getAllFoodItems().subscribe(data => {
+        this.foodItems = data;
+        this.getUniqueCategories(data);
+        this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[selectedTabIndex]) >= 0));
+        this.alertService.showMessage("Item " + foodItem.itemName + " has been deleted", MessageType.SUCCESS);
+      });
     }, error => {
       this.alertService.showMessage("Item could not be deleted", MessageType.ERROR);
+    });
+  }
+
+  public addNewItem() {
+    const dialogRef = this.addEditItemDialog.open(ItemAddEditComponent, { data: new FoodItem(null, null, null, null) });
+    dialogRef.afterClosed().subscribe(result => {
+      this.foodItemService.getAllFoodItems().subscribe(data => {
+        this.foodItems = data;
+        this.getUniqueCategories(data);
+        this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[0]) >= 0));
+      });
     });
   }
 

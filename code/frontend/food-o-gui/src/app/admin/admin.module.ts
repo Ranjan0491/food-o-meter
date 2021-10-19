@@ -24,13 +24,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { ItemManagementComponent } from './item-management/item-management.component';
 import { ItemAddEditComponent } from './item-add-edit/item-add-edit.component';
+import { MatSelectModule } from '@angular/material/select';
+import { StaffManagementComponent } from './staff-management/staff-management.component';
 
 
 @NgModule({
   declarations: [
     AdminDashboardComponent,
     ItemManagementComponent,
-    ItemAddEditComponent
+    ItemAddEditComponent,
+    StaffManagementComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +57,8 @@ import { ItemAddEditComponent } from './item-add-edit/item-add-edit.component';
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [
     ItemAddEditComponent

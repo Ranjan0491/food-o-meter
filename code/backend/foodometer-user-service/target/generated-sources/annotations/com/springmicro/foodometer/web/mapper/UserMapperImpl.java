@@ -4,7 +4,6 @@ import com.springmicro.foodometer.document.Address;
 import com.springmicro.foodometer.document.User;
 import com.springmicro.foodometer.web.dto.AddressDto;
 import com.springmicro.foodometer.web.dto.UserDto;
-import com.springmicro.foodometer.web.dto.UserDto.UserDtoBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-10-19T09:53:15+0530",
+    date = "2021-10-19T17:49:27+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16.0.2 (Oracle Corporation)"
 )
 @Component
@@ -30,19 +29,19 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        UserDtoBuilder userDto = UserDto.builder();
+        UserDto userDto = new UserDto();
 
-        userDto.id( user.getId() );
-        userDto.firstName( user.getFirstName() );
-        userDto.lastName( user.getLastName() );
-        userDto.phone( user.getPhone() );
-        userDto.email( user.getEmail() );
-        userDto.dob( dateMapper.asLocalDate( user.getDob() ) );
-        userDto.addresses( addressListToAddressDtoList( user.getAddresses() ) );
-        userDto.password( user.getPassword() );
-        userDto.userRole( user.getUserRole() );
+        userDto.setId( user.getId() );
+        userDto.setFirstName( user.getFirstName() );
+        userDto.setLastName( user.getLastName() );
+        userDto.setPhone( user.getPhone() );
+        userDto.setEmail( user.getEmail() );
+        userDto.setDob( dateMapper.asLocalDate( user.getDob() ) );
+        userDto.setAddresses( addressListToAddressDtoList( user.getAddresses() ) );
+        userDto.setPassword( user.getPassword() );
+        userDto.setUserRole( user.getUserRole() );
 
-        return userDto.build();
+        return userDto;
     }
 
     @Override

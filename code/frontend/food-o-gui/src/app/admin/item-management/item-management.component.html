@@ -1,4 +1,12 @@
 <div class="container">
+    <div class="row" style="margin-top: 2%;">
+        <div class="col">
+            <button mat-button mat-mini-fab color="warn" matTooltip="Add new item" matTooltipPosition="below"
+                style="float: right;" (click)="addNewItem()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
     <mat-tab-group mat-stretch-tabs animationDuration="1000ms" [selectedIndex]="selectedTabControl.value"
         (selectedIndexChange)="changeFoodItemTable($event)">
         <mat-tab *ngFor="let category of categories" [label]="category">
@@ -16,11 +24,11 @@
                         <th mat-header-cell *matHeaderCellDef> Action </th>
                         <td mat-cell *matCellDef="let foodItem">
                             <button mat-button mat-mini-fab color="warn" matTooltip="Edit" matTooltipPosition="after"
-                                (click)="editFoodItem(foodItem)">
+                                (click)="editFoodItem(foodItem, selectedTabControl.value)">
                                 <mat-icon>edit</mat-icon>
                             </button>
                             <button mat-button mat-mini-fab color="warn" matTooltip="Delete" matTooltipPosition="after"
-                                style="margin-left: 5%;" (click)="deleteFoodItem(foodItem)">
+                                style="margin-left: 5%;" (click)="deleteFoodItem(foodItem, selectedTabControl.value)">
                                 <mat-icon>delete_forever</mat-icon>
                             </button>
                         </td>

@@ -4,10 +4,12 @@
 
 export const environment = {
   production: false,
-  apiUrlHostAndPort : "http://localhost:9090",
-  itemServiceUrlPrefix : "/food-o-meter-item-service/v1/food-items",
-  orderServiceUrlPrefix : "/food-o-meter-order-service/v1",
-  userServiceUrlPrefix : "/food-o-meter-user-service/v1/users"
+  apiUrlHostAndPort: "http://localhost:9090",
+  itemServiceUrlPrefix: "/food-o-meter-item-service/v1/food-items",
+  orderServiceUrlPrefix: "/food-o-meter-order-service/v1",
+  userServiceUrlPrefix: "/food-o-meter-user-service/v1/users",
+
+  foodItemCategory: ['STARTER', 'MAINS', 'DESSERT', 'BEVERAGES']
 };
 
 /*
