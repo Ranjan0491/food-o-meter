@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AlertComponent } from './alert/alert.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminModule } from './admin/admin.module';
+import { StaffNonAdminModule } from './staff-non-admin/staff-non-admin.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AdminModule } from './admin/admin.module';
     MatPaginatorModule,
     CustomerModule,
     AdminModule,
+    StaffNonAdminModule,
     MatDialogModule,
     MatIconModule
   ],
