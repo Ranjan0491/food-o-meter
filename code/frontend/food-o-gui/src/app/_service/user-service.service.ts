@@ -1,7 +1,8 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Address } from '../_model/address';
+import { Staff } from '../_model/staff';
 import { User } from '../_model/user';
 
 @Injectable({
@@ -35,5 +36,15 @@ export class UserServiceService {
 
   public updateUserDetails(id: string, user: User) {
     return this.http.put<void>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + id, user, this.httpOptions);
+  }
+
+  public getAllStaffByRoles(...roles: string[]) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/json'
+      }),
+      params: { 'userRoles': roles.join() }
+    };
+    return this.http.get<Staff[]>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/staffs-by-role", httpOptions);
   }
 }

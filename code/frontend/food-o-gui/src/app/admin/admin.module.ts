@@ -26,6 +26,8 @@ import { ItemManagementComponent } from './item-management/item-management.compo
 import { ItemAddEditComponent } from './item-add-edit/item-add-edit.component';
 import { MatSelectModule } from '@angular/material/select';
 import { StaffManagementComponent } from './staff-management/staff-management.component';
+import { StaffAddEditComponent } from './staff-add-edit/staff-add-edit.component';
+import { CustomerModule } from '../customer/customer.module';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { StaffManagementComponent } from './staff-management/staff-management.co
     AdminDashboardComponent,
     ItemManagementComponent,
     ItemAddEditComponent,
-    StaffManagementComponent
+    StaffManagementComponent,
+    StaffAddEditComponent
   ],
   imports: [
     CommonModule,
@@ -58,10 +61,12 @@ import { StaffManagementComponent } from './staff-management/staff-management.co
     MatNativeDateModule,
     FormsModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    CustomerModule
   ],
   providers: [
-    ItemAddEditComponent
+    ItemAddEditComponent,
+    StaffAddEditComponent
   ]
 })
 export class AdminModule { }

@@ -14,12 +14,17 @@
                     <mat-icon mat-list-icon>supervisor_account</mat-icon>
                     <h4 mat-line *ngIf="isExpanded">Modify/Add Staff</h4>
                 </mat-list-item>
+                <mat-list-item (click)="changeView(2)">
+                    <mat-icon mat-list-icon>account_circle</mat-icon>
+                    <h4 mat-line *ngIf="isExpanded">Modify/Add Details</h4>
+                </mat-list-item>
             </mat-nav-list>
         </mat-drawer>
 
         <div class="example-sidenav-content">
             <app-item-management *ngIf="displayView[0]"></app-item-management>
             <app-staff-management *ngIf="displayView[1]"></app-staff-management>
+            <app-customer-details *ngIf="displayView[2]"></app-customer-details>
         </div>
     </mat-drawer-container>
 </div>

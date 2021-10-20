@@ -1,4 +1,5 @@
 import { Address } from "./address";
+import { User } from "./user";
 
 export class Staff {
     id: string;
@@ -26,5 +27,9 @@ export class Staff {
         this.email = email;
         this.dob = dob;
         this.addresses = addresses;
+    }
+
+    public toUser() {
+        return new User(this.id, this.firstName, this.lastName, this.phone, this.email, this.dob, this.addresses, null, this.userRole);
     }
 }

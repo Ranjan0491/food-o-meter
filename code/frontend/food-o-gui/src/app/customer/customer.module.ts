@@ -66,6 +66,9 @@ import { MatDialogModule } from '@angular/material/dialog';
   providers: [
     ViewOrderDetailsComponent,
     { provide: MAT_DATE_LOCALE, useValue: { useUtc: false } }
+  ],
+  exports: [
+    CustomerDetailsComponent
   ]
 })
 export class CustomerModule { }

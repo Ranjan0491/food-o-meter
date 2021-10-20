@@ -37,6 +37,9 @@ public class UserService {
         if(userDtoDto!=null) {
             if(userDtoDto.getAddresses()!=null && userDtoDto.getAddresses().size()>0) {
                 userDtoDto.getAddresses().forEach(addressDto -> addressDto.setId(UUID.randomUUID().toString()));
+                if(userDtoDto.getUserRole() == UserRole.ADMIN || userDtoDto.getUserRole() == UserRole.CHEF || userDtoDto.getUserRole() == UserRole.DELIVERY_AGENT) {
+                    userDtoDto.setPassword("pass1234");
+                }
                 UserDto savedUserDto = userMapper.userToUserDto(userRepository.save(userMapper.userDtoToUser(userDtoDto)));
                 savedUserDto.setPassword(null);
                 log.info("User saved : "+savedUserDto);
@@ -107,6 +110,14 @@ public class UserService {
     public List<StaffDto> findStaffsByRole(UserRole userRole) {
         if (userRole == UserRole.CHEF || userRole == UserRole.DELIVERY_AGENT) {
             return userRepository.findAllByUserRole(userRole).stream().map(user -> staffMapper.userToStaffDto(user)).collect(Collectors.toList());
+        } else {
+            throw new UserException("All user details cannot be fetched. Only staff details can be fetched.");
+        }
+    }
+
+    public List<StaffDto> findStaffsByRoles(List<UserRole> userRoles) {
+        if (userRoles != null && !userRoles.isEmpty() && !userRoles.contains(UserRole.CUSTOMER)) {
+            return userRepository.findAllByUserRoleIn(userRoles).stream().map(user -> staffMapper.userToStaffDto(user)).collect(Collectors.toList());
         } else {
             throw new UserException("All user details cannot be fetched. Only staff details can be fetched.");
         }

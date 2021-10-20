@@ -62,6 +62,12 @@ public class UserController {
                 .body(userService.findStaffsByRole(userRole));
     }
 
+    @GetMapping("/staffs-by-role")
+    public ResponseEntity<List<StaffDto>> getStaffByRoles(@RequestParam("userRoles")List<UserRole> userRoles) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.findStaffsByRoles(userRoles));
+    }
+
     @GetMapping("/staffs-by-id/{id}")
     public ResponseEntity<StaffDto> getStaffById(@PathVariable("id")String id) {
         return ResponseEntity.status(HttpStatus.OK)
