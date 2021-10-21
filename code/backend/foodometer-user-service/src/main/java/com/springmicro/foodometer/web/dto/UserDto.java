@@ -32,7 +32,6 @@ public class UserDto {
     @JsonFormat(pattern="M/d/yyyy", shape=JsonFormat.Shape.STRING)
     private LocalDate dob;
     private List<AddressDto> addresses;
-    @JsonIgnore
     private String password;
     private UserRole userRole;
 }

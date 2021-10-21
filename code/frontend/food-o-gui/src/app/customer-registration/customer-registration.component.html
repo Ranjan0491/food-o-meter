@@ -1,28 +1,22 @@
-<h2 mat-dialog-title>Add/Edit Staff Details</h2>
-<mat-dialog-content class="mat-typography">
-    <div class="row">
+<div class="container">
+    <div class="row" style="margin-top: 2%;">
         <div class="col">
-            <mat-form-field appearance="fill">
-                <mat-label>Role</mat-label>
-                <mat-select [(ngModel)]="currentStaff.userRole" [(value)]="currentStaff.userRole">
-                    <mat-option [value]="r" *ngFor="let r of roles">{{r}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+            <h1 class="display-4" style="float: left;">User Registration</h1>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>First Name</mat-label>
-                <input name="firstName" matInput placeholder="First Name" [(ngModel)]="currentStaff.firstName" required
-                    [value]="currentStaff ? currentStaff.firstName : ''">
+                <input name="firstName" matInput placeholder="First Name" [(ngModel)]="currentUser.firstName" required
+                    [value]="currentUser ? currentUser.firstName : ''">
             </mat-form-field>
         </div>
         <div class="col">
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Last Name</mat-label>
-                <input name="lastName" matInput placeholder="Last Name" [(ngModel)]="currentStaff.lastName" required
-                    [value]="currentStaff ? currentStaff.lastName : ''">
+                <input name="lastName" matInput placeholder="Last Name" [(ngModel)]="currentUser.lastName" required
+                    [value]="currentUser ? currentUser.lastName : ''">
             </mat-form-field>
         </div>
     </div>
@@ -30,26 +24,50 @@
         <div class="col">
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Phone number</mat-label>
-                <input name="phone" matInput placeholder="Phone Number" [(ngModel)]="currentStaff.phone" required
-                    [value]="currentStaff ? currentStaff.phone : ''">
+                <input name="phone" matInput placeholder="Phone Number" [(ngModel)]="currentUser.phone" required
+                    [value]="currentUser ? currentUser.phone : ''">
                 <mat-icon matSuffix>phone</mat-icon>
             </mat-form-field>
         </div>
         <div class="col">
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Email</mat-label>
-                <input name="email" matInput placeholder="Email" [(ngModel)]="currentStaff.email" required
-                    [value]="currentStaff ? currentStaff.email : ''">
+                <input name="email" matInput placeholder="Email" [(ngModel)]="currentUser.email" required
+                    [value]="currentUser ? currentUser.email : ''">
                 <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
         </div>
         <div class="col">
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Date of Birth</mat-label>
-                <input matInput [matDatepicker]="dobPicker" [(ngModel)]="currentStaffDob" required
-                    [value]="currentStaff ? currentStaff.dob : ''">
+                <input matInput [matDatepicker]="dobPicker" [(ngModel)]="currentUserDob" required
+                    [value]="currentUser ? currentUser.dob : ''">
                 <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
                 <mat-datepicker #dobPicker color="warn"></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Password</mat-label>
+                <input name="password" matInput placeholder="Password" [(ngModel)]="currentUser.password" required
+                    [type]="hide ? 'password' : 'text'" [value]="currentUser ? currentUser.password : ''">
+                <button mat-icon-button matSuffix (mousedown)="hide = false" (mouseup)="hide = true"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Confirm Password</mat-label>
+                <input name="confirmPassword" matInput placeholder="Confirm Password" required
+                    [type]="hide ? 'password' : 'text'" [(ngModel)]="currentUserConfirmPassword">
+                <button mat-icon-button matSuffix (mousedown)="hide = false" (mouseup)="hide = true"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
             </mat-form-field>
         </div>
     </div>
@@ -66,7 +84,7 @@
                         </button>
                     </span>
                 </div>
-                <mat-list-item *ngFor="let address of currentStaff.addresses">
+                <mat-list-item *ngFor="let address of currentUser.addresses">
                     <mat-icon mat-list-icon>location_on</mat-icon>
                     <div mat-line>Line1: {{address.line1}}</div>
                     <div mat-line *ngIf="address.line2">Line2: {{address.line2}} </div>
@@ -139,8 +157,16 @@
             </div>
         </div>
     </div>
-</mat-dialog-content>
-<div mat-dialog-actions style="float: right;">
-    <button mat-button mat-dialog-close>Close</button>
-    <button mat-button (click)="saveStaff()" cdkFocusInitial>Save</button>
+    <mat-divider></mat-divider>
+    <div class="row" style="margin-top: 2%; margin-bottom: 2%;">
+        <div class="col-12">
+            <button mat-button mat-mini-fab color="warn" (click)="reset()" matTooltip="Reset">
+                <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-button mat-mini-fab color="warn" (click)="saveUser()" matTooltip="Submit" cdkFocusInitial
+                style="float: right;">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </div>
 </div>

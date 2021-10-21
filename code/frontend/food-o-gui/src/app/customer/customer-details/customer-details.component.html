@@ -14,13 +14,13 @@
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>First Name</mat-label>
                     <input name="firstName" matInput placeholder="First Name" [(ngModel)]="currentUser.firstName"
-                        [value]="currentUser ? currentUser.firstName : ''">
+                        required [value]="currentUser ? currentUser.firstName : ''">
                 </mat-form-field>
             </div>
             <div class="col">
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Last Name</mat-label>
-                    <input name="lastName" matInput placeholder="Last Name" [(ngModel)]="currentUser.lastName"
+                    <input name="lastName" matInput placeholder="Last Name" [(ngModel)]="currentUser.lastName" required
                         [value]="currentUser ? currentUser.lastName : ''">
                 </mat-form-field>
             </div>
@@ -29,7 +29,7 @@
             <div class="col">
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Phone number</mat-label>
-                    <input name="phone" matInput placeholder="Phone Number" [(ngModel)]="currentUser.phone"
+                    <input name="phone" matInput placeholder="Phone Number" [(ngModel)]="currentUser.phone" required
                         [value]="currentUser ? currentUser.phone : ''">
                     <mat-icon matSuffix>phone</mat-icon>
                 </mat-form-field>
@@ -37,7 +37,7 @@
             <div class="col">
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Email</mat-label>
-                    <input name="email" matInput placeholder="Email" [(ngModel)]="currentUser.email"
+                    <input name="email" matInput placeholder="Email" [(ngModel)]="currentUser.email" required
                         [value]="currentUser ? currentUser.email : ''">
                     <mat-icon matSuffix>email</mat-icon>
                 </mat-form-field>
@@ -45,7 +45,7 @@
             <div class="col">
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Date of Birth</mat-label>
-                    <input matInput [matDatepicker]="dobPicker" [(ngModel)]="currentUserDob"
+                    <input matInput [matDatepicker]="dobPicker" [(ngModel)]="currentUserDob" required
                         [value]="currentUser ? currentUser.dob : ''">
                     <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
                     <mat-datepicker #dobPicker color="warn"></mat-datepicker>

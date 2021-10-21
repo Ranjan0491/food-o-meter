@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../alert/alert.component';
+import { ExceptionResponse } from '../_model/exception-response';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,12 @@ export class AlertService {
   showMessage(message: string, type: MessageType) {
     this.dialog.open(AlertComponent, {
       data: { message: message, type: type.toString() }
+    });
+  }
+
+  showErrorResponseMessage(error: ExceptionResponse, type: MessageType) {
+    this.dialog.open(AlertComponent, {
+      data: { message: error.message + ' at ' + error.localDateTime + '\n' + error.stackTrace.toLocaleString(), type: type.toString() }
     });
   }
 }

@@ -10,7 +10,8 @@ export const environment = {
   userServiceUrlPrefix: "/food-o-meter-user-service/v1/users",
 
   foodItemCategory: ['STARTER', 'MAINS', 'DESSERT', 'BEVERAGES'],
-  staffRoles: ['ADMIN', 'DELIVERY_AGENT', 'CHEF']
+  staffRoles: ['ADMIN', 'DELIVERY_AGENT', 'CHEF'],
+  customerRole: 'CUSTOMER'
 };
 
 /*

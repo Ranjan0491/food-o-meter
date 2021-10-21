@@ -35,17 +35,21 @@ public class UserService {
     @Transactional
     public UserDto saveUser(UserDto userDtoDto) {
         if(userDtoDto!=null) {
-            if(userDtoDto.getAddresses()!=null && userDtoDto.getAddresses().size()>0) {
-                userDtoDto.getAddresses().forEach(addressDto -> addressDto.setId(UUID.randomUUID().toString()));
-                if(userDtoDto.getUserRole() == UserRole.ADMIN || userDtoDto.getUserRole() == UserRole.CHEF || userDtoDto.getUserRole() == UserRole.DELIVERY_AGENT) {
-                    userDtoDto.setPassword("pass1234");
+            if(isExistingUser(userDtoDto.getEmail(), userDtoDto.getPhone())) {
+                if(userDtoDto.getAddresses()!=null && userDtoDto.getAddresses().size()>0) {
+                    userDtoDto.getAddresses().forEach(addressDto -> addressDto.setId(UUID.randomUUID().toString()));
+                    if(userDtoDto.getUserRole() == UserRole.ADMIN || userDtoDto.getUserRole() == UserRole.CHEF || userDtoDto.getUserRole() == UserRole.DELIVERY_AGENT) {
+                        userDtoDto.setPassword("pass1234");
+                    }
+                    UserDto savedUserDto = userMapper.userToUserDto(userRepository.save(userMapper.userDtoToUser(userDtoDto)));
+                    savedUserDto.setPassword(null);
+                    log.info("User saved : "+savedUserDto);
+                    return  savedUserDto;
+                } else {
+                    throw new UserException("No address is present for user.");
                 }
-                UserDto savedUserDto = userMapper.userToUserDto(userRepository.save(userMapper.userDtoToUser(userDtoDto)));
-                savedUserDto.setPassword(null);
-                log.info("User saved : "+savedUserDto);
-                return  savedUserDto;
             } else {
-                throw new UserException("No address is present for user.");
+                throw new UserException("User already exists with provided email and phone.");
             }
         } else {
             throw new UserException("User object is null.");
@@ -148,6 +152,15 @@ public class UserService {
             userRepository.save(userMapper.userDtoToUser(userDtoFromDB));
         } else {
             throw new UserException("User could not be found");
+        }
+    }
+
+    private boolean isExistingUser(String email, String phone) {
+        User user = userRepository.findByEmailAndPhone(email, phone);
+        if(user == null) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
