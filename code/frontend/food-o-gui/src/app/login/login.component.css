@@ -1,0 +1,95 @@
+.example-card {
+    width: 50%;
+    margin-top: 20%;
+    margin-left: 22%;
+    margin-bottom: 15%;
+}
+
+.card {
+    margin-bottom: 20px;
+    border: none
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(to right, #b92b27, #1565c0)
+}
+
+.box {
+    width: 500px;
+    padding: 30px;
+    left: 5%;
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px;
+    border-radius: 20px;
+}
+
+.input-format {
+    width: 100% !important;
+    /* border: 0; */
+    background: none;
+    display: block;
+    /* margin: 20px auto; */
+    text-align: center;
+    border: 2px solid #3498db;
+    /* padding: 10px 10px; */
+    width: 250px;
+    /* outline: none;
+    color: white; */
+    border-radius: 24px;
+    transition: 0.25s;
+    margin-top: 2%;
+}
+
+.box-header {
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: center;
+    display: inherit;
+}
+
+div.input-format:focus {
+    width: 300px;
+    border-color: #2ecc71
+}
+
+.box input[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+    color: black;
+}
+
+.box input[type="submit"]:hover {
+    background: #2ecc71;
+    color: white;
+    border: 2px solid #2ecc71;
+}
+
+.forgot {
+    text-decoration: underline
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+    background-color: white !important;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-ripple {
+    height: 0px !important;
+}
+
+.forgot {
+    text-decoration: underline
+}

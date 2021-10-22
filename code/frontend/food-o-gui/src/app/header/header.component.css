@@ -9,7 +9,7 @@ body {
 }
 
 .header2.bg-success-gradiant {
-    background: linear-gradient(to right, #dcc6f1 0%, #243082 100%);
+    background: linear-gradient(to right, #f5a7a5, #1565c0);
 }
 
 .header2 .font-12 {

@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   }
 
   routeToLoginPage() {
-    this.router.navigateByUrl('/sign-in');
+    this.router.navigate(["sign-in"]);
   }
 
 }
