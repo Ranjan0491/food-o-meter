@@ -1,0 +1,10 @@
+<div class="margin-1-percent alert alert-info">
+    <p style="width: 100%; text-align: center; margin-bottom: 1%;">
+        <mat-icon>info</mat-icon>
+    </p>
+    <p>{{ data }}</p>
+</div>
+<div mat-dialog-actions style="float: right;">
+    <button mat-button (click)="sendAndClose('OK')">Ok</button>
+    <button mat-button (click)="sendAndClose('CANCEL')">Cancel</button>
+</div>

@@ -18,7 +18,7 @@ export class AlertService {
 
   showErrorResponseMessage(error: ExceptionResponse, type: MessageType) {
     this.dialog.open(AlertComponent, {
-      data: { message: error.message + ' at ' + error.localDateTime + '\n' + error.stackTrace.toLocaleString(), type: type.toString() }
+      data: { message: error.message + ' at ' + error.localDateTime + (error.stackTrace ? '<br>' + error.stackTrace.toLocaleString() : ''), type: type.toString() }
     });
   }
 }

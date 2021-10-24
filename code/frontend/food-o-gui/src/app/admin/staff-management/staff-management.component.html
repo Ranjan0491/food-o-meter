@@ -37,7 +37,7 @@
                         <mat-icon>edit</mat-icon>
                     </button>
                     <button mat-button mat-mini-fab color="warn" matTooltip="Delete" matTooltipPosition="after"
-                        style="margin-left: 5%;" (click)="deleteStaff(staff)">
+                        *ngIf="staff.status === 'ACTIVE'" style="margin-left: 5%;" (click)="deleteStaff(staff)">
                         <mat-icon>delete_forever</mat-icon>
                     </button>
                 </td>

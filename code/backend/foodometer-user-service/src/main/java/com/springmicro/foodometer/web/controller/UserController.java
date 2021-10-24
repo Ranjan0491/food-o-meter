@@ -1,6 +1,7 @@
 package com.springmicro.foodometer.web.controller;
 
 import com.springmicro.foodometer.constants.UserRole;
+import com.springmicro.foodometer.constants.UserStatus;
 import com.springmicro.foodometer.service.UserService;
 import com.springmicro.foodometer.web.dto.AddressDto;
 import com.springmicro.foodometer.web.dto.StaffDto;
@@ -57,9 +58,9 @@ public class UserController {
     }
 
     @GetMapping("/staffs-by-role/{userRole}")
-    public ResponseEntity<List<StaffDto>> getStaffByRole(@PathVariable("userRole")UserRole userRole) {
+    public ResponseEntity<List<StaffDto>> getStaffByRole(@PathVariable("userRole")UserRole userRole, @RequestParam UserStatus userStatus) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(userService.findStaffsByRole(userRole));
+                .body(userService.findStaffsByRole(userRole, userStatus));
     }
 
     @GetMapping("/staffs-by-role")
@@ -72,5 +73,11 @@ public class UserController {
     public ResponseEntity<StaffDto> getStaffById(@PathVariable("id")String id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userService.findStaffsById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStaffById(@PathVariable String id, @RequestParam String requesterId) {
+        userService.deleteStaffById(id, requesterId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

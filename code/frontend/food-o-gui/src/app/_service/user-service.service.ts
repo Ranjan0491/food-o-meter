@@ -47,4 +47,14 @@ export class UserServiceService {
     };
     return this.http.get<Staff[]>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/staffs-by-role", httpOptions);
   }
+
+  public deleteStaff(id: string, requesterId: string) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/json'
+      }),
+      params: { 'requesterId': requesterId }
+    };
+    return this.http.delete<void>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + id, httpOptions);
+  }
 }

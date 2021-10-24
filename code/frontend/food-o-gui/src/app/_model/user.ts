@@ -10,6 +10,7 @@ export class User {
     addresses: Address[];
     password: string;
     userRole: string;
+    status: string;
 
     constructor(id?: string,
         firstName?: string,
@@ -19,7 +20,8 @@ export class User {
         dob?: string,
         addresses?: Address[],
         password?: string,
-        userRole?: string) {
+        userRole?: string,
+        status?: string) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,5 +31,6 @@ export class User {
         this.addresses = addresses;
         this.password = password;
         this.userRole = userRole;
+        this.status = status;
     }
 }

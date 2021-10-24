@@ -1,6 +1,7 @@
 package com.springmicro.foodometer.service;
 
 import com.springmicro.foodometer.constants.UserRole;
+import com.springmicro.foodometer.constants.UserStatus;
 import com.springmicro.foodometer.document.User;
 import com.springmicro.foodometer.exception.UserException;
 import com.springmicro.foodometer.repository.UserRepository;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,10 +34,11 @@ public class UserService {
 
     @Transactional
     public UserDto saveUser(UserDto userDtoDto) {
-        if(userDtoDto!=null) {
+        if(userDtoDto != null) {
             if(isExistingUser(userDtoDto.getEmail(), userDtoDto.getPhone())) {
-                if(userDtoDto.getAddresses()!=null && userDtoDto.getAddresses().size()>0) {
-                    userDtoDto.getAddresses().forEach(addressDto -> addressDto.setId(UUID.randomUUID().toString()));
+                if(userDtoDto.getAddresses()!=null && userDtoDto.getAddresses().size() > 0) {
+                    userDtoDto.getAddresses().forEach(addressDto -> addressDto.setId(ObjectId.get().toString()));
+                    userDtoDto.setStatus(UserStatus.ACTIVE);
                     if(userDtoDto.getUserRole() == UserRole.ADMIN || userDtoDto.getUserRole() == UserRole.CHEF || userDtoDto.getUserRole() == UserRole.DELIVERY_AGENT) {
                         userDtoDto.setPassword("pass1234");
                     }
@@ -111,9 +112,9 @@ public class UserService {
         }
     }
 
-    public List<StaffDto> findStaffsByRole(UserRole userRole) {
+    public List<StaffDto> findStaffsByRole(UserRole userRole, UserStatus userStatus) {
         if (userRole == UserRole.CHEF || userRole == UserRole.DELIVERY_AGENT) {
-            return userRepository.findAllByUserRole(userRole).stream().map(user -> staffMapper.userToStaffDto(user)).collect(Collectors.toList());
+            return userRepository.findAllByUserRoleAndStatus(userRole, userStatus).stream().map(user -> staffMapper.userToStaffDto(user)).collect(Collectors.toList());
         } else {
             throw new UserException("All user details cannot be fetched. Only staff details can be fetched.");
         }
@@ -161,6 +162,28 @@ public class UserService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void deleteStaffById(String id, String requesterId) {
+        if(!StringUtils.equalsIgnoreCase(id, requesterId)) {
+            UserDto requesterUserDto = getUserById(requesterId);
+            if (requesterUserDto != null && requesterUserDto.getUserRole() == UserRole.ADMIN) {
+                userRepository.findById(id).ifPresentOrElse(user -> {
+                    if (user.getStatus() == UserStatus.ACTIVE && user.getUserRole() != UserRole.CUSTOMER) {
+                        user.setStatus(UserStatus.INACTIVE);
+                        userRepository.save(user);
+                    } else {
+                        throw new UserException("Either requested user is a CUSTOMER or status is already " + user.getStatus());
+                    }
+                }, () -> {
+                    throw new UserException("Requested user is not available. Unable to change status to " + UserStatus.INACTIVE);
+                });
+            } else {
+                throw new UserException("Either user information is not found or user does not have required privilege for this operation.");
+            }
+        } else {
+            throw new UserException("Requested and requester cannot be same");
         }
     }
 }

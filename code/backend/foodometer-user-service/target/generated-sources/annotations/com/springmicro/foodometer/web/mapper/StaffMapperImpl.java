@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-10-19T17:49:26+0530",
+    date = "2021-10-24T12:36:42+0530",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 16.0.2 (Oracle Corporation)"
 )
 @Component
@@ -35,6 +35,7 @@ public class StaffMapperImpl implements StaffMapper {
             staffDto.setAddresses( new ArrayList<Address>( list ) );
         }
         staffDto.setUserRole( user.getUserRole() );
+        staffDto.setStatus( user.getStatus() );
 
         return staffDto;
     }

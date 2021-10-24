@@ -1,6 +1,7 @@
 package com.springmicro.foodometer.web.dto;
 
 import com.springmicro.foodometer.constants.UserRole;
+import com.springmicro.foodometer.constants.UserStatus;
 import com.springmicro.foodometer.document.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +27,6 @@ public class StaffDto {
     private String dob;
     private List<Address> addresses;
     private UserRole userRole;
+
+    private UserStatus status;
 }

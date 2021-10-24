@@ -2,6 +2,7 @@ package com.springmicro.foodometer.service;
 
 import com.springmicro.foodometer.constants.FoodOrderConstants;
 import com.springmicro.foodometer.constants.UserRole;
+import com.springmicro.foodometer.constants.UserStatus;
 import com.springmicro.foodometer.web.dto.AddressDto;
 import com.springmicro.foodometer.web.dto.StaffDto;
 import com.springmicro.foodometer.web.dto.UserDto;
@@ -28,7 +29,7 @@ public class UserLookUpService {
     }
 
     public List<StaffDto> fetchStaffsByRole(UserRole userRole) {
-        return Arrays.asList(restTemplate.getForObject("http://" + FoodOrderConstants.FOOD_USER_SERVICE_NAME + "/food-o-meter-user-service/v1/users/staffs-by-role/" + userRole, StaffDto[].class));
+        return Arrays.asList(restTemplate.getForObject("http://" + FoodOrderConstants.FOOD_USER_SERVICE_NAME + "/food-o-meter-user-service/v1/users/staffs-by-role/" + userRole + "?userStatus=" + UserStatus.ACTIVE, StaffDto[].class));
     }
 
     public StaffDto fetchStaffById(String id) {

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ExceptionResponse } from 'src/app/_model/exception-response';
 import { FoodItem } from 'src/app/_model/food-item';
 import { AlertService, MessageType } from 'src/app/_service/alert.service';
+import { ConfirmationService } from 'src/app/_service/confirmation.service';
 import { FoodItemServiceService } from 'src/app/_service/food-item-service.service';
 import { ItemAddEditComponent } from '../item-add-edit/item-add-edit.component';
 
@@ -22,6 +24,7 @@ export class ItemManagementComponent implements OnInit {
 
   constructor(private foodItemService: FoodItemServiceService,
     private alertService: AlertService,
+    private confirmationService: ConfirmationService,
     public addEditItemDialog: MatDialog) {
     this.getAllItems();
     this.foodItemDataSource = new MatTableDataSource([]);
@@ -62,16 +65,19 @@ export class ItemManagementComponent implements OnInit {
   }
 
   public deleteFoodItem(foodItem: FoodItem, selectedTabIndex: number) {
-    this.foodItemService.deleteFoodItem(foodItem.id).subscribe(response => {
-      this.foodItemService.getAllFoodItems().subscribe(data => {
-        this.foodItems = data;
-        this.getUniqueCategories(data);
-        this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[selectedTabIndex]) >= 0));
-        this.alertService.showMessage("Item " + foodItem.itemName + " has been deleted", MessageType.SUCCESS);
+    this.confirmationService.showMessage('Do you want to remove ' + foodItem.itemName + '?')
+      .afterClosed().subscribe(result => {
+        if (result === 'OK') {
+          this.foodItemService.getAllFoodItems().subscribe(data => {
+            this.foodItems = data;
+            this.getUniqueCategories(data);
+            this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[selectedTabIndex]) >= 0));
+            this.alertService.showMessage("Item " + foodItem.itemName + " has been deleted", MessageType.SUCCESS);
+          }, (error: ExceptionResponse) => {
+            this.alertService.showErrorResponseMessage(error, MessageType.ERROR);
+          });
+        }
       });
-    }, error => {
-      this.alertService.showMessage("Item could not be deleted", MessageType.ERROR);
-    });
   }
 
   public addNewItem() {

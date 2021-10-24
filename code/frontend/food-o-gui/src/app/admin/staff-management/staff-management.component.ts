@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ExceptionResponse } from 'src/app/_model/exception-response';
 import { Staff } from 'src/app/_model/staff';
-import { AlertService } from 'src/app/_service/alert.service';
+import { AlertService, MessageType } from 'src/app/_service/alert.service';
+import { ConfirmationService } from 'src/app/_service/confirmation.service';
 import { UserServiceService } from 'src/app/_service/user-service.service';
 import { StaffAddEditComponent } from '../staff-add-edit/staff-add-edit.component';
 
@@ -18,7 +20,8 @@ export class StaffManagementComponent implements OnInit {
   staffDataSource: MatTableDataSource<Staff>;
 
   constructor(private userService: UserServiceService,
-    private alertServicce: AlertService,
+    private confirmationService: ConfirmationService,
+    private alertService: AlertService,
     public addEditStaffDialog: MatDialog) {
     this.populateStaffDetails();
   }
@@ -41,7 +44,17 @@ export class StaffManagementComponent implements OnInit {
   }
 
   deleteStaff(staff: Staff) {
-
+    this.confirmationService.showMessage('Do you want to remove ' + staff.firstName + ', ' + staff.lastName + ' (' + staff.userRole + ')')
+      .afterClosed().subscribe(result => {
+        if (result === 'OK') {
+          this.userService.deleteStaff(staff.id, '616faacff2755a5ebf3724ca').subscribe(() => {
+            this.populateStaffDetails();
+            this.alertService.showMessage('Staff status has been changed to INCATIVE', MessageType.SUCCESS);
+          }, (error: ExceptionResponse) => {
+            this.alertService.showErrorResponseMessage(error, MessageType.ERROR);
+          });
+        }
+      });
   }
 
   addNewStaff() {

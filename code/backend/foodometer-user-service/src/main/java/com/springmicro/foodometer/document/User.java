@@ -1,6 +1,7 @@
 package com.springmicro.foodometer.document;
 
 import com.springmicro.foodometer.constants.UserRole;
+import com.springmicro.foodometer.constants.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,4 +29,6 @@ public class User {
     private List<Address> addresses;
     private String password;
     private UserRole userRole;
+
+    private UserStatus status;
 }

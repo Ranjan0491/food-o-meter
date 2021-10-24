@@ -10,6 +10,7 @@ export class Staff {
     dob: string;
     addresses: Address[];
     userRole: string;
+    status: string;
 
     constructor(id?: string,
         firstName?: string,
@@ -18,7 +19,8 @@ export class Staff {
         email?: string,
         dob?: string,
         addresses?: Address[],
-        userRole?: string) {
+        userRole?: string,
+        status?: string) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,9 +29,10 @@ export class Staff {
         this.email = email;
         this.dob = dob;
         this.addresses = addresses;
+        this.status = status;
     }
 
     public toUser() {
-        return new User(this.id, this.firstName, this.lastName, this.phone, this.email, this.dob, this.addresses, null, this.userRole);
+        return new User(this.id, this.firstName, this.lastName, this.phone, this.email, this.dob, this.addresses, null, this.userRole, this.status);
     }
 }
