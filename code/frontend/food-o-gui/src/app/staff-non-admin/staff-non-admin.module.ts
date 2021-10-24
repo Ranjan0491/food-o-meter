@@ -24,12 +24,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CustomerModule } from '../customer/customer.module';
 import { StaffDashboardComponent } from './staff-dashboard/staff-dashboard.component';
+import { StaffServedOrderComponent } from './staff-served-order/staff-served-order.component';
 
 
 
 @NgModule({
   declarations: [
-    StaffDashboardComponent
+    StaffDashboardComponent,
+    StaffServedOrderComponent
   ],
   imports: [
     CommonModule,

@@ -62,4 +62,10 @@ public class FoodOrderController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(foodOrderService.getAllFoodOrdersByStatus(foodOrderStatus));
     }
+
+    @GetMapping("/orders/staff")
+    public ResponseEntity<List<DetailedFoodOrderDto>> getOrdersByStaff(@RequestParam String staffId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(foodOrderService.getAllFoodOrdersServedByStaff(staffId));
+    }
 }

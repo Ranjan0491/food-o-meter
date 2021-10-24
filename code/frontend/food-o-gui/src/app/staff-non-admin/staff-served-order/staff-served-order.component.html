@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row" style="margin-top: 2%;">
+        <div class="col">
+            <h1 class="display-4" style="float: left;">Served Orders</h1>
+            <button mat-button mat-mini-fab color="warn" matTooltip="Refresh" matTooltipPosition="below"
+                style="float: right;" (click)="fetchOrderList()">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="row" *ngFor="let index of rows">
+        <div class="col" *ngIf="index*2 &lt; foodOrders.length">
+            <mat-card class="example-card">
+                <mat-card-title>
+                    <span>{{ foodOrders[(index*2)].orderTimestamp | date: 'MMM-dd-yyyy HH:mm:ss' }}</span>
+                </mat-card-title>
+                <mat-card-subtitle class="margin-1-percent">{{ foodOrders[(index*2)].id }}</mat-card-subtitle>
+                <mat-card-content>
+                    <div class="margin-1-percent alert"
+                        [ngClass]="{'alert-success': foodOrders[(index*2)].orderStatus === 'DELIVERED', 'alert-secondary' : foodOrders[(index*2)].orderStatus === 'NEW', 'alert-danger' : foodOrders[(index*2)].orderStatus === 'CANCELLED', 'alert-info' : (foodOrders[(index*2)].orderStatus === 'PLACED' || foodOrders[(index*2)].orderStatus === 'PREPARING' || foodOrders[(index*2)].orderStatus === 'PREPARED' || foodOrders[(index*2)].orderStatus === 'PICKED_UP' || foodOrders[(index*2)].orderStatus === 'ON_THE_WAY') }">
+                        {{ foodOrders[(index*2)].orderStatus }}
+                    </div>
+                    <div>
+                        <mat-list>
+                            <div mat-subheader>Ordered items</div>
+                            <mat-list-item class="list-indent" *ngFor="let food of foodOrders[(index*2)].foodItems">
+                                <div mat-line>{{food.foodItemDto ? food.foodItemDto.itemName : 'Item is no longer
+                                    served'}}</div>
+                                <div mat-line style="padding-left: 10%;">{{'x ' + food.quantity}}</div>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col" *ngIf="(index*2)+1 &lt; foodOrders.length">
+            <mat-card class="example-card">
+                <mat-card-title>
+                    <span>{{ foodOrders[(index*2)+1].orderTimestamp | date: 'MMM-dd-yyyy HH:mm:ss' }}</span>
+                </mat-card-title>
+                <mat-card-subtitle class="margin-1-percent">{{ foodOrders[(index*2)+1].id }}</mat-card-subtitle>
+                <mat-card-content>
+                    <div class="margin-1-percent alert"
+                        [ngClass]="{'alert-success': foodOrders[(index*2)+1].orderStatus === 'DELIVERED', 'alert-secondary' : foodOrders[(index*2)+1].orderStatus === 'NEW', 'alert-danger' : foodOrders[(index*2)+1].orderStatus === 'CANCELLED', 'alert-info' : (foodOrders[(index*2)+1].orderStatus === 'PLACED' || foodOrders[(index*2)+1].orderStatus === 'PREPARING' || foodOrders[(index*2)+1].orderStatus === 'PREPARED' || foodOrders[(index*2)+1].orderStatus === 'PICKED_UP' || foodOrders[(index*2)+1].orderStatus === 'ON_THE_WAY') }">
+                        {{ foodOrders[(index*2)+1].orderStatus }}
+                    </div>
+                    <div>
+                        <mat-list>
+                            <div mat-subheader>Ordered items</div>
+                            <mat-list-item class="list-indent" *ngFor="let food of foodOrders[(index*2)+1].foodItems">
+                                <div mat-line>{{food.foodItemDto ? food.foodItemDto.itemName : 'Item is no longer
+                                    served'}}</div>
+                                <div mat-line style="padding-left: 10%;">{{'x ' + food.quantity}}</div>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col" *ngIf="(index*2)+1 === foodOrders.length"></div>
+    </div>
+</div>

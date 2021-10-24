@@ -7,6 +7,10 @@
 
             <mat-nav-list>
                 <mat-list-item (click)="changeView(0)">
+                    <mat-icon mat-list-icon>ballot</mat-icon>
+                    <h4 mat-line *ngIf="isExpanded">Served Orders</h4>
+                </mat-list-item>
+                <mat-list-item (click)="changeView(1)">
                     <mat-icon mat-list-icon>account_circle</mat-icon>
                     <h4 mat-line *ngIf="isExpanded">Modify/Add Details</h4>
                 </mat-list-item>
@@ -14,7 +18,8 @@
         </mat-drawer>
 
         <div class="example-sidenav-content">
-            <app-customer-details *ngIf="displayView[0]"></app-customer-details>
+            <app-staff-served-order *ngIf="displayView[0]"></app-staff-served-order>
+            <app-customer-details *ngIf="displayView[1]"></app-customer-details>
         </div>
     </mat-drawer-container>
 </div>

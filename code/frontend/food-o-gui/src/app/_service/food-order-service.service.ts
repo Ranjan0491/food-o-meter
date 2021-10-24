@@ -44,4 +44,14 @@ export class FoodOrderServiceService {
     return this.http.put<FoodOrder>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/customers/" + customerId + "/orders/" + orderId + "/cancel", this.httpOptions);
   }
 
+  public getOrdersByStaffId(staffId: string) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'accept': 'application/json'
+      }),
+      params: { 'staffId': staffId }
+    };
+    return this.http.get<DetailedFoodOrder[]>(environment.apiUrlHostAndPort + environment.orderServiceUrlPrefix + "/orders/staff", httpOptions);
+  }
+
 }

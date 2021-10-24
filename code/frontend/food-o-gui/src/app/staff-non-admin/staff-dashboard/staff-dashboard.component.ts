@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class StaffDashboardComponent implements OnInit {
 
   isExpanded: boolean = false;
-  displayView: boolean[] = [false];
+  displayView: boolean[] = [false, false];
 
   constructor() { }
 
