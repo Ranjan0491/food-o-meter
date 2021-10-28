@@ -59,6 +59,7 @@ com\springmicro\foodometer\web\dto\DetailedFoodItemQuantityDto.class
 com\springmicro\foodometer\web\dto\FoodItemDto.class
 com\springmicro\foodometer\constants\FoodOrderConstants.class
 com\springmicro\foodometer\web\dto\event\PrepareOrderRequest$PrepareOrderRequestBuilder.class
+com\springmicro\foodometer\constants\UserStatus.class
 com\springmicro\foodometer\repository\FoodOrderRepository.class
 com\springmicro\foodometer\service\job\AllocateChefForFoodOrderJob.class
 com\springmicro\foodometer\web\dto\event\PickUpOrderRequest.class

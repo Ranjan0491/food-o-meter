@@ -16,4 +16,5 @@ C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-user-
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-user-service\src\main\java\com\springmicro\foodometer\config\LocalDiscovery.java
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-user-service\src\main\java\com\springmicro\foodometer\config\MongoConfig.java
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-user-service\src\main\java\com\springmicro\foodometer\document\User.java
+C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-user-service\src\main\java\com\springmicro\foodometer\constants\UserStatus.java
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-user-service\src\main\java\com\springmicro\foodometer\web\dto\AddressDto.java

@@ -8,6 +8,7 @@ C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-order
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-order-service\src\main\java\com\springmicro\foodometer\statemachine\FoodOrderStateChangeInterceptor.java
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-order-service\src\main\java\com\springmicro\foodometer\service\ItemLookupService.java
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-order-service\src\main\java\com\springmicro\foodometer\web\dto\UserDto.java
+C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-order-service\src\main\java\com\springmicro\foodometer\constants\UserStatus.java
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-order-service\src\main\java\com\springmicro\foodometer\repository\FoodOrderDeliveryRepository.java
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-order-service\src\main\java\com\springmicro\foodometer\document\FoodOrderPreparation.java
 C:\Users\ranja\Documents\Repositories\food-o-meter\code\backend\foodometer-order-service\src\main\java\com\springmicro\foodometer\repository\FoodOrderRepository.java
