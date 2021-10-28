@@ -12,4 +12,5 @@ public interface FoodOrderDeliveryRepository extends MongoRepository<FoodOrderDe
 
     FoodOrderDelivery findByFoodOrderId(String foodOrderId);
     List<FoodOrderDelivery> findByFoodOrderStatusIn(List<FoodOrderStatus> foodOrderStatuses);
+    List<FoodOrderDelivery> findByStaffId(String staffId);
 }

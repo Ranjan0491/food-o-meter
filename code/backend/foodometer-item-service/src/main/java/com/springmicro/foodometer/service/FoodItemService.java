@@ -53,7 +53,7 @@ public class FoodItemService {
 
     public FoodItemDto getAllFoodItemsByName(String name) {
         FoodItem foodItem = foodItemRepository.findAllByItemName(name);
-        log.debug(foodItem.toString());
+        log.debug(foodItem == null ? "NULL": foodItem.toString());
         return foodItemMapper.foodItemToFoodItemDto(foodItem);
     }
 
@@ -65,5 +65,9 @@ public class FoodItemService {
         } else {
             throw new Exception("Food item with id " + id + " does not exists.");
         }
+    }
+
+    public void deleteFoodItem(String id) {
+        foodItemRepository.deleteById(id);
     }
 }

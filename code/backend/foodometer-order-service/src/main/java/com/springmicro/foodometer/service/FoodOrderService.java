@@ -2,8 +2,12 @@ package com.springmicro.foodometer.service;
 
 import com.google.common.base.Enums;
 import com.springmicro.foodometer.constants.FoodOrderStatus;
+import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.document.FoodOrder;
+import com.springmicro.foodometer.document.FoodOrderDelivery;
 import com.springmicro.foodometer.exception.OrderException;
+import com.springmicro.foodometer.repository.FoodOrderDeliveryRepository;
+import com.springmicro.foodometer.repository.FoodOrderPreparationRepository;
 import com.springmicro.foodometer.repository.FoodOrderRepository;
 import com.springmicro.foodometer.web.dto.*;
 import com.springmicro.foodometer.web.mapper.FoodOrderMapper;
@@ -28,6 +32,8 @@ public class FoodOrderService {
     private final ItemLookupService itemLookupService;
     private final FoodOrderManager foodOrderManager;
     private final UserLookUpService userLookUpService;
+    private final FoodOrderDeliveryRepository foodOrderDeliveryRepository;
+    private final FoodOrderPreparationRepository foodOrderPreparationRepository;
 
     public List<FoodOrderDto> getAllOrdersByCustomerId(String customerId) {
         List<FoodOrder> foodOrders = foodOrderRepository.findAllByCustomerId(customerId);
@@ -95,7 +101,7 @@ public class FoodOrderService {
                                 Double discount = applicableDiscountPercent(foodOrderDto);
                                 foodOrderDto.setOrderAmount(orderAmount);
                                 foodOrderDto.setDiscount(discount * 100);
-                                foodOrderDto.setDiscountedAmount(orderAmount * (1 - discount));
+                                foodOrderDto.setPayableAmount(orderAmount * (1 - discount));
                                 FoodOrder foodOrder = foodOrderRepository.save(foodOrderMapper.foodOrderDtoToFoodOrder(foodOrderDto));
                                 foodOrderManager.newFoodOrder(foodOrder);
                                 return foodOrderMapper.foodOrderToFoodOrderDto(foodOrder);
@@ -159,6 +165,28 @@ public class FoodOrderService {
 
     public List<FoodOrderDto> getAllFoodOrdersByStatus(String status) {
         return getAllFoodOrdersByStatus(Enums.getIfPresent(FoodOrderStatus.class, status).get());
+    }
+
+    public List<DetailedFoodOrderDto> getAllFoodOrdersServedByStaff(String staffId) {
+        StaffDto staffDto = userLookUpService.fetchStaffById(staffId);
+        List<String> foodOrderIdList = null;
+        if(staffDto.getUserRole() == UserRole.DELIVERY_AGENT) {
+            foodOrderIdList = foodOrderDeliveryRepository.findByStaffId(staffId).stream().map(FoodOrderDelivery::getFoodOrderId).collect(Collectors.toList());
+        } else if(staffDto.getUserRole() == UserRole.CHEF) {
+            foodOrderIdList = foodOrderPreparationRepository.findByStaffId(staffId).stream().map(FoodOrderDelivery::getFoodOrderId).collect(Collectors.toList());
+        } else {
+            throw new OrderException("Food Order enquiry is allowed for only " + UserRole.CHEF + " and "+UserRole.DELIVERY_AGENT);
+        }
+        if(foodOrderIdList != null && !foodOrderIdList.isEmpty()) {
+            return foodOrderIdList.stream().map(id -> {
+                DetailedFoodOrderDto detailedFoodOrderDto = null;
+                try {
+                    detailedFoodOrderDto = getDetailedOrderByOrderId(id);
+                } catch (Exception e) {}
+                return detailedFoodOrderDto;
+            }).collect(Collectors.toList());
+        }
+        return null;
     }
 
     private boolean validateFoodItemsInOrder(FoodOrderDto foodOrderDto) {

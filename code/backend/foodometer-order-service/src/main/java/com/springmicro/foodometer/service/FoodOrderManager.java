@@ -205,7 +205,7 @@ public class FoodOrderManager {
         return status;
     }
 
-    private boolean awaitForStatus(String foodOrderId, FoodOrderStatus foodOrderStatus) {
+    private void awaitForStatus(String foodOrderId, FoodOrderStatus foodOrderStatus) {
         AtomicBoolean found = new AtomicBoolean(false);
         AtomicInteger loopCount = new AtomicInteger(0);
         while (!found.get()) {
@@ -229,16 +229,11 @@ public class FoodOrderManager {
                 }
             }
         }
-        return found.get();
     }
 
     private StateMachine<FoodOrderStatus, FoodOrderEvent> build(FoodOrder foodOrder){
         StateMachine<FoodOrderStatus, FoodOrderEvent> stateMachine = stateMachineFactory.getStateMachine(foodOrder.getId());
         stateMachine.stop();
-//        StateMachineFunction<StateMachineAccess<FoodOrderStatus, FoodOrderEvent>> stateMachineFunction = stateMachineAccess -> {
-//            stateMachineAccess.addStateMachineInterceptor(foodOrderStateChangeInterceptor);
-//            stateMachineAccess.resetStateMachine(new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),null, null, null));
-//        };
         stateMachine.getStateMachineAccessor().doWithAllRegions(stateMachineAccess -> {
             stateMachineAccess.addStateMachineInterceptor(foodOrderStateChangeInterceptor);
             stateMachineAccess.resetStateMachine(new DefaultStateMachineContext<>(foodOrder.getOrderStatus(),null, null, null));

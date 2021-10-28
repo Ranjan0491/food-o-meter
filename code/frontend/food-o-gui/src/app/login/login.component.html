@@ -1,0 +1,38 @@
+<div class="container">
+    <mat-card class="example-card box">
+        <mat-card-header class="box-header">
+            <mat-card-title>Sign In</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="input-format">
+                        <mat-label>Email or Phone</mat-label>
+                        <input name="username" matInput [(ngModel)]="currentUsername">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="input-format">
+                        <mat-label>Password</mat-label>
+                        <input name="password" matInput [(ngModel)]="currentPassword"
+                            [type]="hide ? 'password' : 'text'">
+                        <button mat-icon-button matSuffix (mousedown)="hide = false" (mouseup)="hide = true"
+                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <input type="submit" name="" value="Login" href="#">
+        </mat-card-actions>
+        <div class="row">
+            <div class="col">
+                <a class="forgot text-muted" href="/customer-registration">New User? Sign up.</a>
+            </div>
+        </div>
+    </mat-card>
+</div>

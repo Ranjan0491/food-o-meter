@@ -22,6 +22,7 @@ com\springmicro\foodometer\service\UserService.class
 com\springmicro\foodometer\web\dto\StaffDto$StaffDtoBuilder.class
 com\springmicro\foodometer\exception\ExceptionResponse.class
 com\springmicro\foodometer\repository\UserRepository.class
+com\springmicro\foodometer\constants\UserStatus.class
 com\springmicro\foodometer\document\User.class
 com\springmicro\foodometer\config\MongoConfig.class
 com\springmicro\foodometer\web\controller\UserController.class

@@ -22,14 +22,19 @@ spring:
           predicates:
             - Path=/food-o-meter-user-service/v1/**
       globalcors:
-        cors-configurations:
+        corsConfigurations:
           '[/**]':
             allowedOrigins: "http://localhost:4200"
+            allowedHeaders:
+              - content-type
+              - accept
             allowedMethods:
               - GET
               - POST
               - PUT
               - DELETE
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 
 eureka:
   client:

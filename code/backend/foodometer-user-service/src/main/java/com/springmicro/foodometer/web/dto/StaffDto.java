@@ -1,12 +1,15 @@
 package com.springmicro.foodometer.web.dto;
 
 import com.springmicro.foodometer.constants.UserRole;
+import com.springmicro.foodometer.constants.UserStatus;
+import com.springmicro.foodometer.document.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,5 +23,10 @@ public class StaffDto {
     private String lastName;
     @NotNull
     private String phone;
+    private String email;
+    private String dob;
+    private List<Address> addresses;
     private UserRole userRole;
+
+    private UserStatus status;
 }

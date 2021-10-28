@@ -39,7 +39,7 @@ public abstract class DetailedFoodOrderMapperDecorator implements FoodOrderMappe
             DetailedFoodOrderDto detailedFoodOrderDto = DetailedFoodOrderDto.builder()
                     .id(foodOrder.getId())
                     .discount(foodOrder.getDiscount())
-                    .discountedAmount(foodOrder.getDiscountedAmount())
+                    .payableAmount(foodOrder.getPayableAmount())
                     .orderAmount(foodOrder.getOrderAmount())
                     .orderTimestamp(foodOrder.getOrderTimestamp())
                     .orderStatus(foodOrder.getOrderStatus())

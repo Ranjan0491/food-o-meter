@@ -1,5 +1,7 @@
 # food-o-meter
-This is a food order and delivery system built with **Spring Boot** and **Angular** with **Mongo** serving the backend database.
+This is a food order and delivery system built with **Spring Boot** and **Angular** with **Mongo** serving the backend database. Even though there is no actual payment system implemented, it is a great example for microservice implementation along with asynchronous messaging and **Spring State Machine** transitions.
+
+The architecture could be supported by containerized platforms and scaled based on need.
 
 
 ## 💻 Built with
@@ -64,4 +66,6 @@ artemis create food-o-meter-broker --user <USERNAME> --password <PASSWORD> --req
 ## 🙇 Useful Links and Settings
  - https://github.com/sfg-beer-works/sfg-beer-works-bom/blob/master/pom.xml
  - https://github.com/sfg-beer-works/sfg-brewery-bom/blob/master/pom.xml
+ - https://github.com/spring-cloud/spring-cloud-gateway/issues/840
+ - https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/
  - For MapStruct NullPointerException: In your Intellij IDEA go to `File | Settings | Build, Execution, Deployment | Compiler | user-local build process vm options` and set this value `-Djps.track.ap.dependencies=false`

@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FoodItem } from '../_model/food-item';
 import { FoodItemServiceService } from '../_service/food-item-service.service';
@@ -36,14 +35,14 @@ export class HomeComponent implements OnInit {
   private getUniqueCategories(foods: FoodItem[]) {
     let foodCategory = new Set<string>();
     foods.forEach(food => {
-      foodCategory.add(food.category.toString())
+      foodCategory.add(food.category)
     });
     this.categories = Array.from(foodCategory.values());
   }
 
   public changeFoodItemTable(selectedTabIndex: number) {
     this.selectedTabControl.setValue(selectedTabIndex);
-    this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.toString().indexOf(this.categories[selectedTabIndex]) >= 0));
+    this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[selectedTabIndex]) >= 0));
   }
 
 }

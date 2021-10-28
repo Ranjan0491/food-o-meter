@@ -55,4 +55,10 @@ public class FoodItemController {
         }
     }
 
+    @DeleteMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteFoodItem(@PathVariable("id") String id) throws Exception {
+        foodItemService.deleteFoodItem(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }

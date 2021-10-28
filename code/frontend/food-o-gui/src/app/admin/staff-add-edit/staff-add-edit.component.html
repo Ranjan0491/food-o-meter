@@ -1,0 +1,146 @@
+<h2 mat-dialog-title>Add/Edit Staff Details</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="fill">
+                <mat-label>Role</mat-label>
+                <mat-select [(ngModel)]="currentStaff.userRole" [(value)]="currentStaff.userRole">
+                    <mat-option [value]="r" *ngFor="let r of roles">{{r}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>First Name</mat-label>
+                <input name="firstName" matInput placeholder="First Name" [(ngModel)]="currentStaff.firstName" required
+                    [value]="currentStaff ? currentStaff.firstName : ''">
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Last Name</mat-label>
+                <input name="lastName" matInput placeholder="Last Name" [(ngModel)]="currentStaff.lastName" required
+                    [value]="currentStaff ? currentStaff.lastName : ''">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Phone number</mat-label>
+                <input name="phone" matInput placeholder="Phone Number" [(ngModel)]="currentStaff.phone" required
+                    [value]="currentStaff ? currentStaff.phone : ''">
+                <mat-icon matSuffix>phone</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input name="email" matInput placeholder="Email" [(ngModel)]="currentStaff.email" required
+                    [value]="currentStaff ? currentStaff.email : ''">
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput [matDatepicker]="dobPicker" [(ngModel)]="currentStaffDob" required
+                    [value]="currentStaff ? currentStaff.dob : ''">
+                <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                <mat-datepicker #dobPicker color="warn"></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row">
+        <div class="col-12">
+            <mat-list>
+                <div mat-subheader style="margin-top: 1%;">
+                    <span style="float: left; width: 98%;">Addresses</span>
+                    <span style="float: right; width: 1%;">
+                        <button mat-button mat-mini-fab color="warn" matTooltip="Add new address"
+                            matTooltipPosition="below" (click)="displayNewAddressFields()">
+                            <mat-icon>add_location</mat-icon>
+                        </button>
+                    </span>
+                </div>
+                <mat-list-item *ngFor="let address of currentStaff.addresses">
+                    <mat-icon mat-list-icon>location_on</mat-icon>
+                    <div mat-line>Line1: {{address.line1}}</div>
+                    <div mat-line *ngIf="address.line2">Line2: {{address.line2}} </div>
+                    <div mat-line *ngIf="address.line3">Line3: {{address.line3}} </div>
+                    <div mat-line>City: {{address.city}}</div>
+                    <div mat-line>State: {{address.state}}</div>
+                    <div mat-line>Pin Code: {{address.pinCode}}</div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+    <mat-divider *ngIf="newAddressFlag"></mat-divider>
+    <div *ngIf="newAddressFlag">
+        <div mat-subheader style="margin-top: 1%;">New address</div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Line 1</mat-label>
+                    <input name="line1" required matInput placeholder="Line 1" [(ngModel)]="newAddress.line1">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Line 2</mat-label>
+                    <input name="line2" matInput placeholder="Line 2" [(ngModel)]="newAddress.line2">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Line 3</mat-label>
+                    <input name="line3" matInput placeholder="Line 3" [(ngModel)]="newAddress.line3">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>City</mat-label>
+                    <input name="city" required matInput placeholder="City" [(ngModel)]="newAddress.city">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>State</mat-label>
+                    <input name="state" required matInput placeholder="State" [(ngModel)]="newAddress.state">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Pin Code</mat-label>
+                    <input name="pinCode" required matInput placeholder="Pin Code" [(ngModel)]="newAddress.pinCode"
+                        pattern="[0-9]">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 2%;">
+            <div class="col-12">
+                <button mat-button mat-mini-fab color="warn" matTooltip="Cancel" matTooltipPosition="below"
+                    (click)="cancelNewAddress()">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+                <button mat-button mat-mini-fab color="warn" matTooltip="Save address" matTooltipPosition="below"
+                    (click)="addNewAddress()" style="float: right;">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<div mat-dialog-actions style="float: right;">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button (click)="saveStaff()" cdkFocusInitial>Save</button>
+</div>

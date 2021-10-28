@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Add/Edit Food Items</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="fill">
+                <mat-label>Item Category</mat-label>
+                <mat-select [(ngModel)]="currentItem.category" [(value)]="currentItem.category">
+                    <mat-option [value]="c" *ngFor="let c of categories">{{c}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline">
+                <mat-label>Item Name</mat-label>
+                <input name="itemName" matInput placeholder="Item Name" [(ngModel)]="currentItem.itemName"
+                    [value]="currentItem ? currentItem.itemName : ''">
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="outline">
+                <mat-label>Item Price</mat-label>
+                <input name="itemPrice" matInput placeholder="Item Price" [(ngModel)]="currentItem.itemPrice"
+                    pattern="[0-9]" [value]="currentItem ? currentItem.itemPrice : ''">
+            </mat-form-field>
+        </div>
+    </div>
+</mat-dialog-content>
+<div mat-dialog-actions style="float: right;">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button (click)="saveItem()" cdkFocusInitial>Save</button>
+</div>

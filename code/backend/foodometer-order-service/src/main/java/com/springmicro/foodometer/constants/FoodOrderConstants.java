@@ -9,4 +9,6 @@ public interface FoodOrderConstants {
 
     String FOOD_ITEM_SERVICE_NAME = "fom-item-service";
     String FOOD_USER_SERVICE_NAME = "fom-user-service";
+
+    String SORT_ORDER_DESC = "desc";
 }
