@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
     userService.getLoginEvent().subscribe(data => {
       console.log("session items: " + sessionStorage.length);
       if (data === 'loggedIn') {
-        if (sessionStorage.getItem(environment.sessionUser.id) !== null && sessionStorage.getItem(environment.sessionUser.id) !== undefined) {
+        if (sessionStorage.getItem(environment.sessionUser.id) !== null) {
           this.loggedInUserFirstName = sessionStorage.getItem(environment.sessionUser.firstName);
           this.loggedInUserLastName = sessionStorage.getItem(environment.sessionUser.lastName);
           this.loggedIn = true;
