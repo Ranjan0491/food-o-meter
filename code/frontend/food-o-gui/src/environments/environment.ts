@@ -16,7 +16,12 @@ export const environment = {
   chefRole: 'CHEF',
   deliveryAgentRole: 'DELIVERY_AGENT',
 
-  sessionUser: 'loggedInUser'
+  sessionUser: {
+    id: 'loggedInUserId',
+    firstName: 'loggedInUserFirstName',
+    lastName: 'loggedInUserLastName',
+    role: 'loggedInUserRole'
+  }
 };
 
 /*

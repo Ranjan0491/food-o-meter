@@ -41,6 +41,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginComponent } from './login/login.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     MatExpansionModule,
     MatBottomSheetModule,
     MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [
     AlertComponent

@@ -10,6 +10,7 @@ import { FoodItemQuantity } from 'src/app/_model/food-item-quantity';
 import { FoodOrder } from 'src/app/_model/food-order';
 import { FoodItemServiceService } from 'src/app/_service/food-item-service.service';
 import { FoodOrderServiceService } from 'src/app/_service/food-order-service.service';
+import { environment } from 'src/environments/environment';
 import { SelectOrderAddressComponent } from '../select-order-address/select-order-address.component';
 
 @Component({
@@ -19,8 +20,7 @@ import { SelectOrderAddressComponent } from '../select-order-address/select-orde
 })
 export class CustomerPlaceOrderComponent implements OnInit {
 
-  // need to remove hard coding
-  customerId = "612c6c509441d78852dc3c4b";
+  loggedInCustomerId: string = null;
 
   foodItems: FoodItem[] = [];
   categories: string[] = [];
@@ -39,6 +39,7 @@ export class CustomerPlaceOrderComponent implements OnInit {
     private infoSnackBar: MatSnackBar) {
     this.getAllItems();
     this.foodItemDataSource = new MatTableDataSource([]);
+    this.loggedInCustomerId = sessionStorage.getItem(environment.sessionUser.id);
   }
 
   ngOnInit(): void {
@@ -93,7 +94,7 @@ export class CustomerPlaceOrderComponent implements OnInit {
   }
 
   public openAddressSelection() {
-    const bottomSheetRef = this.placeOrderBottomSheet.open(SelectOrderAddressComponent, { data: this.customerId });
+    const bottomSheetRef = this.placeOrderBottomSheet.open(SelectOrderAddressComponent, { data: this.loggedInCustomerId });
     bottomSheetRef.afterDismissed().subscribe((dataFromChild) => {
       if (dataFromChild !== null && dataFromChild !== undefined) {
         this.orderAddress = dataFromChild;
@@ -102,7 +103,7 @@ export class CustomerPlaceOrderComponent implements OnInit {
   }
 
   public plcaeOrder() {
-    let newOrder = new FoodOrder(this.customerId, this.orderAddress.id, this.selectedFoodItemQuantity, null, null, null, null, null, null);
+    let newOrder = new FoodOrder(this.loggedInCustomerId, this.orderAddress.id, this.selectedFoodItemQuantity, null, null, null, null, null, null);
     this.foodOrderService.saveOrderForCustomer(newOrder).subscribe(response => {
       let message = 'Congratulations!! Your order is placed. Your payable amount would be ' + response.payableAmount + ' INR';
       if (response.discount > 0) {

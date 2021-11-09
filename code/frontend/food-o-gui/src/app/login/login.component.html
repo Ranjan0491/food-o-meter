@@ -25,6 +25,11 @@
                     </mat-form-field>
                 </div>
             </div>
+            <div class="row" *ngIf="errorMessage !== null">
+                <div class="col login-error">
+                    {{ errorMessage }}
+                </div>
+            </div>
         </mat-card-content>
         <mat-card-actions>
             <input type="submit" name="" value="Login" (click)="login()">

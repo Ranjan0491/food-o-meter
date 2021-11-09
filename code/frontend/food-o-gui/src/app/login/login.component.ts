@@ -14,24 +14,35 @@ export class LoginComponent implements OnInit {
 
   userLogin: Login = new Login(null, null);
   hide = true;
+  errorMessage: string = null;
 
-  constructor(private userService: UserServiceService, private alertService: AlertService, private router: Router) { }
+  constructor(private userService: UserServiceService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   login() {
+    this.errorMessage = null;
     this.userService.userLogin(this.userLogin).subscribe(data => {
-      sessionStorage.setItem(environment.sessionUser, JSON.stringify(data));
+      sessionStorage.setItem(environment.sessionUser.id, data.id);
+      sessionStorage.setItem(environment.sessionUser.firstName, data.firstName);
+      sessionStorage.setItem(environment.sessionUser.lastName, data.lastName);
+      sessionStorage.setItem(environment.sessionUser.role, data.userRole);
+
+      this.userService.sendLoginEvent('loggedIn');
+
       if (data.userRole === environment.customerRole) {
         this.router.navigate(['customer']);
       } else if (data.userRole === environment.chefRole || data.userRole === environment.deliveryAgentRole) {
         this.router.navigate(['staff']);
       } else if (data.userRole === environment.adminRole) {
         this.router.navigate(['admin']);
+      } else {
+        this.errorMessage = 'User does not have required role';
       }
+
     }, error => {
-      this.alertService.showErrorResponseMessage(error, MessageType.ERROR);
+      this.errorMessage = 'Username or Password is wrong';
     });
   }
 
