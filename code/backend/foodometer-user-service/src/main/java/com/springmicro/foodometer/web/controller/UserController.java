@@ -33,6 +33,12 @@ public class UserController {
                 .body(userService.getUserById(id));
     }
 
+    @GetMapping
+    public ResponseEntity<UserDto> getUserByEmailOrPhone(@RequestParam String emailOrPhone) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.getUserByEmailOrPhone(emailOrPhone));
+    }
+
     @GetMapping("/{id}/addresses")
     public ResponseEntity<List<AddressDto>> getUserAddress(@PathVariable("id") String id) {
         return ResponseEntity.status(HttpStatus.OK)

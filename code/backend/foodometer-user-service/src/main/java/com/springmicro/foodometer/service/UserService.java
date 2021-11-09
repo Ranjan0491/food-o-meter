@@ -186,4 +186,12 @@ public class UserService {
             throw new UserException("Requested and requester cannot be same");
         }
     }
+
+    public UserDto getUserByEmailOrPhone(String emailOrPhone) {
+        User user = userRepository.findByEmailOrPhone(emailOrPhone, emailOrPhone);
+        if(user != null) {
+            return userMapper.userToUserDto(user);
+        }
+        return null;
+    }
 }
