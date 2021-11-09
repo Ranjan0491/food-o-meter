@@ -11,7 +11,12 @@ export const environment = {
 
   foodItemCategory: ['STARTER', 'MAINS', 'DESSERT', 'BEVERAGES'],
   staffRoles: ['ADMIN', 'DELIVERY_AGENT', 'CHEF'],
-  customerRole: 'CUSTOMER'
+  customerRole: 'CUSTOMER',
+  adminRole: 'ADMIN',
+  chefRole: 'CHEF',
+  deliveryAgentRole: 'DELIVERY_AGENT',
+
+  sessionUser: 'loggedInUser'
 };
 
 /*

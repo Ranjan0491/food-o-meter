@@ -3,6 +3,7 @@ import { Address } from 'src/app/_model/address';
 import { User } from 'src/app/_model/user';
 import { AlertService, MessageType } from 'src/app/_service/alert.service';
 import { UserServiceService } from 'src/app/_service/user-service.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-customer-details',
@@ -11,8 +12,7 @@ import { UserServiceService } from 'src/app/_service/user-service.service';
 })
 export class CustomerDetailsComponent implements OnInit {
 
-  // need to remove hard coding
-  customerId = "612c6c509441d78852dc3c4b";
+  customerId = null;
   currentUser: User = null;
   newAddressFlag = false;
   newAddress: Address = null;
@@ -20,6 +20,8 @@ export class CustomerDetailsComponent implements OnInit {
 
   constructor(private userService: UserServiceService,
     private alertService: AlertService) {
+    let user: User = JSON.parse(sessionStorage.getItem(environment.sessionUser));
+    this.customerId = user.id;
     this.fetchUserDetails();
   }
 

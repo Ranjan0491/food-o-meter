@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Address } from '../_model/address';
+import { Login } from '../_model/login';
 import { Staff } from '../_model/staff';
 import { User } from '../_model/user';
 
@@ -56,5 +57,9 @@ export class UserServiceService {
       params: { 'requesterId': requesterId }
     };
     return this.http.delete<void>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + id, httpOptions);
+  }
+
+  public userLogin(login: Login) {
+    return this.http.post<User>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/login", login, this.httpOptions);
   }
 }

@@ -12,7 +12,7 @@
 
 	<groupId>com.springmicro.foodometer</groupId>
 	<artifactId>foodometer-bom</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>foodometer-bom</name>
 	<description>Parent BOM for food app</description>
 	<packaging>pom</packaging>
@@ -27,7 +27,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
-		<spring.boot.parent>2.5.4</spring.boot.parent>
+		<spring.boot.parent>2.5.6</spring.boot.parent>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
 		<jaxb.version>3.0.2</jaxb.version>
@@ -93,10 +93,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-artemis</artifactId>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.statemachine</groupId>
 			<artifactId>spring-statemachine-core</artifactId>

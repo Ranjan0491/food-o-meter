@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.security.auth.login.LoginException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,17 @@ public class UserExceptionHandler {
                 .stackTrace(getStackTraceList(exception))
                 .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(LoginException.class)
+    public ResponseEntity handleLoginException(LoginException loginException) {
+        log.error("Error occurred", loginException);
+        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+                .localDateTime(LocalDateTime.now())
+                .message(loginException.getMessage())
+                .stackTrace(getStackTraceList(loginException))
+                .build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionResponse);
     }
 
     private List<String> getStackTraceList(Exception exception) {
