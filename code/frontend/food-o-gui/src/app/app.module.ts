@@ -42,6 +42,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginComponent } from './login/login.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { MatMenuModule } from '@angular/material/menu';
     AlertComponent,
     CustomerRegistrationComponent,
     LoginComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +92,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatMenuModule
   ],
   providers: [
-    AlertComponent
+    AlertComponent,
+    ChangePasswordComponent
   ],
   bootstrap: [AppComponent]
 })

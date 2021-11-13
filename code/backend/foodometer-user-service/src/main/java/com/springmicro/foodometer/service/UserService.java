@@ -5,10 +5,7 @@ import com.springmicro.foodometer.constants.UserStatus;
 import com.springmicro.foodometer.document.User;
 import com.springmicro.foodometer.exception.UserException;
 import com.springmicro.foodometer.repository.UserRepository;
-import com.springmicro.foodometer.web.dto.AddressDto;
-import com.springmicro.foodometer.web.dto.LoginDto;
-import com.springmicro.foodometer.web.dto.StaffDto;
-import com.springmicro.foodometer.web.dto.UserDto;
+import com.springmicro.foodometer.web.dto.*;
 import com.springmicro.foodometer.web.mapper.AddressMapper;
 import com.springmicro.foodometer.web.mapper.DateMapper;
 import com.springmicro.foodometer.web.mapper.StaffMapper;
@@ -207,5 +204,18 @@ public class UserService {
         }
 
         return userDto;
+    }
+
+    public void updateUserPassword(String id, PasswordUpdateDto passwordUpdateDto) {
+        userRepository.findById(id).ifPresentOrElse(userDtoFromDB -> {
+            if(userDtoFromDB.getPassword().equals(passwordUpdateDto.getCurrentPassword())) {
+                userDtoFromDB.setPassword(passwordUpdateDto.getNewPassword());
+                userRepository.save(userDtoFromDB);
+            } else {
+                throw new UserException("Current Password does not match");
+            }
+        }, () -> {
+            throw new UserException("User could not be found");
+        });
     }
 }

@@ -18,6 +18,7 @@
                             loggedInUserFirstName + ', ' +
                             loggedInUserLastName }}</button>
                         <mat-menu #menu="matMenu" xPosition="before">
+                            <button mat-menu-item (click)="userPasswordChange()">Change Password</button>
                             <button mat-menu-item (click)="userLogout()">Logout</button>
                         </mat-menu>
                     </li>

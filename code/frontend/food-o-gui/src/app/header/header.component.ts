@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { UserServiceService } from '../_service/user-service.service';
 
 @Component({
@@ -14,7 +16,7 @@ export class HeaderComponent implements OnInit {
   loggedInUserLastName: string = null;
   loggedIn: boolean = false;
 
-  constructor(private router: Router, private userService: UserServiceService) {
+  constructor(private router: Router, private userService: UserServiceService, public passwordChangeDialog: MatDialog) {
     userService.getLoginEvent().subscribe(data => {
       console.log("session items: " + sessionStorage.length);
       if (data === 'loggedIn') {
@@ -40,6 +42,12 @@ export class HeaderComponent implements OnInit {
     sessionStorage.clear();
     this.userService.sendLoginEvent('logout');
     this.router.navigate([""]);
+  }
+
+  userPasswordChange() {
+    const dialogRef = this.passwordChangeDialog.open(ChangePasswordComponent, { data: null, maxWidth: '60%', maxHeight: '50%' });
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 
 }

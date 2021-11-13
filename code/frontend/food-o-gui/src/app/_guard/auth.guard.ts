@@ -17,12 +17,10 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
+    console.log("session user id: " + sessionStorage.getItem(environment.sessionUser.id));
     let isAuthenticated = sessionStorage.getItem(environment.sessionUser.id) !== null;
     let isAuthorized = false;
-    if (!isAuthenticated) {
-      this.router.navigate(['/sign-in']);
-    } else {
+    if (isAuthenticated) {
       let urlSuffix = route.url[0].toString();
       console.log("urlSuffix: " + urlSuffix);
       let loggedInUserRole = sessionStorage.getItem(environment.sessionUser.role);
@@ -34,7 +32,7 @@ export class AuthGuard implements CanActivate {
         isAuthorized = true;
       }
     }
-    if (!isAuthorized) {
+    if (!(isAuthenticated && isAuthorized)) {
       sessionStorage.clear();
       this.userService.sendLoginEvent('logout');
       this.router.navigate(['']);

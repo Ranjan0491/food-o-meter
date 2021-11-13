@@ -3,6 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Address } from '../_model/address';
 import { Login } from '../_model/login';
+import { PasswordUpdate } from '../_model/password-update';
 import { Staff } from '../_model/staff';
 import { User } from '../_model/user';
 
@@ -62,6 +63,11 @@ export class UserServiceService {
 
   public userLogin(login: Login) {
     return this.http.post<User>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/login", login, this.httpOptions);
+  }
+
+  public updateUserPassword(id: string, currentPassword: string, newPassword: string) {
+    let passwordUpdate: PasswordUpdate = new PasswordUpdate(currentPassword, newPassword);
+    return this.http.put<void>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + id + "/changePassword", passwordUpdate, this.httpOptions);
   }
 
   public sendLoginEvent(text: string) {

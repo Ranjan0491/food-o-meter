@@ -3,10 +3,7 @@ package com.springmicro.foodometer.web.controller;
 import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.constants.UserStatus;
 import com.springmicro.foodometer.service.UserService;
-import com.springmicro.foodometer.web.dto.AddressDto;
-import com.springmicro.foodometer.web.dto.LoginDto;
-import com.springmicro.foodometer.web.dto.StaffDto;
-import com.springmicro.foodometer.web.dto.UserDto;
+import com.springmicro.foodometer.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -93,5 +90,11 @@ public class UserController {
     public ResponseEntity<UserDto> login(@RequestBody LoginDto loginDto) throws LoginException {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userService.userLogin(loginDto));
+    }
+
+    @PutMapping(value = "/{id}/changePassword", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateUserPassword(@PathVariable("id") String id, @RequestBody PasswordUpdateDto passwordUpdateDto) {
+        userService.updateUserPassword(id, passwordUpdateDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
