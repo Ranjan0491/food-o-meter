@@ -1,7 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
-import { ExceptionResponse } from '../_model/exception-response';
 import { UserServiceService } from '../_service/user-service.service';
 
 @Component({
@@ -33,9 +32,9 @@ export class ChangePasswordComponent implements OnInit {
     if (this.currentPassword !== null && this.newPassword !== null && this.newPassword2 !== null) {
       if (this.newPassword === this.newPassword2) {
         this.userService.updateUserPassword(this.loggedInCustomerId, this.currentPassword, this.newPassword).subscribe(response => {
-          this.dialogRef.close();
-        }, (error: ExceptionResponse) => {
-          this.errorText = error.message;
+          this.dialogRef.close('Password has been changed successfully. Please login again.');
+        }, error => {
+          this.errorText = error.error.message;
         });
       } else {
         this.errorText = "Passwords do not match";

@@ -25,10 +25,8 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="row" *ngIf="errorMessage !== null">
-                <div class="col login-error">
-                    {{ errorMessage }}
-                </div>
+            <div class="alert alert-danger" role="alert" style="text-align: center;" *ngIf="errorMessage !== null">
+                {{ errorMessage }}
             </div>
         </mat-card-content>
         <mat-card-actions>

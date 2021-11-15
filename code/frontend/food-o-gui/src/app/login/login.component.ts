@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Login } from '../_model/login';
-import { AlertService, MessageType } from '../_service/alert.service';
 import { UserServiceService } from '../_service/user-service.service';
 
 @Component({
@@ -29,7 +28,7 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem(environment.sessionUser.lastName, data.lastName);
       sessionStorage.setItem(environment.sessionUser.role, data.userRole);
 
-      this.userService.sendLoginEvent('loggedIn');
+      this.userService.sendLoginEvent(environment.loginEvent.loggedIn);
 
       if (data.userRole === environment.customerRole) {
         this.router.navigate(['customer']);
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit {
       }
 
     }, error => {
-      this.errorMessage = 'Username or Password is wrong';
+      this.errorMessage = error.error.message;
     });
   }
 

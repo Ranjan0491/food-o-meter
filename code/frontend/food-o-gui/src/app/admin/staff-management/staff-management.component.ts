@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ExceptionResponse } from 'src/app/_model/exception-response';
 import { Staff } from 'src/app/_model/staff';
 import { AlertService, MessageType } from 'src/app/_service/alert.service';
 import { ConfirmationService } from 'src/app/_service/confirmation.service';
@@ -53,8 +52,8 @@ export class StaffManagementComponent implements OnInit {
           this.userService.deleteStaff(staff.id, this.loggedInStaffId).subscribe(() => {
             this.populateStaffDetails();
             this.alertService.showMessage('Staff status has been changed to INCATIVE', MessageType.SUCCESS);
-          }, (error: ExceptionResponse) => {
-            this.alertService.showErrorResponseMessage(error, MessageType.ERROR);
+          }, error => {
+            this.alertService.showErrorResponseMessage(error.error.message, MessageType.ERROR);
           });
         }
       });

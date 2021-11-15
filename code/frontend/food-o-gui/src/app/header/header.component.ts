@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
@@ -16,10 +17,10 @@ export class HeaderComponent implements OnInit {
   loggedInUserLastName: string = null;
   loggedIn: boolean = false;
 
-  constructor(private router: Router, private userService: UserServiceService, public passwordChangeDialog: MatDialog) {
+  constructor(private router: Router, private userService: UserServiceService, public passwordChangeDialog: MatDialog, private infoSnackBar: MatSnackBar) {
     userService.getLoginEvent().subscribe(data => {
       console.log("session items: " + sessionStorage.length);
-      if (data === 'loggedIn') {
+      if (data === environment.loginEvent.loggedIn) {
         if (sessionStorage.getItem(environment.sessionUser.id) !== null) {
           this.loggedInUserFirstName = sessionStorage.getItem(environment.sessionUser.firstName);
           this.loggedInUserLastName = sessionStorage.getItem(environment.sessionUser.lastName);
@@ -47,6 +48,12 @@ export class HeaderComponent implements OnInit {
   userPasswordChange() {
     const dialogRef = this.passwordChangeDialog.open(ChangePasswordComponent, { data: null, maxWidth: '60%', maxHeight: '50%' });
     dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined && result !== null && result !== '') {
+        this.infoSnackBar.open(result, 'OK', {
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      }
     });
   }
 

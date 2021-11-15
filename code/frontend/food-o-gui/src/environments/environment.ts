@@ -21,6 +21,11 @@ export const environment = {
     firstName: 'loggedInUserFirstName',
     lastName: 'loggedInUserLastName',
     role: 'loggedInUserRole'
+  },
+
+  loginEvent: {
+    loggedIn: 'loggedIn',
+    notLoggedIn: 'notLoggedIn'
   }
 };
 
