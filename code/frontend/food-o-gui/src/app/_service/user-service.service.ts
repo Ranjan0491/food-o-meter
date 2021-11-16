@@ -1,7 +1,9 @@
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Address } from '../_model/address';
+import { Login } from '../_model/login';
+import { PasswordUpdate } from '../_model/password-update';
 import { Staff } from '../_model/staff';
 import { User } from '../_model/user';
 
@@ -9,6 +11,7 @@ import { User } from '../_model/user';
   providedIn: 'root'
 })
 export class UserServiceService {
+  loginEvent = new EventEmitter<string>();
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -57,4 +60,22 @@ export class UserServiceService {
     };
     return this.http.delete<void>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + id, httpOptions);
   }
+
+  public userLogin(login: Login) {
+    return this.http.post<User>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/login", login, this.httpOptions);
+  }
+
+  public updateUserPassword(id: string, currentPassword: string, newPassword: string) {
+    let passwordUpdate: PasswordUpdate = new PasswordUpdate(currentPassword, newPassword);
+    return this.http.put<void>(environment.apiUrlHostAndPort + environment.userServiceUrlPrefix + "/" + id + "/changePassword", passwordUpdate, this.httpOptions);
+  }
+
+  public sendLoginEvent(text: string) {
+    this.loginEvent.next(text);
+  }
+
+  public getLoginEvent() {
+    return this.loginEvent;
+  }
+
 }

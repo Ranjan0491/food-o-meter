@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ExceptionResponse } from 'src/app/_model/exception-response';
 import { Staff } from 'src/app/_model/staff';
 import { AlertService, MessageType } from 'src/app/_service/alert.service';
 import { ConfirmationService } from 'src/app/_service/confirmation.service';
 import { UserServiceService } from 'src/app/_service/user-service.service';
+import { environment } from 'src/environments/environment';
 import { StaffAddEditComponent } from '../staff-add-edit/staff-add-edit.component';
 
 @Component({
@@ -18,12 +18,14 @@ export class StaffManagementComponent implements OnInit {
   staffs: Staff[] = [];
   staffColumns: string[] = ['name', 'role', 'phone', 'email', 'dob', 'action'];
   staffDataSource: MatTableDataSource<Staff>;
+  loggedInStaffId: string = null;
 
   constructor(private userService: UserServiceService,
     private confirmationService: ConfirmationService,
     private alertService: AlertService,
     public addEditStaffDialog: MatDialog) {
     this.populateStaffDetails();
+    this.loggedInStaffId = sessionStorage.getItem(environment.sessionUser.id);
   }
 
   ngOnInit(): void {
@@ -47,11 +49,11 @@ export class StaffManagementComponent implements OnInit {
     this.confirmationService.showMessage('Do you want to remove ' + staff.firstName + ', ' + staff.lastName + ' (' + staff.userRole + ')')
       .afterClosed().subscribe(result => {
         if (result === 'OK') {
-          this.userService.deleteStaff(staff.id, '616faacff2755a5ebf3724ca').subscribe(() => {
+          this.userService.deleteStaff(staff.id, this.loggedInStaffId).subscribe(() => {
             this.populateStaffDetails();
             this.alertService.showMessage('Staff status has been changed to INCATIVE', MessageType.SUCCESS);
-          }, (error: ExceptionResponse) => {
-            this.alertService.showErrorResponseMessage(error, MessageType.ERROR);
+          }, error => {
+            this.alertService.showErrorResponseMessage(error.error.message, MessageType.ERROR);
           });
         }
       });

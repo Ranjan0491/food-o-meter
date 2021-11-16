@@ -3,15 +3,14 @@ package com.springmicro.foodometer.web.controller;
 import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.constants.UserStatus;
 import com.springmicro.foodometer.service.UserService;
-import com.springmicro.foodometer.web.dto.AddressDto;
-import com.springmicro.foodometer.web.dto.StaffDto;
-import com.springmicro.foodometer.web.dto.UserDto;
+import com.springmicro.foodometer.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.LoginException;
 import java.util.List;
 
 @RestController
@@ -31,6 +30,12 @@ public class UserController {
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") String id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userService.getUserById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<UserDto> getUserByEmailOrPhone(@RequestParam String emailOrPhone) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.getUserByEmailOrPhone(emailOrPhone));
     }
 
     @GetMapping("/{id}/addresses")
@@ -79,5 +84,17 @@ public class UserController {
     public ResponseEntity<Void> deleteStaffById(@PathVariable String id, @RequestParam String requesterId) {
         userService.deleteStaffById(id, requesterId);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> login(@RequestBody LoginDto loginDto) throws LoginException {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.userLogin(loginDto));
+    }
+
+    @PutMapping(value = "/{id}/changePassword", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateUserPassword(@PathVariable("id") String id, @RequestBody PasswordUpdateDto passwordUpdateDto) {
+        userService.updateUserPassword(id, passwordUpdateDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

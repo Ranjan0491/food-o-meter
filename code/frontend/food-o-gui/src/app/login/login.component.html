@@ -8,7 +8,7 @@
                 <div class="col">
                     <mat-form-field class="input-format">
                         <mat-label>Email or Phone</mat-label>
-                        <input name="username" matInput [(ngModel)]="currentUsername">
+                        <input name="username" matInput [(ngModel)]="userLogin.username">
                     </mat-form-field>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 <div class="col">
                     <mat-form-field class="input-format">
                         <mat-label>Password</mat-label>
-                        <input name="password" matInput [(ngModel)]="currentPassword"
+                        <input name="password" matInput [(ngModel)]="userLogin.password"
                             [type]="hide ? 'password' : 'text'">
                         <button mat-icon-button matSuffix (mousedown)="hide = false" (mouseup)="hide = true"
                             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
@@ -25,13 +25,16 @@
                     </mat-form-field>
                 </div>
             </div>
+            <div class="alert alert-danger" role="alert" style="text-align: center;" *ngIf="errorMessage !== null">
+                {{ errorMessage }}
+            </div>
         </mat-card-content>
         <mat-card-actions>
-            <input type="submit" name="" value="Login" href="#">
+            <input type="submit" name="" value="Login" (click)="login()">
         </mat-card-actions>
         <div class="row">
             <div class="col">
-                <a class="forgot text-muted" href="/customer-registration">New User? Sign up.</a>
+                <a class="forgot text-muted" routerLink="/customer-registration">New User? Sign up.</a>
             </div>
         </div>
     </mat-card>

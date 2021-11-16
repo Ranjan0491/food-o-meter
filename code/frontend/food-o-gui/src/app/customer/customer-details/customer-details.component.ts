@@ -3,6 +3,7 @@ import { Address } from 'src/app/_model/address';
 import { User } from 'src/app/_model/user';
 import { AlertService, MessageType } from 'src/app/_service/alert.service';
 import { UserServiceService } from 'src/app/_service/user-service.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-customer-details',
@@ -11,8 +12,7 @@ import { UserServiceService } from 'src/app/_service/user-service.service';
 })
 export class CustomerDetailsComponent implements OnInit {
 
-  // need to remove hard coding
-  customerId = "612c6c509441d78852dc3c4b";
+  loggedInCustomerId = null;
   currentUser: User = null;
   newAddressFlag = false;
   newAddress: Address = null;
@@ -20,6 +20,7 @@ export class CustomerDetailsComponent implements OnInit {
 
   constructor(private userService: UserServiceService,
     private alertService: AlertService) {
+    this.loggedInCustomerId = sessionStorage.getItem(environment.sessionUser.id);
     this.fetchUserDetails();
   }
 
@@ -27,7 +28,7 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   fetchUserDetails() {
-    this.userService.getUserDetails(this.customerId).subscribe(response => {
+    this.userService.getUserDetails(this.loggedInCustomerId).subscribe(response => {
       this.currentUser = response;
       this.currentUserDob = new Date(this.currentUser.dob);
     });
@@ -39,7 +40,7 @@ export class CustomerDetailsComponent implements OnInit {
       console.log(this.currentUser.dob);
       console.log(JSON.stringify(this.currentUser));
       console.log(JSON.stringify(this.currentUser.dob.toLocaleString()));
-      this.userService.updateUserDetails(this.customerId, this.currentUser).subscribe(() => {
+      this.userService.updateUserDetails(this.loggedInCustomerId, this.currentUser).subscribe(() => {
         this.fetchUserDetails();
         this.alertService.showMessage('User updated successfully', MessageType.SUCCESS);
       });
@@ -50,7 +51,7 @@ export class CustomerDetailsComponent implements OnInit {
 
   addNewAddress() {
     if (this.newAddress.line1 !== null && this.newAddress.city !== null && this.newAddress.state !== null && this.newAddress.pinCode !== null) {
-      this.userService.addNewAddress(this.customerId, this.newAddress).subscribe(() => {
+      this.userService.addNewAddress(this.loggedInCustomerId, this.newAddress).subscribe(() => {
         this.newAddressFlag = false;
         this.fetchUserDetails();
         this.alertService.showMessage('Address saved successfully', MessageType.SUCCESS);

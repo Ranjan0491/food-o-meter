@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Address } from '../_model/address';
-import { ExceptionResponse } from '../_model/exception-response';
-import { Staff } from '../_model/staff';
 import { User } from '../_model/user';
 import { AlertService, MessageType } from '../_service/alert.service';
 import { UserServiceService } from '../_service/user-service.service';
@@ -41,8 +39,8 @@ export class CustomerRegistrationComponent implements OnInit {
           this.userService.createNewUser(this.currentUser).subscribe(response => {
             this.reset();
             this.alertService.showMessage('User has been registered successfully', MessageType.SUCCESS);
-          }, (error: ExceptionResponse) => {
-            this.alertService.showErrorResponseMessage(error, MessageType.ERROR);
+          }, error => {
+            this.alertService.showErrorResponseMessage(error.error.message, MessageType.ERROR);
           });
         } else {
           this.alertService.showMessage('Passwords do not match', MessageType.ERROR);

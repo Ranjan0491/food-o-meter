@@ -5,19 +5,20 @@ import com.springmicro.foodometer.constants.UserStatus;
 import com.springmicro.foodometer.document.User;
 import com.springmicro.foodometer.exception.UserException;
 import com.springmicro.foodometer.repository.UserRepository;
-import com.springmicro.foodometer.web.dto.AddressDto;
-import com.springmicro.foodometer.web.dto.StaffDto;
-import com.springmicro.foodometer.web.dto.UserDto;
+import com.springmicro.foodometer.web.dto.*;
 import com.springmicro.foodometer.web.mapper.AddressMapper;
+import com.springmicro.foodometer.web.mapper.DateMapper;
 import com.springmicro.foodometer.web.mapper.StaffMapper;
 import com.springmicro.foodometer.web.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.security.auth.login.LoginException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +32,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final AddressMapper addressMapper;
     private final StaffMapper staffMapper;
+    private final DateMapper dateMapper;
 
     @Transactional
     public UserDto saveUser(UserDto userDtoDto) {
@@ -143,17 +145,17 @@ public class UserService {
 
     public void updateUserDetails(String id, UserDto userDto) {
         log.info(userDto.toString());
-        UserDto userDtoFromDB = getUserById(id);
-        if(userDtoFromDB != null) {
-            userDtoFromDB.setDob(userDto.getDob());
+
+        userRepository.findById(id).ifPresentOrElse(userDtoFromDB -> {
+            userDtoFromDB.setDob(dateMapper.asString(userDto.getDob()));
             userDtoFromDB.setEmail(userDto.getEmail());
             userDtoFromDB.setFirstName(userDto.getFirstName());
             userDtoFromDB.setLastName(userDto.getLastName());
             userDtoFromDB.setPhone(userDto.getPhone());
-            userRepository.save(userMapper.userDtoToUser(userDtoFromDB));
-        } else {
+            userRepository.save(userDtoFromDB);
+        }, () -> {
             throw new UserException("User could not be found");
-        }
+        });
     }
 
     private boolean isExistingUser(String email, String phone) {
@@ -185,5 +187,35 @@ public class UserService {
         } else {
             throw new UserException("Requested and requester cannot be same");
         }
+    }
+
+    public UserDto getUserByEmailOrPhone(String emailOrPhone) {
+        User user = userRepository.findByEmailOrPhone(emailOrPhone, emailOrPhone);
+        if(user != null) {
+            return userMapper.userToUserDto(user);
+        }
+        return null;
+    }
+
+    public UserDto userLogin(LoginDto loginDto) throws LoginException {
+        UserDto userDto = getUserByEmailOrPhone(loginDto.getUsername());
+        if(userDto == null || !userDto.getPassword().equals(loginDto.getPassword())) {
+            throw new LoginException("Username or Password is invalid");
+        }
+
+        return userDto;
+    }
+
+    public void updateUserPassword(String id, PasswordUpdateDto passwordUpdateDto) {
+        userRepository.findById(id).ifPresentOrElse(userDtoFromDB -> {
+            if(userDtoFromDB.getPassword().equals(passwordUpdateDto.getCurrentPassword())) {
+                userDtoFromDB.setPassword(passwordUpdateDto.getNewPassword());
+                userRepository.save(userDtoFromDB);
+            } else {
+                throw new UserException("Current Password does not match");
+            }
+        }, () -> {
+            throw new UserException("User could not be found");
+        });
     }
 }

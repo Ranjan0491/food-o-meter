@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DetailedFoodOrder } from 'src/app/_model/detailed-food-order';
 import { FoodOrderServiceService } from 'src/app/_service/food-order-service.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-staff-served-order',
@@ -12,17 +13,18 @@ export class StaffServedOrderComponent implements OnInit {
   foodOrders: DetailedFoodOrder[] = [];
   rows: number[] = [];
 
-  // need to remove hard coding
-  staffId = "61554b7427e44790892e43ef";
+  loggedInStaffId: string = null;
 
-  constructor(private foodOrderService: FoodOrderServiceService) { }
+  constructor(private foodOrderService: FoodOrderServiceService) {
+    this.loggedInStaffId = sessionStorage.getItem(environment.sessionUser.id);
+  }
 
   ngOnInit(): void {
     this.fetchOrderList();
   }
 
   fetchOrderList() {
-    this.foodOrderService.getOrdersByStaffId(this.staffId).subscribe(data => {
+    this.foodOrderService.getOrdersByStaffId(this.loggedInStaffId).subscribe(data => {
       data.forEach(v => {
         if (v !== null && v !== undefined) {
           this.foodOrders.push(v);

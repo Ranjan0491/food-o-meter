@@ -93,3 +93,9 @@ div.input-format:focus {
 .forgot {
     text-decoration: underline
 }
+
+.login-error {
+    text-align: center;
+    color: #b92b27;
+    margin-top: 5%;
+}

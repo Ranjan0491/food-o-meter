@@ -2,15 +2,25 @@
     <div class="">
         <nav class="navbar navbar-expand-lg h2-nav">
             <span>
-                <a href="/">
+                <a href="/" *ngIf="!loggedIn">
                     <img width="175" height="60" src="../../assets/images/header-icon.png">
                 </a>
+                <img width="175" height="60" src="../../assets/images/header-icon.png" *ngIf="loggedIn">
             </span>
             <div class="collapse navbar-collapse hover-dropdown" id="header2">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="!loggedIn">
                         <button class="btn rounded-pill btn-dark py-2 px-4" (click)="routeToLoginPage()">Login / Sign
                             up</button>
+                    </li>
+                    <li class="nav-item" *ngIf="loggedIn">
+                        <button class="btn rounded-pill btn-dark py-2 px-4" [matMenuTriggerFor]="menu">{{ 'Welcome ' +
+                            loggedInUserFirstName + ', ' +
+                            loggedInUserLastName }}</button>
+                        <mat-menu #menu="matMenu" xPosition="before">
+                            <button mat-menu-item (click)="userPasswordChange()">Change Password</button>
+                            <button mat-menu-item (click)="userLogout()">Logout</button>
+                        </mat-menu>
                     </li>
                 </ul>
             </div>

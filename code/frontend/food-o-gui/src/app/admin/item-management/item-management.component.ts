@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ExceptionResponse } from 'src/app/_model/exception-response';
 import { FoodItem } from 'src/app/_model/food-item';
 import { AlertService, MessageType } from 'src/app/_service/alert.service';
 import { ConfirmationService } from 'src/app/_service/confirmation.service';
@@ -73,8 +72,8 @@ export class ItemManagementComponent implements OnInit {
             this.getUniqueCategories(data);
             this.foodItemDataSource = new MatTableDataSource(this.foodItems.filter(food => food.category.indexOf(this.categories[selectedTabIndex]) >= 0));
             this.alertService.showMessage("Item " + foodItem.itemName + " has been deleted", MessageType.SUCCESS);
-          }, (error: ExceptionResponse) => {
-            this.alertService.showErrorResponseMessage(error, MessageType.ERROR);
+          }, error => {
+            this.alertService.showErrorResponseMessage(error.error.message, MessageType.ERROR);
           });
         }
       });

@@ -6,12 +6,13 @@ import { CustomerDashboardComponent } from './customer/customer-dashboard/custom
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { StaffDashboardComponent } from './staff-non-admin/staff-dashboard/staff-dashboard.component';
+import { AuthGuard } from './_guard/auth.guard';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "customer", component: CustomerDashboardComponent },
-  { path: "admin", component: AdminDashboardComponent },
-  { path: "staff", component: StaffDashboardComponent },
+  { path: "customer", component: CustomerDashboardComponent, canActivate: [AuthGuard] },
+  { path: "admin", component: AdminDashboardComponent, canActivate: [AuthGuard] },
+  { path: "staff", component: StaffDashboardComponent, canActivate: [AuthGuard] },
   { path: "customer-registration", component: CustomerRegistrationComponent },
   { path: "sign-in", component: LoginComponent }
 ];

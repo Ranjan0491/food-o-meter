@@ -41,6 +41,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginComponent } from './login/login.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     AlertComponent,
     CustomerRegistrationComponent,
     LoginComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -86,9 +89,11 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     MatExpansionModule,
     MatBottomSheetModule,
     MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [
-    AlertComponent
+    AlertComponent,
+    ChangePasswordComponent
   ],
   bootstrap: [AppComponent]
 })

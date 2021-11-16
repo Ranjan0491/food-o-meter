@@ -33,7 +33,7 @@ export class ViewOrderDetailsComponent implements OnInit {
     this.foodOrderService.cancelOrderForCustomer(this.data.customerId, this.data.orderId).subscribe(response => {
       this.alertService.showMessage("Order has been cancelled.", MessageType.SUCCESS);
     }, error => {
-      this.alertService.showMessage("Order could not be cancelled at this stage.", MessageType.ERROR);
+      this.alertService.showMessage(error.error.message, MessageType.ERROR);
     });
   }
 
