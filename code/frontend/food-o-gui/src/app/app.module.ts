@@ -43,6 +43,7 @@ import { LoginComponent } from './login/login.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     CustomerRegistrationComponent,
     LoginComponent,
     ConfirmationComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    UnauthorizedComponent
   ],
   imports: [
     BrowserModule,

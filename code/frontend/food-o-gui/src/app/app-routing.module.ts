@@ -6,6 +6,7 @@ import { CustomerDashboardComponent } from './customer/customer-dashboard/custom
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { StaffDashboardComponent } from './staff-non-admin/staff-dashboard/staff-dashboard.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { AuthGuard } from './_guard/auth.guard';
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: "admin", component: AdminDashboardComponent, canActivate: [AuthGuard] },
   { path: "staff", component: StaffDashboardComponent, canActivate: [AuthGuard] },
   { path: "customer-registration", component: CustomerRegistrationComponent },
-  { path: "sign-in", component: LoginComponent }
+  { path: "sign-in", component: LoginComponent },
+  { path: "unauthorized", component: UnauthorizedComponent }
 ];
 
 @NgModule({
