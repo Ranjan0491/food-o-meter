@@ -2,12 +2,12 @@ package com.springmicro.foodometer.web.dto;
 
 import com.springmicro.foodometer.constants.UserRole;
 import com.springmicro.foodometer.constants.UserStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor

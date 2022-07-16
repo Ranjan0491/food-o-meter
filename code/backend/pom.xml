@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.springmicro.foodometer</groupId>
+    <artifactId>foodometer-parent-build</artifactId>
+    <version>0.0.2</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>foodometer-service-discovery</module>
+        <module>foodometer-api-gateway</module>
+<!--        <module>foodometer-auth-server</module>-->
+        <module>foodometer-item-service</module>
+        <module>foodometer-order-service</module>
+        <module>foodometer-user-service</module>
+    </modules>
+</project>

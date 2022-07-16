@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.6</version>
+		<version>2.7.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -27,15 +27,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
-		<spring.boot.parent>2.5.6</spring.boot.parent>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
 		<jaxb.version>3.0.2</jaxb.version>
 		<maven.compiler.plugin>3.8.1</maven.compiler.plugin>
 		<maven.clean.plugin>3.1.0</maven.clean.plugin>
-		<spring-cloud.version>2020.0.3</spring-cloud.version>
+		<spring-cloud.version>2021.0.3</spring-cloud.version>
 		<commons-lang3>3.12.0</commons-lang3>
 		<spring.state-machine>2.5.0</spring.state-machine>
+		<jakarta.validation>3.0.2</jakarta.validation>
 	</properties>
 
 	<dependencyManagement>
@@ -93,6 +93,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-artemis</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-sleuth</artifactId>
+		</dependency>
 		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
@@ -117,6 +121,11 @@
 			<version>${commons-lang3}</version>
 		</dependency>
 		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>${jakarta.validation}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -128,7 +137,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${spring.boot.parent}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

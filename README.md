@@ -59,6 +59,7 @@ artemis create food-o-meter-broker --user <USERNAME> --password <PASSWORD> --req
 ###### 7. Start micro services in order
     - food-o-meter-service-discovery
     - foodometer-api-gateway
+	- foodometer-auth-server
     - foodometer-item-service / foodometer-user-service
     - foodometer-order-service
 
